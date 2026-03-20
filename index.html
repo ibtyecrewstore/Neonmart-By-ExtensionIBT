@@ -2,6 +2,9 @@
 <html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NeonMart — Marketplace Digital</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -691,24 +694,91 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
   .product-grid{grid-template-columns:repeat(2,1fr);}
   .admin-grid{grid-template-columns:repeat(2,1fr);}
 }
+
+/* ══ RECEIPT STYLES ══ */
+.receipt-wrap {
+  background: var(--bg3);
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.receipt-header { text-align:center; margin-bottom:12px; }
+.receipt-logo { font-family:var(--font-display); font-size:18px; font-weight:900; color:var(--neon); }
+.receipt-divider { border:none; border-top:1px dashed var(--border2); margin:10px 0; }
+.receipt-row { display:flex; justify-content:space-between; gap:8px; }
+.receipt-row .label { color:var(--text2); }
+.receipt-row .val { font-weight:600; text-align:right; }
+.receipt-total { font-size:15px; font-weight:700; color:var(--neon2); }
+
+/* ══ TUTORIAL ══ */
+.tut-dot {
+  width:10px; height:10px; border-radius:50%;
+  background:var(--border2); cursor:pointer; transition:.2s;
+}
+.tut-dot.active { background:var(--neon); transform:scale(1.3); }
+
+/* ══ SEARCH HIGHLIGHT ══ */
+.search-highlight { background:rgba(0,200,255,0.25); border-radius:3px; padding:0 2px; }
+
+/* ══ RTL SUPPORT ══ */
+[dir="rtl"] .navbar { flex-direction: row-reverse; }
+[dir="rtl"] .cart-item { flex-direction: row-reverse; }
+[dir="rtl"] .autocomplete-item { flex-direction: row-reverse; }
+[dir="rtl"] .modal-actions { flex-direction: row-reverse; }
+[dir="rtl"] .chat-item-top { flex-direction: row-reverse; }
+[dir="rtl"] .prod-meta { flex-direction: row-reverse; }
+
+/* ══ ADMIN EDIT ROW ══ */
+.edit-inline { display:flex; gap:6px; align-items:center; }
+.edit-inline input { background:var(--bg); border:1px solid var(--border2); border-radius:6px; padding:4px 8px; color:var(--text); font-size:12px; width:80px; outline:none; }
+
+/* ══ SEARCH INPUT FOCUS GLOW ══ */
+.navbar-search input:focus { border-color:var(--neon); box-shadow:0 0 0 3px rgba(0,200,255,0.12); }
+
+/* ══ RECENT SEARCH ITEM ══ */
+.recent-item {
+  padding:8px 16px; font-size:13px; cursor:pointer;
+  display:flex; align-items:center; gap:10px; color:var(--text2);
+  transition:background .15s;
+}
+.recent-item:hover { background:rgba(0,200,255,0.08); }
+.recent-clear { padding:4px 16px 8px; font-size:11px; color:var(--neon); cursor:pointer; text-align:right; }
+.recent-clear:hover { text-decoration:underline; }
+
 </style>
 </head>
 <body>
 
+<!-- BUILD: 202603180429 -->
 <!-- ═══════ NAVBAR ═══════ -->
 <nav class="navbar">
   <div class="navbar-logo">⚡NEON<span style="-webkit-text-fill-color:var(--neon2)">MART</span></div>
   <div class="navbar-search">
-    <input type="text" id="searchInput" placeholder="Cari produk..." autocomplete="off">
+    <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off" id="searchInput" onfocus="showSearchDropdown()">
     <span class="search-icon">🔍</span>
-    <div class="autocomplete-box" id="autocompleteBox"></div>
+    <div class="autocomplete-box" id="autocompleteBox">
+      <div id="recent-search-section" style="padding:8px 0;">
+        <div style="padding:6px 16px;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px;">🕐 Recent Searches</div>
+        <div id="recent-list"></div>
+        <div style="padding:6px 16px;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">🔥 Popular</div>
+        <div id="popular-list"></div>
+      </div>
+    </div>
   </div>
   <div class="navbar-actions">
-    <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span>Home</span></button>
-    <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span>Wishlist</span></button>
-    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative"><span>🛒</span><span>Cart</span><span class="badge" id="cart-badge" style="display:none">0</span></button>
-    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span>Cicilan</span></button>
-    <button class="nav-btn" onclick="goPage('history')" id="nav-history"><span>📜</span><span>History</span></button>
+    <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
+    <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
+    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative"><span>🛒</span><span id="t-cart">Cart</span><span class="badge" id="cart-badge" style="display:none">0</span></button>
+    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Installments</span></button>
+    <button class="nav-btn" onclick="goPage('history')" id="nav-history"><span>📜</span><span id="t-history">History</span></button>
+    <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;">
+      <option value="en">🌐 EN</option>
+      <option value="id">🇮🇩 ID</option>
+      <option value="ar">🇸🇦 AR</option>
+      <option value="ja">🇯🇵 JA</option>
+      <option value="ms">🇲🇾 MS</option>
+    </select>
     <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span></button>
   </div>
 </nav>
@@ -789,29 +859,129 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 
 <!-- ═══════ CHECKOUT MODAL ═══════ -->
 <div class="modal-overlay" id="checkoutModal">
-  <div class="modal">
+  <div class="modal" style="max-width:560px;">
     <div class="modal-body">
-      <h2 style="font-family:var(--font-display);color:var(--neon);margin-bottom:20px;font-size:18px;">🛒 Checkout</h2>
-      <div id="checkout-items-summary" style="margin-bottom:20px;background:var(--bg3);border-radius:10px;padding:14px;"></div>
-      <div class="form-group">
-        <label class="form-label">Username *</label>
-        <input type="text" class="form-input" id="co-username" placeholder="Username kamu">
-        <div class="form-error" id="co-username-err">Username wajib diisi!</div>
+      <h2 style="font-family:var(--font-display);color:var(--neon);margin-bottom:6px;font-size:18px;">🛒 Checkout</h2>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;">ExtinctionIBT Store</p>
+
+      <!-- Step 1: Info & Metode -->
+      <div id="co-step1">
+        <div id="checkout-items-summary" style="margin-bottom:16px;background:var(--bg3);border-radius:10px;padding:14px;font-size:13px;"></div>
+        <div class="form-group">
+          <label class="form-label">Username / Nama *</label>
+          <input type="text" class="form-input" id="co-username" placeholder="Nama atau username kamu">
+          <div class="form-error" id="co-username-err">Nama wajib diisi!</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nomor WA kamu * (untuk konfirmasi)</label>
+          <input type="text" class="form-input" id="co-phone" placeholder="Contoh: 08123456789">
+          <div class="form-error" id="co-phone-err">Nomor WA wajib diisi!</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catatan (opsional)</label>
+          <textarea class="form-input" id="co-note" placeholder="Catatan tambahan..." style="min-height:60px;"></textarea>
+        </div>
+
+        <!-- Total -->
+        <div style="background:rgba(0,200,255,0.05);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;">
+            <span style="color:var(--text2)">Total</span>
+            <span id="co-total" style="font-family:var(--font-display);color:var(--neon2);"></span>
+          </div>
+        </div>
+
+        <!-- Pilihan Metode Pembayaran -->
+        <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:12px;">Pilih Metode Pembayaran:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;" id="payment-method-grid">
+
+          <div class="pay-method-opt" data-method="qris" onclick="selectPayMethod(this)">
+            <div style="font-size:24px;margin-bottom:6px;">📱</div>
+            <div style="font-weight:700;font-size:14px;">QRIS</div>
+            <div style="font-size:11px;color:var(--text3);">Scan QR · Semua e-wallet</div>
+            <div style="font-size:10px;color:var(--gold);margin-top:4px;">⏳ Segera tersedia</div>
+          </div>
+
+          <div class="pay-method-opt" data-method="dana" onclick="selectPayMethod(this)">
+            <div style="font-size:24px;margin-bottom:6px;">💚</div>
+            <div style="font-weight:700;font-size:14px;">Transfer DANA</div>
+            <div style="font-size:11px;color:var(--text3);">Transfer ke akun DANA</div>
+          </div>
+
+          <div class="pay-method-opt" data-method="agent" onclick="selectPayMethod(this)">
+            <div style="font-size:24px;margin-bottom:6px;">🏪</div>
+            <div style="font-weight:700;font-size:14px;">Bayar di Agent</div>
+            <div style="font-size:11px;color:var(--text3);">Bayar langsung ke toko</div>
+          </div>
+
+          <div class="pay-method-opt" data-method="cicilan" onclick="selectPayMethod(this)">
+            <div style="font-size:24px;margin-bottom:6px;">📋</div>
+            <div style="font-weight:700;font-size:14px;">Cicilan Fisik</div>
+            <div style="font-size:11px;color:var(--text3);">DP + bayar langsung</div>
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="goToPayment()" id="co-next-btn" style="flex:2;">Lanjut ke Pembayaran →</button>
+          <button class="btn btn-ghost" onclick="closeCheckoutModal()">✕ Batal</button>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Catatan (opsional)</label>
-        <textarea class="form-input" id="co-note" placeholder="Catatan untuk penjual..."></textarea>
+
+      <!-- Step 2: Detail Pembayaran -->
+      <div id="co-step2" style="display:none;">
+        <div id="payment-detail-content"></div>
+        <div class="modal-actions" style="margin-top:20px;">
+          <button class="btn btn-primary" onclick="confirmPayment()" style="flex:2;" id="co-confirm-btn">✅ Konfirmasi Pembayaran</button>
+          <button class="btn btn-ghost" onclick="backToStep1()">← Kembali</button>
+        </div>
       </div>
-      <div style="background:rgba(0,200,255,0.05);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-bottom:20px;">
-        <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;"><span style="color:var(--text2)">Total Pembayaran</span><span id="co-total" style="font-family:var(--font-display);color:var(--neon2);font-weight:700;"></span></div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-primary" onclick="processCheckout()">✅ Bayar Sekarang</button>
-        <button class="btn btn-ghost" onclick="closeCheckoutModal()">✕ Batal</button>
-      </div>
+
     </div>
   </div>
 </div>
+
+<!-- PAYMENT CSS -->
+<style>
+.pay-method-opt {
+  background:var(--bg3);border:2px solid var(--border);
+  border-radius:14px;padding:16px;text-align:center;
+  cursor:pointer;transition:var(--transition);
+}
+.pay-method-opt:hover { border-color:var(--border2); transform:translateY(-2px); }
+.pay-method-opt.active { border-color:var(--neon);background:rgba(0,200,255,0.08); box-shadow:var(--glow); }
+.pay-method-opt.active div:first-child { transform:scale(1.15); display:block; transition:.2s; }
+.pay-info-box {
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:14px;padding:20px;margin-bottom:16px;
+}
+.pay-info-row {
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;
+}
+.pay-info-row:last-child { border-bottom:none; }
+.pay-info-label { color:var(--text2); }
+.pay-info-val { font-weight:700;color:var(--text); }
+.copy-btn {
+  background:rgba(0,200,255,0.1);border:1px solid var(--neon);
+  color:var(--neon);border-radius:6px;padding:3px 10px;
+  font-size:11px;cursor:pointer;margin-left:8px;
+  font-family:inherit;transition:.15s;
+}
+.copy-btn:hover { background:rgba(0,200,255,0.2); }
+.pay-note-box {
+  background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);
+  border-radius:10px;padding:12px 14px;font-size:13px;
+  color:#fbbf24;line-height:1.7;margin-bottom:14px;
+}
+.qris-img-wrap {
+  text-align:center;margin:16px 0;
+}
+.qris-img-wrap img {
+  width:200px;height:200px;object-fit:contain;
+  border-radius:12px;border:3px solid var(--neon);
+  background:#fff;padding:8px;
+}
+</style>
 
 <!-- ═══════════════════════════════════════════════
    PAGE: HOME
@@ -988,6 +1158,10 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
         <button class="btn btn-danger" onclick="clearAllData()" style="padding:10px 20px;">Hapus Data</button>
       </div>
       <div class="setting-item">
+        <div class="setting-info"><h4>📖 Tutorial</h4><p>Tampilkan panduan penggunaan</p></div>
+        <button class="btn btn-ghost" onclick="showTutorial()" style="padding:10px 20px;">Lihat Tutorial</button>
+      </div>
+      <div class="setting-item">
         <div class="setting-info"><h4>🛡 Admin Panel</h4><p>Akses tersembunyi untuk admin</p></div>
         <button class="btn btn-secondary" onclick="goPage('admin')" style="padding:10px 20px;">Masuk Admin</button>
       </div>
@@ -1030,7 +1204,9 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
           <button class="btn btn-danger" onclick="openShutdownModal()" style="padding:11px 20px;">🔴 Shutdown Website</button>
           <button class="btn btn-success" onclick="forceUnshutdown()" style="padding:11px 20px;">🟢 Paksa Online</button>
           <button class="btn" style="background:rgba(245,158,11,0.15);border:1px solid var(--gold);color:var(--gold);padding:11px 20px;" onclick="document.getElementById('resetModal').classList.add('show')">💥 Reset Website</button>
+          <button class="btn" style="background:rgba(0,200,255,0.1);border:1px solid var(--neon);color:var(--neon);padding:11px 20px;" onclick="testFirebaseConnection()">🔌 Test Koneksi Firebase</button>
         </div>
+        <div id="firebase-test-result" style="display:none;margin-bottom:12px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
         <div id="shutdown-status-bar" style="display:none;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.3);border-radius:10px;padding:12px 16px;font-size:13px;color:#ff8aab;">
           🔴 <strong>Website sedang SHUTDOWN</strong> — Sisa waktu: <span id="admin-sd-remain" style="font-family:'Orbitron',monospace;color:#ff2d78;"></span>
         </div>
@@ -1055,6 +1231,20 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
         <div id="ann-preview" style="display:none;margin-top:12px;padding:10px 14px;border-radius:8px;font-size:13px;"></div>
       </div>
 
+      <!-- VERIFIKASI PEMBAYARAN -->
+      <div class="admin-section-box" style="border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.03);">
+        <div class="admin-section-title" style="color:var(--gold);display:flex;justify-content:space-between;align-items:center;">
+          <span>💰 VERIFIKASI PEMBAYARAN</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span id="pending-count-badge" style="background:rgba(245,158,11,0.2);border:1px solid var(--gold);border-radius:20px;padding:2px 12px;font-size:12px;color:var(--gold);">0 pending</span>
+            <button class="btn btn-ghost" style="padding:5px 12px;font-size:12px;" onclick="loadPendingPayments()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div id="pending-payments-list">
+          <div style="text-align:center;color:var(--text3);padding:20px;font-size:13px;">Klik Refresh untuk lihat pembayaran pending</div>
+        </div>
+      </div>
+
       <!-- Stats -->
       <div class="admin-section-box">
         <div class="admin-section-title">📊 STATISTIK</div>
@@ -1070,7 +1260,32 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
           <div class="form-group"><label class="form-label">Kategori</label><input type="text" class="form-input" id="ap-cat" placeholder="Gaming, Fashion, dll"></div>
           <div class="form-group"><label class="form-label">Rating (1-5)</label><input type="number" class="form-input" id="ap-rating" placeholder="4.5" min="1" max="5" step="0.1"></div>
           <div class="form-group"><label class="form-label">Durasi (jam, 0=∞)</label><input type="number" class="form-input" id="ap-duration" placeholder="24" min="0"></div>
-          <div class="form-group" style="grid-column:1/-1"><label class="form-label">URL Gambar</label><input type="text" class="form-input" id="ap-img" placeholder="https://..."></div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Gambar Produk</label>
+            <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;">
+              <div style="flex:1;min-width:200px;">
+                <input type="text" class="form-input" id="ap-img" placeholder="https://... (opsional jika upload file)">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
+                <label style="
+                  display:flex;align-items:center;gap:8px;
+                  padding:10px 16px;border-radius:10px;
+                  background:rgba(0,200,255,0.1);border:1px dashed var(--neon);
+                  color:var(--neon);font-size:13px;font-weight:600;
+                  cursor:pointer;transition:var(--transition);white-space:nowrap;
+                " onmouseover="this.style.background='rgba(0,200,255,0.2)'" onmouseout="this.style.background='rgba(0,200,255,0.1)'">
+                  📁 Pilih File
+                  <input type="file" id="ap-img-file" accept="image/*" style="display:none;" onchange="handleImgUpload(this)">
+                </label>
+              </div>
+            </div>
+            <!-- Preview -->
+            <div id="ap-img-preview" style="display:none;margin-top:10px;">
+              <img id="ap-img-preview-el" src="" style="width:120px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border2);">
+              <button onclick="clearImgUpload()" style="display:block;margin-top:6px;background:rgba(255,45,120,0.15);border:1px solid var(--neon2);border-radius:6px;padding:4px 10px;color:var(--neon2);font-size:12px;cursor:pointer;">✕ Hapus Gambar</button>
+              <div id="ap-img-size" style="font-size:11px;color:var(--text3);margin-top:4px;"></div>
+            </div>
+          </div>
           <div class="form-group" style="grid-column:1/-1"><label class="form-label">Deskripsi</label><textarea class="form-input" id="ap-desc" placeholder="Deskripsi produk..."></textarea></div>
           <div class="form-group" style="grid-column:1/-1"><label class="form-label">Tags (pisah koma)</label><input type="text" class="form-input" id="ap-tags" placeholder="gaming, premium, limited"></div>
           <div style="grid-column:1/-1">
@@ -1083,6 +1298,7 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
         <div class="admin-section-title" style="display:flex;justify-content:space-between;">
           <span>📦 DAFTAR PRODUK</span>
           <button class="btn btn-ghost" style="padding:6px 14px;font-size:12px;" onclick="renderAdminTable()">🔄 Refresh</button>
+          <button style="padding:6px 14px;font-size:12px;background:rgba(245,158,11,0.15);border:1px solid var(--gold);color:var(--gold);border-radius:8px;cursor:pointer;font-family:inherit;" onclick="migrateCompressImages()">🗜️ Kompres Gambar</button>
         </div>
         <div class="table-wrap">
           <table class="prod-table" id="adminTable">
@@ -1106,61 +1322,137 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 const ADMIN_PASSWORD = `Hi. (I apologize for my bad English. I'm still learning and trying to improve my language skills. Sometimes, I might make mistakes or choose the wrong words, but I hope you can understand what I'm trying to say. Your understanding and patience mean a lot to me as I navigate through this learning process. Learning a new language can be quite challenging, and English, with its many rules and exceptions, is no different. I often find myself struggling with grammar and vocabulary, which can lead to confusion or miscommunication. Despite these challenges, I'm committed to improving and becoming more fluent. Every conversation I have is an opportunity to learn and grow. I appreciate your willingness to engage with me and correct my mistakes when necessary. Your feedback helps me identify areas where I need to focus more and provides me with the motivation to keep going. Sometimes, I feel a bit embarrassed when I make errors, but I remind myself that making mistakes is a natural part of the learning process. Each error is a stepping stone toward better understanding and proficiency. I hope you can see my efforts and the progress I'm making, even if it's gradual. Your support means a lot to me. It makes a big difference when someone is patient and understanding rather than critical. It encourages me to keep practicing and not give up, even when it feels difficult. Knowing that you are willing to help makes this journey a lot easier. Thank you for your patience and support. I hope that as I continue to practice, my English will improve, and our conversations will become smoother. Until then, I ask for your understanding and kindness as I work towards mastering this language.)`;
 
 const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1443534737699242004/IrcxZfK5vocQ552ro1W2GzXAy7rQpKCgxmS4D91r_NQ-ItFqLzkJki8GI3dn35gFG3zg';
-// ─── GITHUB GIST CONFIG (database produk) ────────────────────────
-const GH_TOKEN   = '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';
-const GIST_DESC  = '__neonmart_products__';
-let   GIST_ID    = localStorage.getItem('nm_gist_id') || '';
+// ─── FIREBASE CONFIG (database produk) ──────────────────────────
+const FB_URL = 'https://neonmart-db-1bfe8-default-rtdb.asia-southeast1.firebasedatabase.app';
 
-async function ghReq(method, path, body) {
-  const r = await fetch('https://api.github.com/gists' + path, {
-    method,
-    headers: {
-      'Authorization': `token ${GH_TOKEN}`,
-      'Content-Type': 'application/json',
-      'Accept': 'application/vnd.github+json'
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-  if (!r.ok) { const e = await r.json().catch(()=>{}); throw new Error(e?.message || `HTTP ${r.status}`); }
-  return r.json();
+// ─── Firebase REST helpers (robust) ─────────────────────────────
+async function fbGet(path) {
+  try {
+    const r = await fetch(`${FB_URL}/${path}.json`);
+    if (r.status === 404) return null;
+    if (!r.ok) {
+      const errText = await r.text().catch(() => r.status);
+      throw new Error(`Firebase GET gagal: HTTP ${r.status} — ${errText}`);
+    }
+    return await r.json();
+  } catch(e) {
+    if (e.message.includes('Failed to fetch')) throw new Error('Tidak ada koneksi internet atau Firebase tidak bisa diakses');
+    throw e;
+  }
 }
 
-async function ensureGist() {
-  if (GIST_ID) {
-    try {
-      const g = await ghReq('GET', `/${GIST_ID}`);
-      if (g.description === GIST_DESC) return;
-    } catch {}
-    GIST_ID = ''; localStorage.removeItem('nm_gist_id');
+async function fbSet(path, data) {
+  try {
+    const body = JSON.stringify(data);
+    // Cek ukuran — Firebase free plan max ~10MB per request
+    const sizeKB = body.length / 1024;
+    if (sizeKB > 9000) throw new Error(`Data terlalu besar: ${sizeKB.toFixed(0)}KB (max ~9MB)`);
+    const r = await fetch(`${FB_URL}/${path}.json`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body
+    });
+    if (!r.ok) {
+      const errText = await r.text().catch(() => r.status);
+      throw new Error(`Firebase SET gagal: HTTP ${r.status} — ${errText}`);
+    }
+    return await r.json();
+  } catch(e) {
+    if (e.message.includes('Failed to fetch')) throw new Error('Tidak ada koneksi internet');
+    throw e;
   }
-  for (let p = 1; p <= 10; p++) {
-    const list = await ghReq('GET', `?per_page=100&page=${p}`);
-    const found = list.find(g => g.description === GIST_DESC);
-    if (found) { GIST_ID = found.id; localStorage.setItem('nm_gist_id', GIST_ID); return; }
-    if (list.length < 100) break;
-  }
-  const g = await ghReq('POST', '', {
-    description: GIST_DESC, public: false,
-    files: { 'products.json': { content: '[]' } }
-  });
-  GIST_ID = g.id;
-  localStorage.setItem('nm_gist_id', GIST_ID);
 }
 
+async function fbDelete(path) {
+  try {
+    const r = await fetch(`${FB_URL}/${path}.json`, { method: 'DELETE' });
+    if (!r.ok) throw new Error(`Firebase DELETE gagal: HTTP ${r.status}`);
+    return true;
+  } catch(e) {
+    if (e.message.includes('Failed to fetch')) throw new Error('Tidak ada koneksi internet');
+    throw e;
+  }
+}
+
+// ─── Product helpers ─────────────────────────────────────────────
 async function gistReadProducts() {
-  await ensureGist();
-  const g = await ghReq('GET', `/${GIST_ID}`);
-  const f = g.files['products.json'];
-  if (!f) return [];
-  if (f.truncated) { const r = await fetch(f.raw_url); return JSON.parse(await r.text()); }
-  return JSON.parse(f.content);
+  try {
+    const data = await fbGet('products');
+    if (!data) return [];
+    if (Array.isArray(data)) return data;
+    // Firebase returns object with keys → convert to array
+    return Object.values(data).filter(Boolean);
+  } catch(e) {
+    console.error('gistReadProducts error:', e);
+    // Fallback to cache
+    const cached = localStorage.getItem('nm_products_cache');
+    if (cached) {
+      toast('⚠️ Pakai cache lokal (Firebase error)', 'warn');
+      return JSON.parse(cached);
+    }
+    throw e;
+  }
 }
 
 async function gistWriteProducts(arr) {
-  await ensureGist();
-  await ghReq('PATCH', `/${GIST_ID}`, {
-    files: { 'products.json': { content: JSON.stringify(arr, null, 2) } }
-  });
+  try {
+    if (!arr || !arr.length) {
+      // Kalau array kosong, hapus node products di Firebase
+      await fbDelete('products');
+      localStorage.setItem('nm_products_cache', '[]');
+      return;
+    }
+    // Kompres Base64 gambar AGRESIF sebelum kirim ke Firebase
+    // Firebase free plan: max 10MB total, lebih aman di bawah 100KB per gambar
+    const compressed = arr.map(p => {
+      if (p.image && p.image.startsWith('data:image')) {
+        const sizeKB = p.image.length / 1024;
+        if (sizeKB > 100) {
+          // Gambar > 100KB → kompres agresif ke 100px, kualitas 30%
+          return { ...p, image: compressBase64Sync(p.image, 0.3, 200, 150) };
+        } else if (sizeKB > 50) {
+          // Gambar 50-100KB → kompres sedang
+          return { ...p, image: compressBase64Sync(p.image, 0.5, 400, 300) };
+        }
+      }
+      return p;
+    });
+    // Convert array to object keyed by product id
+    const obj = {};
+    compressed.forEach(p => { if (p && p.id) obj[p.id] = p; });
+    await fbSet('products', obj);
+    localStorage.setItem('nm_products_cache', JSON.stringify(compressed));
+  } catch(e) {
+    console.error('gistWriteProducts error:', e);
+    throw e;
+  }
+}
+
+// Kompres gambar Base64 menggunakan canvas
+function compressBase64Sync(base64, quality, maxW, maxH) {
+  quality = quality || 0.4;
+  maxW    = maxW    || 300;
+  maxH    = maxH    || 225;
+  try {
+    const canvas = document.createElement('canvas');
+    const img    = new Image();
+    img.src      = base64;
+    var w = img.naturalWidth  || maxW;
+    var h = img.naturalHeight || maxH;
+    // Scale down
+    if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+    if (h > maxH) { w = Math.round(w * maxH / h); h = maxH; }
+    canvas.width  = w;
+    canvas.height = h;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    var result = canvas.toDataURL('image/jpeg', quality);
+    console.log('Compressed: ' + Math.round(base64.length/1024) + 'KB → ' + Math.round(result.length/1024) + 'KB');
+    return result;
+  } catch(e) {
+    console.warn('Compress failed:', e);
+    return base64;
+  }
 }
 
 
@@ -1202,6 +1494,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tog-dark').checked = settings_data.dark !== false;
   document.getElementById('tog-anim').checked = settings_data.anim !== false;
   document.getElementById('tog-sound').checked = settings_data.sound !== false;
+
+  // Language init
+  const savedLang = localStorage.getItem('nm_lang') || 'en';
+  currentLang = savedLang;
+  const langSel = document.getElementById('langSelect');
+  if (langSel) langSel.value = savedLang;
+  setLang(savedLang);
+
+  // First visit tutorial
+  checkFirstVisit();
 });
 
 // ─── SETTINGS ────────────────────────────────────────────────────
@@ -1348,19 +1650,42 @@ function renderProducts(list) {
       isNew && !p.is_flash ? `<span class="badge-tag badge-new">NEW</span>` : '',
       isHot       ? `<span class="badge-tag badge-hot">🔥 HOT</span>` : '',
       isLim       ? `<span class="badge-tag badge-limited">LIMITED</span>` : '',
-      noStock     ? `<span class="badge-tag badge-expired">HABIS</span>` : '',
     ].filter(Boolean).join('');
+
+    const oosOverlay = noStock ? `
+      <div style="
+        position:absolute;inset:0;
+        background:rgba(0,0,0,0.65);
+        display:flex;flex-direction:column;
+        align-items:center;justify-content:center;
+        border-radius:inherit;z-index:2;
+        gap:6px;
+      ">
+        <div style="font-size:36px;">🚫</div>
+        <div style="
+          font-family:var(--font-display);font-size:13px;font-weight:700;
+          color:#fff;letter-spacing:1px;
+          background:rgba(255,45,120,0.85);
+          padding:4px 14px;border-radius:20px;
+        ">OUT OF STOCK</div>
+      </div>` : '';
 
     const countdownHtml = p.duration ? `<div class="prod-countdown" id="cd-${p.id}">⏱ Menghitung...</div>` : '';
     const stars = '⭐'.repeat(Math.round(p.rating));
 
-    return `<div class="prod-card" style="animation-delay:${i*0.05}s" onclick="openProduct('${p.id}')">
+    return `<div class="prod-card" data-id="${p.id}"
+      style="animation-delay:${i*0.05}s;${noStock?'opacity:.7;cursor:default;':''}"
+      ${noStock ? '' : `onclick="openProduct('${p.id}')"`}>
       <div class="prod-img-wrap">
-        <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop'">
+        <img src="${p.image}" alt="${p.name}" loading="lazy"
+          onerror="this.src='https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop'"
+          style="${noStock ? 'filter:grayscale(70%)' : ''}">
+        ${noStock ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,0.65);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:inherit;z-index:2;">
+          <div style="font-size:32px;">🚫</div>
+          <div style="font-family:var(--font-display);font-size:12px;font-weight:700;color:#fff;letter-spacing:1px;background:rgba(255,45,120,0.85);padding:4px 14px;border-radius:20px;">OUT OF STOCK</div>
+        </div>` : ''}
         <div class="prod-badges">${badges}</div>
-        <button class="wishlist-btn ${isWish?'active':''}" onclick="event.stopPropagation();toggleWishlist('${p.id}',this)" title="Wishlist">
-          ${isWish?'❤️':'🤍'}
-        </button>
+        ${noStock ? '' : `<button class="wishlist-btn ${isWish?'active':''}" onclick="event.stopPropagation();toggleWishlist('${p.id}',this)" title="Wishlist">${isWish?'❤️':'🤍'}</button>`}
       </div>
       <div class="prod-body">
         <div class="prod-name">${p.name}</div>
@@ -1371,12 +1696,14 @@ function renderProducts(list) {
           <span>·</span>
           <span>${p.sold_count} terjual</span>
         </div>
-        <div class="prod-stock" style="color:${p.stock<=3?'var(--neon2)':p.stock<=10?'var(--gold)':'var(--text3)'}">
-          ${p.stock === 0 ? '❌ Stok Habis' : p.stock <= 3 ? `⚠️ Sisa ${p.stock} item!` : `📦 Stok: ${p.stock}`}
+        <div class="prod-stock" style="color:${p.stock===0?'var(--text3)':p.stock<=3?'var(--neon2)':p.stock<=10?'var(--gold)':'var(--text3)'}">
+          ${p.stock <= 3 && p.stock > 0 ? `⚠️ Sisa ${p.stock} item!` : p.stock > 3 ? `📦 Stok: ${p.stock}` : ''}
         </div>
         ${countdownHtml}
-        <button class="prod-btn" onclick="event.stopPropagation();addToCart('${p.id}')" ${noStock?'disabled':''}>
-          ${noStock ? '❌ Habis' : '🛒 Tambah ke Keranjang'}
+        <button class="prod-btn"
+          ${noStock ? 'disabled' : `onclick="event.stopPropagation();addToCart('${p.id}')"`}
+          style="${noStock ? 'background:rgba(100,116,139,0.1);border-color:var(--text3);color:var(--text3);cursor:not-allowed;opacity:.5;' : ''}">
+          ${noStock ? '🚫 Out of Stock' : '🛒 Tambah ke Keranjang'}
         </button>
       </div>
     </div>`;
@@ -1556,11 +1883,24 @@ function openCheckout() {
   const total = cart.reduce((s,i) => { const p=products.find(x=>x.id===i.id); return s+(p?p.price*i.qty:0); }, 0);
   document.getElementById('checkout-items-summary').innerHTML = items;
   document.getElementById('co-total').textContent = fmtPrice(total);
+  // Reset to step 1
+  document.getElementById('co-step1').style.display = 'block';
+  document.getElementById('co-step2').style.display = 'none';
+  selectedPayMethod = null;
+  currentOrderData  = null;
+  document.querySelectorAll('.pay-method-opt').forEach(x => x.classList.remove('active'));
   document.getElementById('checkoutModal').classList.add('show');
 }
 function closeCheckoutModal() { document.getElementById('checkoutModal').classList.remove('show'); }
 
 async function processCheckout() {
+  // Redirect to new payment flow
+  goToPayment();
+  return;
+}
+// Legacy processCheckout (unused - kept for reference)
+async function _legacyProcessCheckout() {
+
   const username = document.getElementById('co-username').value.trim();
   const note     = document.getElementById('co-note').value.trim();
   const errEl    = document.getElementById('co-username-err');
@@ -1584,7 +1924,7 @@ async function processCheckout() {
   history_data.unshift(hEntry);
   localStorage.setItem('nm_history', JSON.stringify(history_data));
 
-  // Update stock
+  // Update stock locally first
   cart.forEach(ci => {
     const p = products.find(x => x.id === ci.id);
     if (p) { p.stock = Math.max(0, p.stock - ci.qty); p.sold_count += ci.qty; }
@@ -1597,12 +1937,26 @@ async function processCheckout() {
   playSound('success');
   toast(`✅ Order ${orderId} berhasil! Terima kasih ${username}!`, 'success');
 
-  // Discord webhook
-  await sendDiscordWebhook({
+  // Show receipt BEFORE discord
+  showReceipt({
+    order_id: orderId, username, note, items, total,
+    method: 'LANGSUNG', timestamp: ts, install_detail: null
+  });
+
+  // Sync stok ke Firebase (non-blocking, update semua produk yg berubah)
+  syncStockToFirebase(items.map(i => {
+    const cartItem = history_data[0]?.items?.find?.(x => x.name === i.name);
+    return i;
+  }));
+
+  // Discord webhook (non-blocking)
+  sendDiscordWebhook({
     order_id: orderId, username, note, items, total,
     method: 'LANGSUNG', timestamp: ts
   });
 
+  // Re-render produk supaya tampilan stok langsung update
+  renderProducts();
   renderCart();
 }
 
@@ -1689,11 +2043,25 @@ async function confirmInstallment() {
   });
   localStorage.setItem('nm_history', JSON.stringify(history_data));
 
+  // Kurangi stok produk saat cicilan dikonfirmasi
+  const prod = products.find(x => x.id === p.id);
+  if (prod) { prod.stock = Math.max(0, prod.stock - 1); prod.sold_count += 1; }
+  syncStockToFirebase([{name: p.name, qty: 1}]);
+
   closeInstallModal();
   playSound('success');
   toast(`💳 Cicilan ${orderId} aktif! ${count}x cicilan ${fmtPrice(perPay)}/cicilan`, 'success');
 
-  await sendDiscordWebhook({
+  // Show receipt
+  showReceipt({
+    order_id: orderId, username: 'Cicilan', note: '',
+    items:[{name:p.name, qty:1, price:total}], total,
+    method: 'CICILAN', timestamp: ts,
+    install_detail: { count, perPay, method: installMethod, duration: `${installDuration} minggu` }
+  });
+
+  // Discord (non-blocking)
+  sendDiscordWebhook({
     order_id: orderId, username: 'Cicilan', note: '', method: 'CICILAN',
     items:[{name:p.name,qty:1,price:total}], total, timestamp: ts,
     install_detail: { count, perPay, method: installMethod, duration: `${installDuration} minggu` }
@@ -1816,14 +2184,51 @@ function renderWishlistPage() {
       <div class="prod-body">
         <div class="prod-name">${p.name}</div>
         <div class="prod-price">${fmtPrice(p.price)}</div>
-        <button class="prod-btn" onclick="event.stopPropagation();addToCart('${p.id}')" ${noStock?'disabled':''}>
-          ${noStock ? '❌ Habis' : '🛒 Tambah ke Keranjang'}
+        <button class="prod-btn" 
+           ${noStock ? 'disabled' : `onclick="event.stopPropagation();addToCart('${p.id}')"`}>
+          ${noStock ? '🚫 Out of Stock' : '🛒 Tambah ke Keranjang'}
         </button>
       </div>
     </div>`;
   }).join('');
   grid.innerHTML = html;
   filteredProducts = tmp;
+}
+
+
+// ─── MIGRASI: Kompres semua gambar Base64 di Firebase ────────────
+async function migrateCompressImages() {
+  toast('⏳ Mengompres gambar lama di Firebase...', 'info');
+  try {
+    var prods = await gistReadProducts();
+    var needsMigration = prods.filter(function(p) {
+      return p.image && p.image.startsWith('data:image') && p.image.length > 50 * 1024;
+    });
+    if (!needsMigration.length) {
+      toast('✅ Semua gambar sudah optimal!', 'success');
+      return;
+    }
+    toast('⏳ Mengompres ' + needsMigration.length + ' gambar...', 'info');
+    // Kompres secara async satu per satu
+    var migrated = 0;
+    for (var i = 0; i < prods.length; i++) {
+      var p = prods[i];
+      if (p.image && p.image.startsWith('data:image') && p.image.length > 50 * 1024) {
+        await new Promise(function(resolve) {
+          compressImage(p.image, 300, 225, 0.4, function(compressed) {
+            prods[i] = Object.assign({}, p, { image: compressed });
+            migrated++;
+            resolve();
+          });
+        });
+      }
+    }
+    await gistWriteProducts(prods);
+    await loadProducts();
+    toast('✅ ' + migrated + ' gambar berhasil dikompres & disimpan!', 'success');
+  } catch(e) {
+    toast('❌ Migrasi gagal: ' + e.message, 'error');
+  }
 }
 
 // ─── ADMIN ───────────────────────────────────────────────────────
@@ -1889,10 +2294,87 @@ async function renderAdminTable() {
       <td>${p.sold_count}</td>
       <td>
         ${i >= BUILTIN_PRODUCTS.length
-          ? `<button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="adminDeleteProduct('${p.id}')">🗑 Hapus</button>`
+          ? `<div style="display:flex;gap:6px;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:12px;" onclick="adminEditProduct('${p.id}')">✏️</button><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="adminDeleteProduct('${p.id}')">🗑</button></div>`
           : '<span style="font-size:11px;color:var(--text3)">Built-in</span>'}
       </td>
     </tr>`).join('');
+}
+
+
+// ─── IMAGE UPLOAD (Base64) ───────────────────────────────────────
+let uploadedImgBase64 = null;
+
+function handleImgUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Cek ukuran — max 5MB (akan dikompres otomatis)
+  if (file.size > 5 * 1024 * 1024) {
+    toast('❌ Ukuran gambar maksimal 5MB!', 'error');
+    input.value = '';
+    return;
+  }
+
+  toast('⏳ Memproses gambar...', 'info');
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const original = e.target.result;
+    // Kompres gambar pakai canvas sebelum disimpan
+    compressImage(original, 300, 225, 0.4, (compressed) => {
+      uploadedImgBase64 = compressed;
+
+      // Show preview
+      const prev  = document.getElementById('ap-img-preview');
+      const prevEl = document.getElementById('ap-img-preview-el');
+      const sizeEl = document.getElementById('ap-img-size');
+      if (prev)  prev.style.display = 'block';
+      if (prevEl) prevEl.src = compressed;
+
+      // Show size comparison
+      const origKB = (original.length / 1024).toFixed(0);
+      const compKB = (compressed.length / 1024).toFixed(0);
+      if (sizeEl) sizeEl.innerHTML = `
+        <span style="color:var(--text3)">Original: ${origKB}KB</span>
+        <span style="color:var(--neon4);margin-left:8px;">→ Setelah kompres: ${compKB}KB ✅</span>
+      `;
+
+      // Clear URL input
+      const urlInput = document.getElementById('ap-img');
+      if (urlInput) urlInput.value = '';
+
+      toast(`✅ Gambar siap! (${origKB}KB → ${compKB}KB)`, 'success');
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+// Kompres gambar async pakai canvas
+function compressImage(base64, maxW, maxH, quality, callback) {
+  var img = new Image();
+  img.onload = function() {
+    var w = img.width, h = img.height;
+    if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+    if (h > maxH) { w = Math.round(w * maxH / h); h = maxH; }
+    var canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    var result = canvas.toDataURL('image/jpeg', quality);
+    console.log('Upload compressed: ' + Math.round(base64.length/1024) + 'KB → ' + Math.round(result.length/1024) + 'KB');
+    callback(result);
+  };
+  img.onerror = function() { callback(base64); };
+  img.src = base64;
+}
+
+function clearImgUpload() {
+  uploadedImgBase64 = null;
+  const fileInput = document.getElementById('ap-img-file');
+  const prev = document.getElementById('ap-img-preview');
+  if (fileInput) fileInput.value = '';
+  if (prev) prev.style.display = 'none';
+  toast('🗑 Gambar dihapus', 'info');
 }
 
 async function adminAddProduct() {
@@ -1902,7 +2384,7 @@ async function adminAddProduct() {
   const cat   = document.getElementById('ap-cat').value.trim() || 'Lainnya';
   const rating= parseFloat(document.getElementById('ap-rating').value) || 4.5;
   const dur   = parseInt(document.getElementById('ap-duration').value) || 0;
-  const img   = document.getElementById('ap-img').value.trim() || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop';
+  const img   = uploadedImgBase64 || document.getElementById('ap-img').value.trim() || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop';
   const desc  = document.getElementById('ap-desc').value.trim() || 'Produk berkualitas tinggi.';
   const tags  = document.getElementById('ap-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
 
@@ -1926,8 +2408,10 @@ async function adminAddProduct() {
     renderAdminStats();
     toast(`✅ Produk "${name}" tersimpan ke server!`, 'success');
     ['ap-name','ap-price','ap-stock','ap-cat','ap-rating','ap-duration','ap-img','ap-desc','ap-tags'].forEach(id => document.getElementById(id).value = '');
+    clearImgUpload();
   } catch(e) {
-    toast('❌ Gagal simpan ke server: ' + e.message, 'error');
+    console.error('adminAddProduct error:', e);
+    toast('❌ Gagal simpan: ' + e.message, 'error');
   }
 }
 
@@ -1943,11 +2427,53 @@ async function adminDeleteProduct(id) {
     renderAdminStats();
     toast('🗑 Produk berhasil dihapus dari server!', 'info');
   } catch(e) {
+    console.error('adminDeleteProduct error:', e);
     toast('❌ Gagal hapus: ' + e.message, 'error');
   }
 }
 
-// ─── SEARCH (FUZZY) ──────────────────────────────────────────────
+
+// ─── SYNC STOK KE FIREBASE ───────────────────────────────────────
+async function syncStockToFirebase(soldItems) {
+  try {
+    // Get latest from Firebase
+    const remoteProds = await gistReadProducts();
+    let changed = false;
+
+    // Update stok sesuai yang terjual (match by id dari state lokal)
+    const localChanged = products.filter(lp => {
+      // Cek apakah stok berubah vs remote
+      const remote = remoteProds.find(r => r.id === lp.id);
+      return remote && remote.stock !== lp.stock;
+    });
+
+    if (!localChanged.length) return; // tidak ada perubahan
+
+    // Update remote products dengan stok terbaru dari lokal
+    const updated = remoteProds.map(rp => {
+      const local = products.find(lp => lp.id === rp.id);
+      if (local && local.stock !== rp.stock) {
+        changed = true;
+        return { ...rp, stock: local.stock, sold_count: local.sold_count };
+      }
+      return rp;
+    });
+
+    if (changed) {
+      await gistWriteProducts(updated);
+      localStorage.setItem('nm_products_cache', JSON.stringify(updated));
+      // Re-render tampilan produk dengan stok terbaru
+      renderProducts();
+      renderWishlistPage();
+    }
+  } catch(e) {
+    console.warn('Stock sync gagal (non-critical):', e.message);
+    // Tetap update tampilan dari state lokal walau Firebase gagal
+    renderProducts();
+  }
+}
+
+// ─── SEARCH (FUZZY + RECENT + HIGHLIGHT) ────────────────────────
 function initSearch() {
   const input = document.getElementById('searchInput');
   const box   = document.getElementById('autocompleteBox');
@@ -1957,19 +2483,45 @@ function initSearch() {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       const q = input.value.trim();
-      if (!q) { box.style.display='none'; renderProducts(); return; }
+      const recentSec = document.getElementById('recent-search-section');
+
+      if (!q) {
+        // Show recent/popular when empty
+        if (recentSec) recentSec.style.display = 'block';
+        showSearchDropdown();
+        renderProducts();
+        document.getElementById('prod-count').textContent = `${filteredProducts.length} products`;
+        return;
+      }
+
+      if (recentSec) recentSec.style.display = 'none';
+      addRecentSearch(q);
       const results = fuzzySearch(q, products);
-      showAutocomplete(results.slice(0,5), q);
+      showAutocomplete(results.slice(0, 6), q);
       renderProducts(results);
-      document.getElementById('prod-count').textContent = `${results.length} hasil untuk "${q}"`;
-    }, 200);
+      document.getElementById('prod-count').textContent = `${results.length} ${t('search').includes('Cari') ? 'hasil' : 'results'} for "${q}"`;
+    }, 220);
   });
 
-  input.addEventListener('blur', () => setTimeout(() => box.style.display='none', 200));
+  input.addEventListener('blur', () => setTimeout(() => {
+    document.getElementById('autocompleteBox').style.display = 'none';
+  }, 200));
+
   input.addEventListener('focus', () => {
-    if (input.value.trim()) {
-      const results = fuzzySearch(input.value, products);
-      showAutocomplete(results.slice(0,5), input.value);
+    const q = input.value.trim();
+    if (!q) showSearchDropdown();
+    else {
+      const results = fuzzySearch(q, products);
+      showAutocomplete(results.slice(0, 6), q);
+    }
+  });
+
+  // Keyboard nav
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      box.style.display = 'none';
+      input.value = '';
+      renderProducts();
     }
   });
 }
@@ -1984,28 +2536,21 @@ function levenshtein(a, b) {
 
 function fuzzySearch(query, items) {
   const q = query.toLowerCase();
-  const words = q.split(' ');
+  const words = q.split(' ').filter(Boolean);
   return items.map(p => {
     const name = p.name.toLowerCase();
     const tags = (p.tags || []).join(' ').toLowerCase();
     const cat  = (p.category || '').toLowerCase();
-    const haystack = `${name} ${tags} ${cat}`;
-
-    // Exact match
+    const hay  = `${name} ${tags} ${cat}`;
     if (name.includes(q)) return { p, score: 100 };
-
-    // Word match
-    const wordScore = words.reduce((s, w) => s + (haystack.includes(w) ? 20 : 0), 0);
+    const wordScore = words.reduce((s, w) => s + (hay.includes(w) ? 20 : 0), 0);
     if (wordScore > 0) return { p, score: wordScore };
-
-    // Fuzzy match via Levenshtein on each word of name
     const nameWords = name.split(' ');
     let fuzzyScore = 0;
     words.forEach(w => {
       const best = Math.min(...nameWords.map(nw => levenshtein(w, nw.substring(0, w.length+2))));
       if (best <= 2) fuzzyScore += (3 - best) * 10;
     });
-
     return { p, score: fuzzyScore };
   })
   .filter(x => x.score > 0)
@@ -2013,14 +2558,22 @@ function fuzzySearch(query, items) {
   .map(x => x.p);
 }
 
+function highlightText(text, query) {
+  if (!query) return text;
+  const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${esc})`, 'gi'), '<span class="search-highlight">$1</span>');
+}
+
 function showAutocomplete(results, q) {
   const box = document.getElementById('autocompleteBox');
-  if (!results.length) { box.style.display='none'; return; }
+  const recentSec = document.getElementById('recent-search-section');
+  if (recentSec) recentSec.style.display = 'none';
+  if (!results.length) { box.style.display = 'none'; return; }
   box.innerHTML = results.map(p =>
-    `<div class="autocomplete-item" onclick="openProduct('${p.id}');document.getElementById('autocompleteBox').style.display='none'">
-      <img src="${p.image}" style="width:32px;height:32px;border-radius:6px;object-fit:cover;">
-      <span>${p.name.substring(0,45)}</span>
-      <span style="margin-left:auto;font-size:12px;color:var(--neon2)">${fmtPrice(p.price)}</span>
+    `<div class="autocomplete-item" data-pid="${p.id}" onclick="openProduct(this.dataset.pid);document.getElementById('autocompleteBox').style.display='none';addRecentSearch('${p.name.substring(0,20)}')">
+      <img src="${p.image}" style="width:32px;height:32px;border-radius:6px;object-fit:cover;" loading="lazy">
+      <span>${highlightText(p.name.substring(0, 45), q)}</span>
+      <span style="margin-left:auto;font-size:12px;color:var(--neon2);white-space:nowrap;">${fmtPrice(p.price)}</span>
     </div>`
   ).join('');
   box.style.display = 'block';
@@ -2113,22 +2666,34 @@ async function sendDiscordWebhook(data) {
       ? `\n\n**Detail Cicilan:**\n• Durasi: ${data.install_detail.duration}\n• Metode: ${data.install_detail.method}\n• Jumlah: ${data.install_detail.count}x cicilan\n• Per cicilan: ${fmtPrice(data.install_detail.perPay)}`
       : '';
 
+    const needVerify = data.need_verify || data.status === 'PENDING';
+    const embedColor = data.status === 'VERIFIED' ? 0x10b981 :
+                       needVerify ? 0xf59e0b : 0xff2d78;
+    const embedTitle = data.status === 'VERIFIED'
+      ? `✅ Pembayaran Terverifikasi — ${data.order_id}`
+      : needVerify
+        ? `⏳ Butuh Verifikasi — ${data.order_id}`
+        : `🛒 Order Baru — ${data.order_id}`;
+
+    const verifyNote = (needVerify && data.status !== 'VERIFIED') ? '\n**Client butuh verifikasi — silahkan masuk ke Admin Panel**' : '';
+
     await fetch(DISCORD_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         embeds: [{
-          title: `🛒 Order Baru — ${data.order_id}`,
-          color: data.method === 'CICILAN' ? 0x00c8ff : 0xff2d78,
+          title: embedTitle,
+          color: embedColor,
           fields: [
             { name: '📦 Produk', value: itemList || '-', inline: false },
             { name: '👤 Username', value: data.username || '-', inline: true },
-            { name: '💰 Total', value: fmtPrice(data.total), inline: true },
+            { name: '💰 Total', value: data.total ? fmtPrice(data.total) : '-', inline: true },
             { name: '💳 Metode', value: data.method, inline: true },
+            { name: '📱 WA Client', value: data.phone || '-', inline: true },
             { name: '📝 Catatan', value: data.note || '-', inline: false },
           ],
-          description: installBlock,
-          footer: { text: `NeonMart · ${data.timestamp}` },
+          description: (installBlock || '') + verifyNote,
+          footer: { text: `ExtinctionIBT Store · NeonMart · ${data.timestamp}` },
           timestamp: new Date().toISOString()
         }]
       })
@@ -2147,7 +2712,7 @@ function goPage(name) {
   if (name === 'history') renderHistoryPage();
   if (name === 'installments') renderInstallmentPage();
   if (name === 'wishlist') renderWishlistPage();
-  if (name === 'admin' && adminLoggedIn) { renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); }
+  if (name === 'admin' && adminLoggedIn) { renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2172,6 +2737,417 @@ function fmtPrice(n) {
 function pad(n) { return String(n).padStart(2,'0'); }
 
 
+
+
+
+// ════════════════════════════════════════════════════════════
+// PAYMENT SYSTEM — ExtinctionIBT Store
+// ════════════════════════════════════════════════════════════
+
+// Info pembayaran
+const PAYMENT_INFO = {
+  dana: {
+    number: '085750472790',
+    name:   'Suciarni',
+    bank:   'DANA'
+  },
+  agent: {
+    name:    'ExtinctionIBT - Store',
+    address: 'SDN Percobaan Palangkaraya Gerbang 1-2, Jl. G. Obos 7, GG Pondok Adenium No. 6A & Studio ExtinctionIBT',
+    wa1:     '085750472790',
+    wa2:     '085820549008',
+    hours:   'Open 24 Jam / Setiap Hari'
+  },
+  qris: {
+    img: '', // akan diisi setelah QRIS diverifikasi
+    note: 'QRIS segera tersedia setelah verifikasi akun bisnis DANA selesai'
+  },
+  wa_confirm: '085750472790'
+};
+
+let selectedPayMethod = null;
+let currentOrderData  = null;
+
+// ── Pilih metode ─────────────────────────────────────────────
+function selectPayMethod(el) {
+  document.querySelectorAll('.pay-method-opt').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
+  selectedPayMethod = el.dataset.method;
+}
+
+// ── Step 1 → Step 2 ──────────────────────────────────────────
+function goToPayment() {
+  const username = document.getElementById('co-username').value.trim();
+  const phone    = document.getElementById('co-phone').value.trim();
+  const userErr  = document.getElementById('co-username-err');
+  const phoneErr = document.getElementById('co-phone-err');
+
+  let valid = true;
+  if (!username) { userErr.style.display='block'; valid=false; } else userErr.style.display='none';
+  if (!phone)    { phoneErr.style.display='block'; valid=false; } else phoneErr.style.display='none';
+  if (!valid) return;
+
+  if (!selectedPayMethod) {
+    toast('❌ Pilih metode pembayaran dulu!', 'error');
+    return;
+  }
+
+  // Build order data
+  const items = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    return p ? { id: p.id, name: p.name, qty: item.qty, price: p.price * item.qty } : null;
+  }).filter(Boolean);
+  const total   = items.reduce((s,i) => s+i.price, 0);
+  const orderId = 'NM-' + Date.now().toString(36).toUpperCase();
+  const ts      = new Date().toLocaleString('id-ID');
+  const note    = document.getElementById('co-note').value.trim();
+
+  currentOrderData = { orderId, username, phone, note, items, total, ts, method: selectedPayMethod };
+
+  // Show step 2
+  document.getElementById('co-step1').style.display = 'none';
+  document.getElementById('co-step2').style.display = 'block';
+  renderPaymentDetail(selectedPayMethod, total, orderId);
+}
+
+function backToStep1() {
+  document.getElementById('co-step1').style.display = 'block';
+  document.getElementById('co-step2').style.display = 'none';
+}
+
+// ── Render detail pembayaran per metode ───────────────────────
+function renderPaymentDetail(method, total, orderId) {
+  var box = document.getElementById('payment-detail-content');
+  var pi  = PAYMENT_INFO;
+  var confirmBtn = document.getElementById('co-confirm-btn');
+  if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.style.opacity = '1'; }
+  var html = '';
+
+  if (method === 'qris') {
+    if (pi.qris.img) {
+      html += '<div class="pay-info-box">';
+      html += '<div style="text-align:center;margin-bottom:12px;font-size:14px;font-weight:600;">Scan QR untuk Bayar</div>';
+      html += '<div class="qris-img-wrap"><img src="' + pi.qris.img + '" alt="QRIS"></div>';
+      html += '<div style="text-align:center;font-size:13px;color:var(--text2);margin-top:10px;">Bayar dengan GoPay, OVO, DANA, ShopeePay, atau m-banking</div>';
+      html += '</div>';
+      html += '<div class="pay-info-box">';
+      html += '<div class="pay-info-row"><span class="pay-info-label">Order ID</span><span class="pay-info-val">' + orderId + '</span></div>';
+      html += '<div class="pay-info-row"><span class="pay-info-label">Total Bayar</span><span class="pay-info-val" style="color:var(--neon2);">' + fmtPrice(total) + '</span></div>';
+      html += '</div>';
+      html += '<div class="pay-note-box">Setelah scan dan bayar, klik Konfirmasi Pembayaran. Admin akan verifikasi.</div>';
+    } else {
+      html += '<div class="pay-info-box" style="text-align:center;padding:30px;">';
+      html += '<div style="font-size:48px;margin-bottom:12px;">⏳</div>';
+      html += '<div style="font-weight:700;font-size:16px;color:var(--gold);margin-bottom:8px;">QRIS Segera Tersedia</div>';
+      html += '<div style="font-size:13px;color:var(--text2);line-height:1.7;">' + pi.qris.note + '</div>';
+      html += '</div>';
+      if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.style.opacity = '0.4'; }
+    }
+
+  } else if (method === 'dana') {
+    html += '<div class="pay-info-box">';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">';
+    html += '<div style="font-size:32px;">💚</div>';
+    html += '<div><div style="font-weight:700;font-size:16px;">Transfer DANA</div>';
+    html += '<div style="font-size:12px;color:var(--text2);">Transfer ke akun DANA berikut</div></div></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Nomor DANA</span>';
+    html += '<span class="pay-info-val">' + pi.dana.number;
+    html += ' <button class="copy-btn" data-copy="' + pi.dana.number + '" onclick="copyText(this.dataset.copy)">Copy</button></span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Atas Nama</span>';
+    html += '<span class="pay-info-val">' + pi.dana.name + '</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Total Transfer</span>';
+    html += '<span class="pay-info-val" style="color:var(--neon2);font-family:var(--font-display);">' + fmtPrice(total);
+    html += ' <button class="copy-btn" data-copy="' + total + '" onclick="copyText(this.dataset.copy)">Copy</button></span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Order ID</span>';
+    html += '<span class="pay-info-val">' + orderId + '</span></div>';
+    html += '</div>';
+    html += '<div class="pay-note-box">Transfer nominal TEPAT sesuai total. Setelah transfer klik Konfirmasi Pembayaran.</div>';
+
+  } else if (method === 'agent') {
+    html += '<div class="pay-info-box">';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">';
+    html += '<div style="font-size:32px;">🏪</div>';
+    html += '<div><div style="font-weight:700;font-size:16px;">Bayar di Agent</div>';
+    html += '<div style="font-size:12px;color:var(--text2);">Datang langsung ke toko</div></div></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Nama Toko</span>';
+    html += '<span class="pay-info-val">' + pi.agent.name + '</span></div>';
+    html += '<div class="pay-info-row" style="flex-direction:column;align-items:flex-start;gap:4px;">';
+    html += '<span class="pay-info-label">Alamat</span>';
+    html += '<span class="pay-info-val" style="font-size:13px;line-height:1.6;">' + pi.agent.address + '</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Jam Buka</span>';
+    html += '<span class="pay-info-val" style="color:var(--neon4);">' + pi.agent.hours + '</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">WA Agent 1</span>';
+    html += '<span class="pay-info-val">' + pi.agent.wa1;
+    html += ' <button class="copy-btn" data-copy="' + pi.agent.wa1 + '" onclick="copyText(this.dataset.copy)">Copy</button></span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">WA Agent 2</span>';
+    html += '<span class="pay-info-val">' + pi.agent.wa2;
+    html += ' <button class="copy-btn" data-copy="' + pi.agent.wa2 + '" onclick="copyText(this.dataset.copy)">Copy</button></span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Total Bayar</span>';
+    html += '<span class="pay-info-val" style="color:var(--neon2);">' + fmtPrice(total) + '</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Order ID</span>';
+    html += '<span class="pay-info-val">' + orderId + '</span></div>';
+    html += '</div>';
+    html += '<div class="pay-note-box">Datang ke toko dengan Order ID: ' + orderId + '. Setelah bayar klik Konfirmasi.</div>';
+
+  } else if (method === 'cicilan') {
+    html += '<div class="pay-info-box">';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">';
+    html += '<div style="font-size:32px;">📋</div>';
+    html += '<div><div style="font-weight:700;font-size:16px;">Cicilan Fisik</div>';
+    html += '<div style="font-size:12px;color:var(--text2);">Bayar langsung ke admin</div></div></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Total Harga</span>';
+    html += '<span class="pay-info-val" style="color:var(--neon2);">' + fmtPrice(total) + '</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">DP</span>';
+    html += '<span class="pay-info-val" style="color:var(--gold);">Ditentukan Admin</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Sisa Bayar</span>';
+    html += '<span class="pay-info-val">Sesuai kesepakatan</span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Konfirmasi WA</span>';
+    html += '<span class="pay-info-val">' + pi.wa_confirm;
+    html += ' <button class="copy-btn" data-copy="' + pi.wa_confirm + '" onclick="copyText(this.dataset.copy)">Copy</button></span></div>';
+    html += '<div class="pay-info-row"><span class="pay-info-label">Order ID</span>';
+    html += '<span class="pay-info-val">' + orderId + '</span></div>';
+    html += '</div>';
+    html += '<div class="pay-note-box">Cicilan diatur via WA. Setelah DP dibayar klik Konfirmasi untuk kirim request ke admin.</div>';
+  }
+
+  box.innerHTML = html;
+}
+
+// ── Konfirmasi pembayaran ─────────────────────────────────────
+async function confirmPayment() {
+  if (!currentOrderData) return;
+  const { orderId, username, phone, note, items, total, ts, method } = currentOrderData;
+
+  const methodLabels = {
+    qris:    '📱 QRIS',
+    dana:    '💚 Transfer DANA',
+    agent:   '🏪 Bayar di Agent',
+    cicilan: '📋 Cicilan Fisik'
+  };
+
+  // Save to Firebase as pending
+  const pendingEntry = {
+    order_id:  orderId,
+    username,
+    phone,
+    note,
+    items,
+    total,
+    method:    methodLabels[method] || method,
+    status:    'PENDING',
+    timestamp: Date.now(),
+    ts
+  };
+
+  try {
+    // Save pending to Firebase
+    const allPending = await fbGet('pending_payments') || {};
+    allPending[orderId] = pendingEntry;
+    await fbSet('pending_payments', allPending);
+  } catch(e) {
+    // Save to localStorage as backup
+    const lp = JSON.parse(localStorage.getItem('nm_pending') || '{}');
+    lp[orderId] = pendingEntry;
+    localStorage.setItem('nm_pending', JSON.stringify(lp));
+  }
+
+  // Save to history
+  history_data.unshift({
+    order_id: orderId, username, note, timestamp: Date.now(),
+    items, total, method: methodLabels[method], status: 'PENDING VERIFIKASI'
+  });
+  localStorage.setItem('nm_history', JSON.stringify(history_data));
+
+  // Update stok lokal
+  cart.forEach(ci => {
+    const p = products.find(x => x.id === ci.id);
+    if (p) { p.stock = Math.max(0, p.stock - ci.qty); p.sold_count += ci.qty; }
+  });
+  syncStockToFirebase([]);
+
+  // Clear cart
+  cart = []; saveCart(); updateCartBadge();
+  closeCheckoutModal();
+  playSound('success');
+
+  // Show receipt
+  showReceipt({
+    order_id: orderId, username, note, items, total,
+    method: methodLabels[method], timestamp: ts, install_detail: null,
+    extra: `Status: MENUNGGU VERIFIKASI ADMIN`
+  });
+
+  // Discord notif
+  sendDiscordWebhook({
+    order_id: orderId, username, note, items, total,
+    method: methodLabels[method], timestamp: ts,
+    phone, status: 'PENDING',
+    need_verify: true
+  });
+
+  renderProducts(); renderCart(); renderHistoryPage();
+  toast(`✅ Order ${orderId} dikirim! Menunggu verifikasi admin.`, 'success');
+}
+
+// ── Admin: Load pending payments ──────────────────────────────
+async function loadPendingPayments() {
+  var list  = document.getElementById('pending-payments-list');
+  var badge = document.getElementById('pending-count-badge');
+  if (!list) return;
+  list.innerHTML = '<div style="text-align:center;color:var(--text3);padding:16px;font-size:13px;">⏳ Memuat...</div>';
+
+  try {
+    var allPending = await fbGet('pending_payments') || {};
+    var lp = JSON.parse(localStorage.getItem('nm_pending') || '{}');
+    for (var k in lp) { if (!allPending[k]) allPending[k] = lp[k]; }
+
+    var entries = Object.values(allPending).sort(function(a,b){ return b.timestamp - a.timestamp; });
+    var pendingCount = entries.filter(function(e){ return e.status === 'PENDING'; }).length;
+
+    if (badge) {
+      badge.textContent = pendingCount + ' pending';
+      badge.style.color = pendingCount > 0 ? '#ff2d78' : 'var(--gold)';
+    }
+
+    if (!entries.length) {
+      list.innerHTML = '<div style="text-align:center;color:var(--text3);padding:20px;font-size:13px;">Tidak ada pembayaran pending</div>';
+      return;
+    }
+
+    var html = '';
+    entries.forEach(function(e) {
+      var isPending = e.status === 'PENDING';
+      var itemList  = (e.items || []).map(function(i){ return i.name + ' x' + (i.qty||1); }).join(', ');
+      var date      = new Date(e.timestamp).toLocaleString('id-ID', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+      var bgColor   = isPending ? 'rgba(245,158,11,0.07)' : 'rgba(16,185,129,0.05)';
+      var bdColor   = isPending ? 'rgba(245,158,11,0.3)' : 'rgba(16,185,129,0.2)';
+      var statusBg  = isPending ? 'rgba(245,158,11,0.2)' : 'rgba(16,185,129,0.2)';
+      var statusCol = isPending ? 'var(--gold)' : 'var(--neon4)';
+      var statusBd  = isPending ? 'var(--gold)' : 'var(--neon4)';
+      var statusTxt = isPending ? 'PENDING' : 'VERIFIED';
+
+      html += '<div style="background:' + bgColor + ';border:1px solid ' + bdColor + ';border-radius:12px;padding:16px;margin-bottom:10px;">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px;">';
+      html += '<div>';
+      html += '<div style="font-family:var(--font-display);font-size:12px;color:var(--text3);">#' + e.order_id + '</div>';
+      html += '<div style="font-weight:700;font-size:15px;margin-top:2px;">👤 ' + e.username + '</div>';
+      html += '<div style="font-size:12px;color:var(--text2);">📱 ' + (e.phone||'-') + ' · ' + date + '</div>';
+      html += '</div>';
+      html += '<span style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:' + statusBg + ';color:' + statusCol + ';border:1px solid ' + statusBd + '">' + statusTxt + '</span>';
+      html += '</div>';
+      html += '<div style="font-size:13px;color:var(--text2);margin-bottom:4px;">📦 ' + itemList + '</div>';
+      html += '<div style="font-size:13px;color:var(--text2);margin-bottom:10px;">💳 ' + e.method + (e.note ? ' · 📝 ' + e.note : '') + '</div>';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+      html += '<div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--neon2);">' + fmtPrice(e.total) + '</div>';
+      if (isPending) {
+        html += '<div style="display:flex;gap:8px;">';
+        html += '<button class="btn btn-success" style="padding:7px 16px;font-size:12px;" data-oid="' + e.order_id + '" onclick="verifyPayment(this.dataset.oid)">Verifikasi Lunas</button>';
+        html += '<button class="btn btn-danger" style="padding:7px 12px;font-size:12px;" data-oid="' + e.order_id + '" onclick="rejectPayment(this.dataset.oid)">Tolak</button>';
+        html += '</div>';
+      } else {
+        html += '<span style="font-size:12px;color:var(--text3);">Sudah diverifikasi</span>';
+      }
+      html += '</div></div>';
+    });
+    list.innerHTML = html;
+  } catch(e) {
+    list.innerHTML = '<div style="text-align:center;color:#ff6b6b;padding:20px;font-size:13px;">Gagal load: ' + e.message + '</div>';
+  }
+}
+
+async function verifyPayment(orderId) {
+  try {
+    var allPending = await fbGet('pending_payments') || {};
+    if (allPending[orderId]) {
+      allPending[orderId].status = 'VERIFIED';
+      allPending[orderId].verified_at = Date.now();
+      await fbSet('pending_payments', allPending);
+    }
+    var lp = JSON.parse(localStorage.getItem('nm_pending') || '{}');
+    if (lp[orderId]) { lp[orderId].status = 'VERIFIED'; localStorage.setItem('nm_pending', JSON.stringify(lp)); }
+    toast('Order #' + orderId + ' berhasil diverifikasi!', 'success');
+    loadPendingPayments();
+    sendDiscordWebhook({
+      order_id: orderId, username: 'Admin', note: 'Pembayaran telah diverifikasi',
+      items: [], total: 0, method: 'VERIFIKASI ADMIN',
+      timestamp: new Date().toLocaleString('id-ID'), status: 'VERIFIED'
+    });
+  } catch(e) {
+    toast('Gagal verifikasi: ' + e.message, 'error');
+  }
+}
+
+async function rejectPayment(orderId) {
+  if (!confirm('Tolak pembayaran ini?')) return;
+  try {
+    var allPending = await fbGet('pending_payments') || {};
+    if (allPending[orderId]) {
+      allPending[orderId].status = 'REJECTED';
+      await fbSet('pending_payments', allPending);
+    }
+    var lp = JSON.parse(localStorage.getItem('nm_pending') || '{}');
+    if (lp[orderId]) { lp[orderId].status = 'REJECTED'; localStorage.setItem('nm_pending', JSON.stringify(lp)); }
+    toast('Order #' + orderId + ' ditolak', 'warn');
+    loadPendingPayments();
+  } catch(e) {
+    toast('Gagal tolak: ' + e.message, 'error');
+  }
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => toast('📋 Disalin!', 'success'))
+    .catch(() => toast('❌ Gagal copy', 'error'));
+}
+
+// ─── TEST FIREBASE CONNECTION ─────────────────────────────────────
+async function testFirebaseConnection() {
+  const resultEl = document.getElementById('firebase-test-result');
+  resultEl.style.display = 'block';
+  resultEl.style.background = 'rgba(0,200,255,0.05)';
+  resultEl.style.border = '1px solid var(--border)';
+  resultEl.style.color = 'var(--text2)';
+  resultEl.innerHTML = '⏳ Testing koneksi ke Firebase...';
+
+  try {
+    // Step 1: Test GET
+    const start = Date.now();
+    const data = await fbGet('_ping_test');
+    const getTime = Date.now() - start;
+
+    // Step 2: Test WRITE
+    const writeStart = Date.now();
+    await fbSet('_ping_test', { ts: Date.now(), ok: true });
+    const writeTime = Date.now() - writeStart;
+
+    // Step 3: Test DELETE
+    await fbDelete('_ping_test');
+
+    resultEl.style.background = 'rgba(16,185,129,0.1)';
+    resultEl.style.border = '1px solid var(--neon4)';
+    resultEl.style.color = 'var(--neon4)';
+    resultEl.innerHTML = `
+      ✅ <strong>Firebase terhubung dengan baik!</strong><br>
+      <span style="font-size:12px;color:var(--text2);">
+        Read: ${getTime}ms · Write: ${writeTime}ms · URL: ${FB_URL}
+      </span>
+    `;
+    toast('✅ Firebase OK!', 'success');
+
+  } catch(e) {
+    resultEl.style.background = 'rgba(255,45,120,0.1)';
+    resultEl.style.border = '1px solid var(--neon2)';
+    resultEl.style.color = '#ff8aab';
+    resultEl.innerHTML = `
+      ❌ <strong>Firebase gagal!</strong><br>
+      <span style="font-size:12px;">Error: ${e.message}</span><br>
+      <span style="font-size:12px;color:var(--text3);">
+        Cek: 1) Firebase Rules (.read & .write = true) · 2) URL database benar · 3) Koneksi internet
+      </span>
+    `;
+    toast('❌ Firebase error: ' + e.message, 'error');
+  }
+}
 
 // ─── SHUTDOWN SYSTEM ─────────────────────────────────────────────
 const SD_KEY = 'nm_shutdown';
@@ -2358,10 +3334,340 @@ function checkAnnouncementOnLoad() {
   } catch {}
 }
 
+
+// ════════════════════════════════════════════════════════════
+// MULTI-LANGUAGE SYSTEM
+// ════════════════════════════════════════════════════════════
+const LANGS = {
+  en: {
+    home:'Home', wishlist:'Wishlist', cart:'Cart', cicilan:'Installments', history:'History',
+    search:'Search products...', buy:'Buy Now', addCart:'Add to Cart',
+    checkout:'Checkout', cancel:'Cancel', close:'Close',
+    total:'Total', subtotal:'Subtotal', stock:'Stock',
+    soldOut:'Out of Stock', rating:'Rating', sold:'sold',
+    receiptTitle:'PURCHASE RECEIPT', receiptStore:'NeonMart Digital Store',
+    receiptThanks:'Thank you for your purchase!',
+    emptyCart:'Your cart is empty', emptyWish:'Your wishlist is empty',
+    tutTitle:'Welcome to NeonMart!', tutSub:'Quick guide to get started',
+    tut0t:'Smart Search', tut0b:'Type anything in the search bar. Even with typos, we\'ll find it!',
+    tut1t:'Buy Products', tut1b:'Click any product, choose Buy Now or Add to Cart.',
+    tut2t:'Installments', tut2b:'Pay weekly or monthly with flexible duration.',
+    tut3t:'Wishlist', tut3b:'Save products you love with the heart button.',
+    skip:'Skip', next:'Next →', finish:'Let\'s Shop!',
+    fullPayment:'Full Payment', installments:'Installments',
+    durLabel:'Duration', methodLabel:'Payment Method',
+    perPeriod:'Per Period', deadline:'Deadline',
+    adminAdd:'Add Product', adminDel:'Delete', adminEdit:'Edit',
+    filterAll:'All', filterPrice:'Price', filterStock:'Stock',
+  },
+  id: {
+    home:'Home', wishlist:'Wishlist', cart:'Keranjang', cicilan:'Cicilan', history:'Riwayat',
+    search:'Cari produk...', buy:'Beli Sekarang', addCart:'Tambah ke Keranjang',
+    checkout:'Checkout', cancel:'Batal', close:'Tutup',
+    total:'Total', subtotal:'Subtotal', stock:'Stok',
+    soldOut:'Stok Habis', rating:'Rating', sold:'terjual',
+    receiptTitle:'STRUK PEMBELIAN', receiptStore:'NeonMart Digital Store',
+    receiptThanks:'Terima kasih telah berbelanja!',
+    emptyCart:'Keranjang kamu kosong', emptyWish:'Wishlist kamu kosong',
+    tutTitle:'Selamat Datang di NeonMart!', tutSub:'Panduan cepat untuk memulai',
+    tut0t:'Pencarian Pintar', tut0b:'Ketik apa saja di kotak pencarian. Typo pun tetap ketemu!',
+    tut1t:'Beli Produk', tut1b:'Klik produk, pilih Beli Sekarang atau Tambah ke Keranjang.',
+    tut2t:'Cicilan', tut2b:'Bayar mingguan atau bulanan dengan durasi fleksibel.',
+    tut3t:'Wishlist', tut3b:'Simpan produk favorit dengan tombol hati.',
+    skip:'Lewati', next:'Lanjut →', finish:'Mulai Belanja!',
+    fullPayment:'Bayar Penuh', installments:'Cicilan',
+    durLabel:'Durasi', methodLabel:'Metode Pembayaran',
+    perPeriod:'Per Periode', deadline:'Batas Waktu',
+    adminAdd:'Tambah Produk', adminDel:'Hapus', adminEdit:'Edit',
+    filterAll:'Semua', filterPrice:'Harga', filterStock:'Stok',
+  },
+  ar: {
+    home:'الرئيسية', wishlist:'المفضلة', cart:'السلة', cicilan:'التقسيط', history:'السجل',
+    search:'ابحث عن منتجات...', buy:'اشتري الآن', addCart:'أضف إلى السلة',
+    checkout:'الدفع', cancel:'إلغاء', close:'إغلاق',
+    total:'المجموع', subtotal:'المجموع الفرعي', stock:'المخزون',
+    soldOut:'نفد المخزون', rating:'التقييم', sold:'مُباع',
+    receiptTitle:'إيصال الشراء', receiptStore:'متجر NeonMart الرقمي',
+    receiptThanks:'شكراً لتسوقك معنا!',
+    emptyCart:'سلتك فارغة', emptyWish:'قائمة المفضلة فارغة',
+    tutTitle:'!مرحباً بك في NeonMart', tutSub:'دليل سريع للبدء',
+    tut0t:'البحث الذكي', tut0b:'اكتب أي شيء في شريط البحث، حتى مع الأخطاء الإملائية!',
+    tut1t:'شراء المنتجات', tut1b:'انقر على أي منتج واختر الشراء أو إضافة للسلة.',
+    tut2t:'التقسيط', tut2b:'ادفع أسبوعياً أو شهرياً بمرونة تامة.',
+    tut3t:'المفضلة', tut3b:'احفظ المنتجات المفضلة بزر القلب.',
+    skip:'تخطي', next:'التالي →', finish:'ابدأ التسوق!',
+    fullPayment:'دفع كامل', installments:'تقسيط',
+    durLabel:'المدة', methodLabel:'طريقة الدفع',
+    perPeriod:'لكل فترة', deadline:'الموعد النهائي',
+    adminAdd:'إضافة منتج', adminDel:'حذف', adminEdit:'تعديل',
+    filterAll:'الكل', filterPrice:'السعر', filterStock:'المخزون',
+  },
+  ja: {
+    home:'ホーム', wishlist:'お気に入り', cart:'カート', cicilan:'分割払い', history:'履歴',
+    search:'商品を検索...', buy:'今すぐ購入', addCart:'カートに追加',
+    checkout:'チェックアウト', cancel:'キャンセル', close:'閉じる',
+    total:'合計', subtotal:'小計', stock:'在庫',
+    soldOut:'売り切れ', rating:'評価', sold:'販売済み',
+    receiptTitle:'購入レシート', receiptStore:'NeonMart デジタルストア',
+    receiptThanks:'ご購入ありがとうございます！',
+    emptyCart:'カートは空です', emptyWish:'お気に入りは空です',
+    tutTitle:'NeonMartへようこそ！', tutSub:'クイックスタートガイド',
+    tut0t:'スマート検索', tut0b:'何でも入力してください。タイポがあっても見つかります！',
+    tut1t:'商品を購入', tut1b:'商品をクリックして今すぐ購入またはカートに追加。',
+    tut2t:'分割払い', tut2b:'週払いや月払いで柔軟に支払いできます。',
+    tut3t:'お気に入り', tut3b:'ハートボタンで好きな商品を保存しましょう。',
+    skip:'スキップ', next:'次へ →', finish:'ショッピング開始！',
+    fullPayment:'一括払い', installments:'分割払い',
+    durLabel:'期間', methodLabel:'支払い方法',
+    perPeriod:'1回あたり', deadline:'締め切り',
+    adminAdd:'商品追加', adminDel:'削除', adminEdit:'編集',
+    filterAll:'すべて', filterPrice:'価格', filterStock:'在庫',
+  },
+  ms: {
+    home:'Utama', wishlist:'Senarai Wish', cart:'Troli', cicilan:'Ansuran', history:'Sejarah',
+    search:'Cari produk...', buy:'Beli Sekarang', addCart:'Tambah ke Troli',
+    checkout:'Daftar Keluar', cancel:'Batal', close:'Tutup',
+    total:'Jumlah', subtotal:'Subjumlah', stock:'Stok',
+    soldOut:'Kehabisan Stok', rating:'Penilaian', sold:'terjual',
+    receiptTitle:'RESIT PEMBELIAN', receiptStore:'NeonMart Digital Store',
+    receiptThanks:'Terima kasih kerana membeli-belah!',
+    emptyCart:'Troli anda kosong', emptyWish:'Senarai wish anda kosong',
+    tutTitle:'Selamat Datang ke NeonMart!', tutSub:'Panduan pantas untuk bermula',
+    tut0t:'Carian Pintar', tut0b:'Taip apa sahaja, walaupun silap ejaan tetap jumpa!',
+    tut1t:'Beli Produk', tut1b:'Klik produk, pilih Beli Sekarang atau tambah ke troli.',
+    tut2t:'Ansuran', tut2b:'Bayar mingguan atau bulanan dengan tempoh yang fleksibel.',
+    tut3t:'Senarai Wish', tut3b:'Simpan produk kegemaran dengan butang hati.',
+    skip:'Langkau', next:'Seterusnya →', finish:'Mula Membeli!',
+    fullPayment:'Bayaran Penuh', installments:'Ansuran',
+    durLabel:'Tempoh', methodLabel:'Kaedah Bayaran',
+    perPeriod:'Setiap Tempoh', deadline:'Tarikh Akhir',
+    adminAdd:'Tambah Produk', adminDel:'Padam', adminEdit:'Edit',
+    filterAll:'Semua', filterPrice:'Harga', filterStock:'Stok',
+  }
+};
+
+let currentLang = localStorage.getItem('nm_lang') || 'en';
+
+function t(key) { return (LANGS[currentLang] && LANGS[currentLang][key]) || LANGS['en'][key] || key; }
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('nm_lang', lang);
+  // RTL for Arabic
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  applyLangUI();
+}
+
+function applyLangUI() {
+  const map = {
+    't-home': 'home', 't-wishlist': 'wishlist', 't-cart': 'cart',
+    't-cicilan': 'cicilan', 't-history': 'history',
+  };
+  for (const [id, key] of Object.entries(map)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t(key);
+  }
+  const si = document.getElementById('searchInput');
+  if (si) si.placeholder = t('search');
+  // Tutorial if open
+  applyTutorialLang();
+}
+
+// ════════════════════════════════════════════════════════════
+// RECEIPT SYSTEM
+// ════════════════════════════════════════════════════════════
+function showReceipt(data) {
+  // data: { order_id, username, items, total, method, install_detail, timestamp }
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const divider = '- - - - - - - - - - - - - - - - - - - - -';
+  const itemLines = data.items.map(i =>
+    `<div class="receipt-row"><span class="label">${i.name.substring(0,24)}</span><span class="val">${fmtPrice(i.price)}</span></div>`
+  ).join('');
+
+  let installDetail = '';
+  if (data.install_detail) {
+    installDetail = `
+      <hr class="receipt-divider">
+      <div class="receipt-row"><span class="label">${t('durLabel')}</span><span class="val">${data.install_detail.duration}</span></div>
+      <div class="receipt-row"><span class="label">${t('methodLabel')}</span><span class="val">${data.install_detail.method}</span></div>
+      <div class="receipt-row"><span class="label">${t('perPeriod')}</span><span class="val">${fmtPrice(data.install_detail.perPay)}</span></div>
+      <div class="receipt-row"><span class="label">x${data.install_detail.count}</span><span class="val">cicilan</span></div>
+    `;
+  }
+
+  document.getElementById('receipt-content').innerHTML = `
+    <button onclick="closeReceipt()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.2);border:none;border-radius:50%;width:28px;height:28px;color:inherit;cursor:pointer;font-size:16px;">✕</button>
+    <div class="receipt-wrap" id="receipt-inner">
+      <div class="receipt-header">
+        <div class="receipt-logo">⚡ NEONMART</div>
+        <div style="font-size:11px;color:var(--text3);">${t('receiptStore')}</div>
+      </div>
+      <hr class="receipt-divider">
+      <div class="receipt-row"><span class="label">Order ID</span><span class="val" style="font-size:11px;">#${data.order_id}</span></div>
+      <div class="receipt-row"><span class="label">Date</span><span class="val" style="font-size:11px;">${data.timestamp}</span></div>
+      <div class="receipt-row"><span class="label">Customer</span><span class="val">@${data.username}</span></div>
+      <hr class="receipt-divider">
+      ${itemLines}
+      <hr class="receipt-divider">
+      <div class="receipt-row"><span class="label">Method</span><span class="val">${data.method}</span></div>
+      ${installDetail}
+      <hr class="receipt-divider">
+      <div class="receipt-row receipt-total"><span>${t('total')}</span><span>${fmtPrice(data.total)}</span></div>
+      <hr class="receipt-divider">
+      <div style="text-align:center;font-size:11px;color:var(--text3);margin-top:8px;">${t('receiptThanks')}</div>
+      <div style="text-align:center;font-size:10px;color:var(--text3);margin-top:4px;">© ExtensionIBT · NeonMart</div>
+    </div>
+  `;
+  document.getElementById('receiptModal').classList.add('show');
+}
+
+function closeReceipt() {
+  document.getElementById('receiptModal').classList.remove('show');
+}
+
+function copyReceipt() {
+  const el = document.getElementById('receipt-inner');
+  if (!el) return;
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => toast('📋 Struk berhasil dicopy!', 'success')).catch(() => toast('❌ Gagal copy', 'error'));
+}
+
+// ════════════════════════════════════════════════════════════
+// TUTORIAL SYSTEM
+// ════════════════════════════════════════════════════════════
+let tutStep = 0;
+const TUT_STEPS = 4;
+
+function showTutorial() {
+  tutStep = 0;
+  applyTutorialLang();
+  goTutStep(0);
+  document.getElementById('tutorialModal').classList.add('show');
+}
+
+function closeTutorial() {
+  document.getElementById('tutorialModal').classList.remove('show');
+  localStorage.setItem('nm_tutorial_done', '1');
+}
+
+function applyTutorialLang() {
+  const el = (id) => document.getElementById(id);
+  if (el('tut-title')) el('tut-title').textContent = t('tutTitle');
+  if (el('tut-sub'))   el('tut-sub').textContent   = t('tutSub');
+  if (el('tut-skip'))  el('tut-skip').textContent  = t('skip');
+  const steps = ['tut0','tut1','tut2','tut3'];
+  steps.forEach((s,i) => {
+    if (el(`${s}-title`)) el(`${s}-title`).textContent = t(`tut${i}t`);
+    if (el(`${s}-body`))  el(`${s}-body`).textContent  = t(`tut${i}b`);
+  });
+  if (el('tut-next')) el('tut-next').textContent = tutStep >= TUT_STEPS-1 ? t('finish') : t('next');
+}
+
+function goTutStep(step) {
+  document.querySelectorAll('.tut-step').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.tut-dot').forEach(el => el.classList.remove('active'));
+  const stepEl = document.querySelector(`.tut-step[data-step="${step}"]`);
+  const dotEl  = document.querySelector(`.tut-dot[data-i="${step}"]`);
+  if (stepEl) stepEl.style.display = 'block';
+  if (dotEl)  dotEl.classList.add('active');
+  tutStep = step;
+  const nextBtn = document.getElementById('tut-next');
+  if (nextBtn) nextBtn.textContent = step >= TUT_STEPS-1 ? t('finish') : t('next');
+}
+
+function nextTutStep() {
+  if (tutStep >= TUT_STEPS-1) { closeTutorial(); return; }
+  goTutStep(tutStep + 1);
+}
+
+function checkFirstVisit() {
+  if (!localStorage.getItem('nm_tutorial_done')) {
+    setTimeout(showTutorial, 1500);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// RECENT SEARCH SYSTEM
+// ════════════════════════════════════════════════════════════
+const POPULAR_SEARCHES = ['Netflix', 'Spotify', 'Gaming', 'ChatGPT', 'Steam', 'Adobe'];
+
+function getRecentSearches() {
+  return JSON.parse(localStorage.getItem('nm_recent_search') || '[]');
+}
+
+function addRecentSearch(q) {
+  if (!q || q.length < 2) return;
+  let recents = getRecentSearches().filter(r => r !== q);
+  recents.unshift(q);
+  recents = recents.slice(0, 6);
+  localStorage.setItem('nm_recent_search', JSON.stringify(recents));
+}
+
+function clearRecentSearches() {
+  localStorage.removeItem('nm_recent_search');
+  showSearchDropdown();
+}
+
+function showSearchDropdown() {
+  const box = document.getElementById('autocompleteBox');
+  const inp = document.getElementById('searchInput');
+  if (!box || inp?.value.trim()) return;
+  const recents  = getRecentSearches();
+  const recentEl = document.getElementById('recent-list');
+  const popEl    = document.getElementById('popular-list');
+  if (!recentEl || !popEl) return;
+
+  recentEl.innerHTML = recents.length
+    ? recents.map(r => `<div class="recent-item" onclick="doSearch('${r}')">🕐 ${r}</div>`).join('') +
+      `<div class="recent-clear" onclick="clearRecentSearches()">Clear history</div>`
+    : `<div style="padding:6px 16px;font-size:12px;color:var(--text3);">No recent searches</div>`;
+
+  popEl.innerHTML = POPULAR_SEARCHES.map(p =>
+    `<div class="recent-item" onclick="doSearch('${p}')">🔥 ${p}</div>`
+  ).join('');
+
+  box.style.display = 'block';
+}
+
+function doSearch(q) {
+  const inp = document.getElementById('searchInput');
+  if (inp) { inp.value = q; inp.dispatchEvent(new Event('input')); }
+  addRecentSearch(q);
+  document.getElementById('autocompleteBox').style.display = 'none';
+}
+
+// ════════════════════════════════════════════════════════════
+// ADMIN PRODUCT EDIT (inline)
+// ════════════════════════════════════════════════════════════
+async function adminEditProduct(id) {
+  const allProds = await gistReadProducts();
+  const p = allProds.find(x => x.id === id);
+  if (!p) return;
+  const newName  = prompt('Nama produk:', p.name);
+  if (newName === null) return;
+  const newPrice = parseFloat(prompt('Harga:', p.price));
+  const newStock = parseInt(prompt('Stok:', p.stock));
+  if (isNaN(newPrice) || isNaN(newStock)) { toast('❌ Input tidak valid!', 'error'); return; }
+  p.name  = newName || p.name;
+  p.price = newPrice;
+  p.stock = Math.max(0, newStock);
+  const updated = allProds.map(x => x.id === id ? p : x);
+  toast('⏳ Menyimpan perubahan...', 'info');
+  try {
+    await gistWriteProducts(updated);
+    localStorage.setItem('nm_products_cache', JSON.stringify(updated));
+    await loadProducts();
+    await renderAdminTable();
+    toast('✅ Produk berhasil diupdate!', 'success');
+  } catch(e) { toast('❌ Gagal update: ' + e.message, 'error'); }
+}
+
 // Close modals on overlay click
 document.getElementById('productModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
 document.getElementById('installModal').addEventListener('click', function(e) { if(e.target===this) closeInstallModal(); });
 document.getElementById('checkoutModal').addEventListener('click', function(e) { if(e.target===this) closeCheckoutModal(); });
+document.getElementById('receiptModal').addEventListener('click', function(e) { if(e.target===this) closeReceipt(); });
+document.getElementById('tutorialModal').addEventListener('click', function(e) { if(e.target===this) closeTutorial(); });
 </script>
 
 <!-- ═══════ COPYRIGHT FOOTER ═══════ -->
@@ -2384,6 +3690,65 @@ document.getElementById('checkoutModal').addEventListener('click', function(e) {
 </div>
 
 
+
+<!-- ═══════ RECEIPT MODAL ═══════ -->
+<div class="modal-overlay" id="receiptModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-body" style="padding:0;">
+      <div id="receipt-content" style="padding:28px;font-family:'Courier New',monospace;font-size:13px;line-height:1.8;position:relative;">
+        <button onclick="closeReceipt()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.2);border:none;border-radius:50%;width:28px;height:28px;color:inherit;cursor:pointer;font-size:16px;">✕</button>
+        <!-- Content injected by JS -->
+      </div>
+      <div style="padding:0 28px 20px;display:flex;gap:10px;">
+        <button class="btn btn-primary" onclick="copyReceipt()" style="flex:1;">📋 Copy Struk</button>
+        <button class="btn btn-ghost" onclick="closeReceipt()" style="flex:1;">✕ Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TUTORIAL MODAL ═══════ -->
+<div class="modal-overlay" id="tutorialModal">
+  <div class="modal" style="max-width:500px;">
+    <div class="modal-body">
+      <h2 style="font-family:var(--font-display);color:var(--neon);margin-bottom:6px;font-size:18px;" id="tut-title">👋 Welcome to NeonMart!</h2>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;" id="tut-sub">Quick guide to get started</p>
+      <div id="tut-steps">
+        <div class="tut-step active" data-step="0">
+          <div style="font-size:48px;text-align:center;margin-bottom:12px;">🔍</div>
+          <h3 style="text-align:center;margin-bottom:8px;" id="tut-s0-title">Smart Search</h3>
+          <p style="font-size:13px;color:var(--text2);text-align:center;line-height:1.7;" id="tut-s0-body">Type anything in the search bar. Even with typos, we'll find what you're looking for!</p>
+        </div>
+        <div class="tut-step" data-step="1" style="display:none;">
+          <div style="font-size:48px;text-align:center;margin-bottom:12px;">🛒</div>
+          <h3 style="text-align:center;margin-bottom:8px;" id="tut-s1-title">Buy Products</h3>
+          <p style="font-size:13px;color:var(--text2);text-align:center;line-height:1.7;" id="tut-s1-body">Click any product, choose Buy Now or Add to Cart. Then checkout when ready!</p>
+        </div>
+        <div class="tut-step" data-step="2" style="display:none;">
+          <div style="font-size:48px;text-align:center;margin-bottom:12px;">💳</div>
+          <h3 style="text-align:center;margin-bottom:8px;" id="tut-s2-title">Installments</h3>
+          <p style="font-size:13px;color:var(--text2);text-align:center;line-height:1.7;" id="tut-s2-body">Can't pay all at once? Choose Installments! Pay weekly or monthly with flexible duration.</p>
+        </div>
+        <div class="tut-step" data-step="3" style="display:none;">
+          <div style="font-size:48px;text-align:center;margin-bottom:12px;">❤️</div>
+          <h3 style="text-align:center;margin-bottom:8px;" id="tut-s3-title">Wishlist</h3>
+          <p style="font-size:13px;color:var(--text2);text-align:center;line-height:1.7;" id="tut-s3-body">Save products you love with the heart button. Find them anytime in your Wishlist!</p>
+        </div>
+      </div>
+      <!-- Dots -->
+      <div style="display:flex;justify-content:center;gap:8px;margin:20px 0;" id="tut-dots">
+        <div class="tut-dot active" data-i="0" onclick="goTutStep(0)"></div>
+        <div class="tut-dot" data-i="1" onclick="goTutStep(1)"></div>
+        <div class="tut-dot" data-i="2" onclick="goTutStep(2)"></div>
+        <div class="tut-dot" data-i="3" onclick="goTutStep(3)"></div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost" onclick="closeTutorial()" style="flex:1;" id="tut-skip">Skip</button>
+        <button class="btn btn-primary" onclick="nextTutStep()" style="flex:1;" id="tut-next">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ═══════ SHUTDOWN SCREEN ═══════ -->
 <div id="shutdown-screen" style="display:none;position:fixed;inset:0;z-index:99998;background:#0a0005;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;">
   <div style="font-size:80px;animation:flash 1s infinite;margin-bottom:24px;">🔴</div>
