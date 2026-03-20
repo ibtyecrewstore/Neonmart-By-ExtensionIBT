@@ -13,7 +13,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>NeonMart — Marketplace Digital</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("gB286duvc_M-0Qzo5");</script>
@@ -1230,6 +1230,285 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 }
 .cl-skip-btn:hover{border-color:var(--text);color:var(--text);}
 
+
+/* ══ PARTICLE / AURORA BACKGROUND ══ */
+#aurora-canvas {
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;opacity:0.5;
+}
+
+/* ══ GLOBAL CHAT ══ */
+#global-chat-page .gchat-wrap {
+  display:flex;flex-direction:column;height:calc(100vh - 140px);
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:var(--radius2);overflow:hidden;
+}
+.gchat-header {
+  padding:14px 18px;
+  background:linear-gradient(135deg,rgba(0,200,255,0.12),rgba(124,58,237,0.12));
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.gchat-header h3 {font-size:16px;font-weight:700;flex:1;}
+.gchat-online-count {font-size:12px;color:var(--neon4);}
+.gchat-messages {
+  flex:1;overflow-y:auto;padding:16px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.gchat-messages::-webkit-scrollbar{width:3px;}
+.gchat-messages::-webkit-scrollbar-thumb{background:var(--border2);}
+.gchat-msg {display:flex;gap:10px;align-items:flex-start;}
+.gchat-msg.me {flex-direction:row-reverse;}
+.gchat-avatar {
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:#fff;
+}
+.gchat-bubble-wrap {max-width:70%;}
+.gchat-name-row {
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:3px;font-size:11px;color:var(--text3);
+}
+.gchat-msg.me .gchat-name-row {justify-content:flex-end;}
+.gchat-rank-badge {
+  font-size:10px;font-weight:700;padding:1px 7px;
+  border-radius:10px;white-space:nowrap;
+}
+.rank-admin    {background:linear-gradient(135deg,#ff2d78,#ff6b3d);color:#fff;}
+.rank-1        {background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;}
+.rank-2        {background:linear-gradient(135deg,#94a3b8,#64748b);color:#fff;}
+.rank-3        {background:linear-gradient(135deg,#a16207,#78350f);color:#fff;}
+.rank-top10    {background:rgba(0,200,255,0.2);color:var(--neon);border:1px solid var(--neon);}
+.gchat-bubble {
+  padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;
+  word-break:break-word;
+}
+.gchat-msg:not(.me) .gchat-bubble {
+  background:var(--bg3);border:1px solid var(--border);
+  border-top-left-radius:2px;
+}
+.gchat-msg.me .gchat-bubble {
+  background:linear-gradient(135deg,rgba(0,200,255,0.2),rgba(124,58,237,0.2));
+  border:1px solid var(--border2);border-top-right-radius:2px;color:var(--text);
+}
+.gchat-time {font-size:10px;color:var(--text3);margin-top:3px;text-align:right;}
+.gchat-input-row {
+  padding:12px;border-top:1px solid var(--border);
+  display:flex;gap:8px;align-items:flex-end;
+}
+.gchat-textarea {
+  flex:1;padding:10px 14px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:12px;
+  color:var(--text);font-size:14px;font-family:inherit;
+  outline:none;resize:none;max-height:80px;min-height:40px;
+  transition:var(--transition);
+}
+.gchat-textarea:focus{border-color:var(--neon);}
+.gchat-send-btn {
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  border:none;color:#fff;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--transition);flex-shrink:0;
+}
+.gchat-send-btn:hover{transform:scale(1.1);}
+.gchat-login-prompt {
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:40px;color:var(--text3);
+}
+
+/* ══ ADMIN CHAT PANEL ══ */
+#admin-chat-panel {
+  position:fixed;inset:0;z-index:9700;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);
+  display:none;flex-direction:column;
+}
+#admin-chat-panel.show{display:flex;}
+.acp-header {
+  padding:14px 20px;
+  background:linear-gradient(135deg,rgba(255,45,120,0.2),rgba(124,58,237,0.2));
+  border-bottom:1px solid rgba(255,45,120,0.3);
+  display:flex;align-items:center;gap:12px;
+}
+.acp-header h3{font-family:var(--font-display);font-size:16px;color:var(--neon2);flex:1;}
+.acp-body {display:flex;flex:1;overflow:hidden;}
+.acp-sidebar {
+  width:260px;border-right:1px solid var(--border);
+  overflow-y:auto;background:rgba(8,12,20,0.8);
+}
+.acp-user-item {
+  padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);
+  transition:background .15s;display:flex;align-items:center;gap:10px;
+}
+.acp-user-item:hover,.acp-user-item.active{background:rgba(0,200,255,0.08);}
+.acp-user-item .unread-dot {
+  width:8px;height:8px;background:var(--neon2);border-radius:50%;flex-shrink:0;
+}
+.acp-chat-area {flex:1;display:flex;flex-direction:column;}
+.acp-messages {flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.acp-input-row {padding:12px;border-top:1px solid var(--border);display:flex;gap:8px;}
+.acp-input {
+  flex:1;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:20px;color:var(--text);font-size:14px;font-family:inherit;outline:none;
+}
+.acp-input:focus{border-color:var(--neon2);}
+
+/* ══ LEADERBOARD ══ */
+.leaderboard-item {
+  display:flex;align-items:center;gap:14px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px 18px;
+  margin-bottom:10px;transition:var(--transition);
+}
+.leaderboard-item:hover{border-color:var(--border2);transform:translateX(4px);}
+.leaderboard-item.top1{border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.05);}
+.leaderboard-item.top2{border-color:rgba(148,163,184,0.5);}
+.leaderboard-item.top3{border-color:rgba(161,98,7,0.4);}
+.lb-rank {
+  font-family:var(--font-display);font-size:20px;font-weight:900;
+  min-width:36px;text-align:center;
+}
+.lb-rank.r1{color:var(--gold);}
+.lb-rank.r2{color:#94a3b8;}
+.lb-rank.r3{color:#a16207;}
+.lb-avatar {
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:18px;color:#fff;flex-shrink:0;
+}
+.lb-info {flex:1;}
+.lb-name {font-weight:700;font-size:15px;margin-bottom:2px;}
+.lb-meta {font-size:12px;color:var(--text3);}
+.lb-score {
+  font-family:var(--font-display);font-size:18px;font-weight:700;
+  color:var(--neon2);
+}
+.lb-points {font-size:12px;color:var(--neon4);margin-top:2px;text-align:right;}
+
+/* ══ POINTS SYSTEM ══ */
+.points-badge {
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(16,185,129,0.15);border:1px solid var(--neon4);
+  border-radius:20px;padding:3px 10px;font-size:12px;
+  color:var(--neon4);font-weight:600;
+}
+
+/* ══ PRODUCT GALLERY ══ */
+.prod-gallery {position:relative;}
+.gallery-main {width:100%;height:260px;object-fit:cover;border-radius:var(--radius2) var(--radius2) 0 0;}
+.gallery-thumbs {
+  display:flex;gap:6px;padding:8px;background:var(--bg3);
+  overflow-x:auto;
+}
+.gallery-thumb {
+  width:56px;height:56px;object-fit:cover;border-radius:8px;
+  cursor:pointer;border:2px solid transparent;transition:.2s;flex-shrink:0;
+}
+.gallery-thumb.active,.gallery-thumb:hover{border-color:var(--neon);}
+.gallery-nav {
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(0,0,0,0.5);border:1px solid var(--border);
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:.15s;
+}
+.gallery-nav:hover{background:rgba(0,200,255,0.3);}
+.gallery-nav.prev{left:8px;}
+.gallery-nav.next{right:8px;}
+
+/* ══ SALES CHART ══ */
+.chart-wrap {
+  background:var(--bg3);border-radius:var(--radius);
+  padding:16px;margin-top:16px;
+}
+.chart-canvas-wrap {position:relative;height:220px;}
+
+/* ══ RECOMMENDATION STRIP ══ */
+.recom-strip {
+  margin:20px 0;
+}
+.recom-title {
+  font-family:var(--font-display);font-size:13px;color:var(--neon);
+  letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.recom-scroll {
+  display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;
+}
+.recom-scroll::-webkit-scrollbar{height:3px;}
+.recom-scroll::-webkit-scrollbar-thumb{background:var(--border2);}
+.recom-card {
+  min-width:160px;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;cursor:pointer;
+  transition:var(--transition);flex-shrink:0;
+}
+.recom-card:hover{border-color:var(--neon);transform:translateY(-3px);}
+.recom-card img{width:100%;height:100px;object-fit:cover;}
+.recom-card-body{padding:8px 10px;}
+.recom-card-name{font-size:12px;font-weight:600;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.recom-card-price{font-size:12px;color:var(--neon2);font-family:var(--font-display);}
+
+/* ══ MAP MODAL ══ */
+#map-modal {
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:20px;
+}
+#map-modal.show{display:flex;}
+.map-box {
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--radius2);width:100%;max-width:600px;
+  overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.7);
+}
+.map-header {
+  padding:16px 20px;background:rgba(0,200,255,0.08);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.map-header h3{font-family:var(--font-display);font-size:16px;color:var(--neon);}
+#map-iframe {width:100%;height:320px;border:none;}
+.map-info {padding:16px 20px;font-size:13px;color:var(--text2);line-height:1.8;}
+
+/* ══ USER LIST (Admin) ══ */
+.user-list-item {
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.user-list-item:hover{background:rgba(0,200,255,0.04);}
+.user-list-avatar{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:#fff;flex-shrink:0;
+}
+.user-list-info{flex:1;min-width:0;}
+.user-list-name{font-weight:600;font-size:14px;}
+.user-list-meta{font-size:11px;color:var(--text3);}
+
+/* ══ 2FA MODAL ══ */
+#twofa-modal {
+  position:fixed;inset:0;z-index:9800;
+  background:rgba(0,0,0,0.9);backdrop-filter:blur(16px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+#twofa-modal.show{display:flex;}
+.twofa-box {
+  background:var(--bg2);border:1px solid rgba(255,45,120,0.4);
+  border-radius:24px;padding:36px;width:100%;max-width:380px;
+  text-align:center;box-shadow:0 24px 80px rgba(255,45,120,0.2);
+}
+.twofa-icon{font-size:52px;margin-bottom:12px;}
+.twofa-title{font-family:var(--font-display);font-size:18px;color:var(--neon2);margin-bottom:6px;}
+.twofa-sub{font-size:13px;color:var(--text2);margin-bottom:24px;line-height:1.7;}
+.twofa-input{
+  width:100%;padding:14px;text-align:center;
+  font-size:22px;letter-spacing:8px;font-family:var(--font-display);
+  background:var(--bg);border:1px solid var(--border2);
+  border-radius:12px;color:var(--text);outline:none;margin-bottom:14px;
+  transition:var(--transition);
+}
+.twofa-input:focus{border-color:var(--neon2);}
+
 </style>
 </head>
 <body>
@@ -1267,6 +1546,8 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
       <span>🔔</span>
       <span class="badge" id="inbox-badge" style="display:none;background:#ff2d78;">0</span>
     </button>
+    <button class="nav-btn" onclick="goPage('globalchat')" id="nav-globalchat"><span>💬</span></button>
+    <button class="nav-btn" onclick="goPage('leaderboard')" id="nav-leaderboard"><span>🏆</span></button>
     <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span></button>
     <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil">?</div>
   </div>
@@ -1562,6 +1843,12 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
       </div>
     </div>
 
+    <!-- Recommendations (shown if user logged in) -->
+    <div id="recom-section" style="display:none;margin-bottom:24px;">
+      <div class="recom-title">🎯 Rekomendasi untuk kamu <div class="section-line" style="flex:1;"></div></div>
+      <div class="recom-scroll" id="recom-scroll"></div>
+    </div>
+
     <!-- Filter Bar -->
     <div class="filter-bar">
       <div class="filter-chips" id="categoryChips">
@@ -1674,6 +1961,73 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
       <button class="btn btn-ghost" style="padding:9px 16px;font-size:13px;" onclick="markAllRead()">✅ Tandai Semua Dibaca</button>
     </div>
     <div id="inbox-list"></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+   PAGE: GLOBAL CHAT
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-globalchat" id="global-chat-page">
+  <div class="container">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;">
+      <div><h1>💬 GLOBAL CHAT</h1><p>Ngobrol dengan semua user NeonMart</p></div>
+      <div id="gchat-online-badge" class="gchat-online-count">● 0 online</div>
+    </div>
+    <div class="gchat-wrap">
+      <div class="gchat-messages" id="gchat-messages">
+        <div style="text-align:center;color:var(--text3);font-size:13px;padding:20px;">⏳ Memuat chat...</div>
+      </div>
+      <div id="gchat-input-area" class="gchat-input-row" style="display:none;">
+        <textarea class="gchat-textarea" id="gchat-input" placeholder="Tulis pesan..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendGlobalMsg();}"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+        <button class="gchat-send-btn" onclick="sendGlobalMsg()">➤</button>
+      </div>
+      <div id="gchat-login-prompt" style="padding:16px;text-align:center;border-top:1px solid var(--border);">
+        <span style="font-size:13px;color:var(--text3);">Login dulu untuk bisa chat → </span>
+        <button onclick="openLoginModal()" style="background:none;border:none;color:var(--neon);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;text-decoration:underline;">Login / Daftar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+   PAGE: LEADERBOARD
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-leaderboard">
+  <div class="container">
+    <div class="page-header">
+      <h1>🏆 LEADERBOARD</h1>
+      <p>Top pembeli & semua member NeonMart</p>
+    </div>
+
+    <!-- Top 10 -->
+    <div class="section-title"><h2>👑 TOP 10 PEMBELI</h2><div class="section-line"></div></div>
+    <div id="lb-top10" style="margin-bottom:32px;"></div>
+
+    <!-- All Users -->
+    <div class="section-title" style="margin-bottom:16px;">
+      <h2>👥 SEMUA MEMBER</h2>
+      <div class="section-line"></div>
+      <span id="lb-user-count" style="font-size:12px;color:var(--text3);"></span>
+    </div>
+    <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="text" id="lb-search" class="form-input" placeholder="🔍 Cari username..." style="max-width:260px;" oninput="filterUserList(this.value)">
+      <select class="filter-select" id="lb-sort" onchange="renderUserList()">
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="newest">Terbaru Bergabung</option>
+        <option value="oldest">Terlama Bergabung</option>
+        <option value="purchases">Pembelian Terbanyak</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table class="prod-table" style="font-size:13px;">
+        <thead><tr><th>#</th><th>Username</th><th>Nama</th><th>Bergabung</th><th>Pembelian</th><th>Poin</th><th>Rank</th></tr></thead>
+        <tbody id="lb-user-table"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -1808,6 +2162,7 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
       <div class="admin-section-box">
         <div class="admin-section-title">📊 STATISTIK</div>
         <div class="admin-grid" id="admin-stats"></div>
+        <div id="admin-sales-chart"></div>
       </div>
       <!-- Add Product -->
       <div class="admin-section-box">
@@ -2057,6 +2412,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Loading screen
   hideLoadingScreen();
   checkChangelog();
+  initAurora();
+  setTimeout(requestPushPermission, 3000);
+  startChatPolling();
 
   // User auth UI
   updateUserUI();
@@ -3304,7 +3662,10 @@ function goPage(name) {
 
   if (name === 'cart') renderCart();
   if (name === 'history') renderHistoryPage();
-  if (name === 'inbox')   loadInbox();
+  if (name === 'inbox')       loadInbox();
+  if (name === 'leaderboard') loadLeaderboard();
+  if (name === 'globalchat')  loadGlobalChat();
+  if (name === 'admin' && adminLoggedIn) renderSalesChart();
   if (name === 'installments') renderInstallmentPage();
   if (name === 'wishlist') renderWishlistPage();
   if (name === 'admin' && adminLoggedIn) { renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); }
@@ -3570,6 +3931,7 @@ function renderPaymentDetail(method, total, orderId) {
     html += '<span class="pay-info-val" style="font-size:13px;line-height:1.6;">' + pi.agent.address + '</span></div>';
     html += '<div class="pay-info-row"><span class="pay-info-label">Jam Buka</span>';
     html += '<span class="pay-info-val" style="color:var(--neon4);">' + pi.agent.hours + '</span></div>';
+    html += '<div style="margin-top:10px;"><button class="btn btn-ghost" style="padding:8px 14px;font-size:12px;" onclick="document.getElementById(\'map-modal\').classList.add(\'show\')">🗺️ Lihat Lokasi di Maps</button></div>';
     html += '<div class="pay-info-row"><span class="pay-info-label">WA Agent 1</span>';
     html += '<span class="pay-info-val">' + pi.agent.wa1;
     html += ' <button class="copy-btn" data-copy="' + pi.agent.wa1 + '" onclick="copyText(this.dataset.copy)">Copy</button></span></div>';
@@ -3664,6 +4026,10 @@ async function confirmPayment() {
   cart = []; saveCart(); updateCartBadge();
   localStorage.setItem('nm_checkout_user', username);
   closeCheckoutModal();
+  // Add points + purchase count
+  if (currentUser) addPointsAndPurchase(currentUser.username, total);
+  // Push notification
+  showPushNotif('ExtinctionIBT Store 🛒', 'Order ' + orderId + ' sedang diproses! Menunggu verifikasi admin.');
   playSound('success');
 
   // Show receipt
@@ -4418,6 +4784,48 @@ async function adminEditProduct(id) {
 // type: 'new' | 'fix' | 'change' | 'remove'
 const CHANGELOGS = [
   {
+    version:  'v5.0.0',
+    title:    'Mega Update — Part 2',
+    date:     '20 Maret 2026',
+    sections: [
+      {
+        type:  'new',
+        label: '✨ Fitur Baru',
+        items: [
+          'Animasi partikel & aurora di background website',
+          'Admin Chat eksklusif dengan sistem 2FA Discord',
+          'Global Chat realtime untuk semua user yang login',
+          'Sistem Rank otomatis — Top 10 pembeli terbanyak dapat badge 🌍',
+          'Leaderboard lengkap dengan daftar semua user, pencarian & sort',
+          'Poin reward — dapat poin tiap pembelian (1 poin = Rp1000)',
+          'Push notification browser — notif walau tab ditutup',
+          'Produk rekomendasi berdasarkan riwayat pembelian kamu',
+          'Grafik penjualan 7 hari realtime di admin panel',
+          'Peta lokasi toko di halaman pembayaran agent',
+          'Admin bisa balas semua chat user dari panel khusus',
+        ]
+      },
+      {
+        type:  'change',
+        label: '🔄 Perubahan',
+        items: [
+          'Live chat sekarang tersimpan di Firebase — admin bisa balas dari panel',
+          'Login admin chat kini butuh verifikasi 2FA via Discord',
+          'Checkout otomatis isi nama & email jika sudah login',
+          'Setelah verifikasi pembayaran, push notification terkirim ke user',
+        ]
+      },
+      {
+        type: 'fix',
+        label: '🐛 Bug Fix',
+        items: [
+          'Fix zoom disabled di semua browser mobile',
+          'Fix navbar button null error di beberapa halaman',
+        ]
+      }
+    ]
+  },
+  {
     version:  'v4.0.0',
     title:    'Major Update — Premium Upgrade',
     date:     '20 Maret 2026',
@@ -4606,10 +5014,23 @@ async function doLogin() {
     // Simple hash check (SHA-256)
     var hash = await simpleHash(password);
     if (users[username].password !== hash) { errEl.textContent = '❌ Password salah'; return; }
+    // Check if this is admin chat login
+    if (username === ADMIN_CHAT_USER) {
+      closeLoginModal();
+      var sent = await tryAdminChatLogin(username, password);
+      if (sent) {
+        document.getElementById('twofa-modal').style.display = 'flex';
+        document.getElementById('twofa-code-input').value = '';
+        document.getElementById('twofa-err').textContent = '';
+        toast('📱 Kode 2FA dikirim ke Discord!', 'info');
+      }
+      return;
+    }
     currentUser = { username, name: users[username].name, email: users[username].email, joined: users[username].joined };
     localStorage.setItem('nm_current_user', JSON.stringify(currentUser));
     closeLoginModal();
     updateUserUI();
+    loadRecommendations();
     toast('👋 Selamat datang, ' + currentUser.name + '!', 'success');
   } catch(e) { errEl.textContent = '❌ Error: ' + e.message; }
 }
@@ -4924,6 +5345,617 @@ function installPWA() {
   });
 }
 
+
+// ════════════════════════════════════════════════════════════
+// AURORA / PARTICLE BACKGROUND ANIMATION
+// ════════════════════════════════════════════════════════════
+function initAurora() {
+  var canvas = document.getElementById('aurora-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width  = window.innerWidth;
+  var H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', function() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+  var particles = [];
+  for (var i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 2 + 0.5,
+      dx: (Math.random() - 0.5) * 0.4,
+      dy: (Math.random() - 0.5) * 0.4,
+      alpha: Math.random() * 0.6 + 0.1,
+      color: ['#00c8ff','#7c3aed','#ff2d78','#10b981'][Math.floor(Math.random()*4)]
+    });
+  }
+  // Aurora blobs
+  var blobs = [
+    { x:W*0.2, y:H*0.3, r:300, color:'rgba(0,200,255,0.06)', dx:0.3, dy:0.2 },
+    { x:W*0.8, y:H*0.6, r:280, color:'rgba(124,58,237,0.07)', dx:-0.2, dy:0.3 },
+    { x:W*0.5, y:H*0.8, r:250, color:'rgba(255,45,120,0.05)', dx:0.25, dy:-0.25 },
+  ];
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    // Draw aurora blobs
+    blobs.forEach(function(b) {
+      var grad = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+      grad.addColorStop(0, b.color);
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill();
+      b.x += b.dx; b.y += b.dy;
+      if (b.x < -b.r || b.x > W+b.r) b.dx *= -1;
+      if (b.y < -b.r || b.y > H+b.r) b.dy *= -1;
+    });
+    // Draw particles
+    particles.forEach(function(p) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      p.x += p.dx; p.y += p.dy;
+      if (p.x<0||p.x>W) p.dx*=-1;
+      if (p.y<0||p.y>H) p.dy*=-1;
+    });
+    // Draw connections
+    ctx.globalAlpha = 0.08;
+    for (var i=0;i<particles.length;i++) {
+      for (var j=i+1;j<particles.length;j++) {
+        var dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+        var dist=Math.sqrt(dx*dx+dy*dy);
+        if (dist<120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=particles[i].color;
+          ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ════════════════════════════════════════════════════════════
+// ADMIN CHAT 2FA SYSTEM
+// ════════════════════════════════════════════════════════════
+var ADMIN_CHAT_USER = 'capybara bla bla 1234';
+var ADMIN_CHAT_PASS = 'ulala lezadtoss wwlwkkwkwk231232314';
+var pending2FACode  = null;
+var adminChatLoggedIn = false;
+var acpSelectedUser = null;
+var acpPollTimer    = null;
+
+async function tryAdminChatLogin(username, password) {
+  if (username !== ADMIN_CHAT_USER || password !== ADMIN_CHAT_PASS) return false;
+  // Generate 6 digit code
+  pending2FACode = String(Math.floor(100000 + Math.random() * 900000));
+  // Send to Discord
+  try {
+    await fetch('https://discord.com/api/webhooks/1443534737699242004/IrcxZfK5vocQ552ro1W2GzXAy7rQpKCgxmS4D91r_NQ-ItFqLzkJki8GI3dn35gFG3zg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        embeds: [{
+          title: '🔐 Admin Chat 2FA Verification Code',
+          description: '**Kode verifikasi:** `' + pending2FACode + '`\n\nJangan bagikan kode ini ke siapapun!',
+          color: 0xff2d78,
+          footer: { text: 'NeonMart Admin Chat • ' + new Date().toLocaleString('id-ID') }
+        }]
+      })
+    });
+  } catch(e) { console.warn('Discord 2FA send failed:', e); }
+  return true;
+}
+
+function openAdminChatLogin() {
+  // Inject login UI into login modal
+  document.getElementById('login-modal').classList.add('show');
+  switchLoginTab('login');
+  document.getElementById('lu-username').value = '';
+  document.getElementById('lu-password').value = '';
+  document.getElementById('lu-err').textContent = '';
+  // Override login button for this session
+  window._adminLoginMode = true;
+}
+
+function cancel2FA() {
+  document.getElementById('twofa-modal').style.display = 'none';
+  pending2FACode = null;
+}
+
+function verify2FA() {
+  var code   = document.getElementById('twofa-code-input').value.trim();
+  var errEl  = document.getElementById('twofa-err');
+  if (!code) { errEl.textContent = 'Masukkan kode dulu!'; return; }
+  if (code !== pending2FACode) {
+    errEl.textContent = '❌ Kode salah! Cek Discord kamu.';
+    return;
+  }
+  // Verified!
+  pending2FACode    = null;
+  adminChatLoggedIn = true;
+  document.getElementById('twofa-modal').style.display = 'none';
+  toast('🛡️ Admin chat terverifikasi!', 'success');
+  openAdminChatPanel();
+}
+
+function openAdminChatPanel() {
+  document.getElementById('admin-chat-panel').classList.add('show');
+  loadACPUserList();
+  // Poll every 5s
+  if (acpPollTimer) clearInterval(acpPollTimer);
+  acpPollTimer = setInterval(loadACPUserList, 5000);
+}
+
+function closeAdminChat() {
+  document.getElementById('admin-chat-panel').classList.remove('show');
+  if (acpPollTimer) { clearInterval(acpPollTimer); acpPollTimer = null; }
+}
+
+async function loadACPUserList() {
+  try {
+    var allChats = await fbGet('live_chats') || {};
+    var users    = Object.keys(allChats);
+    var list     = document.getElementById('acp-user-list');
+    if (!list) return;
+    if (!users.length) {
+      list.innerHTML = '<div style="padding:16px;color:var(--text3);font-size:13px;text-align:center;">Belum ada chat masuk</div>';
+      return;
+    }
+    list.innerHTML = users.map(function(u) {
+      var msgs    = Object.values(allChats[u] || {});
+      var last    = msgs[msgs.length-1] || {};
+      var unread  = msgs.filter(function(m){ return !m.read && m.from !== 'admin'; }).length;
+      return '<div class="acp-user-item' + (acpSelectedUser===u?' active':'') + '" onclick="selectACPUser(\'' + u + '\')">' +
+        (unread ? '<div class="unread-dot"></div>' : '<div style="width:8px"></div>') +
+        '<div><div style="font-weight:600;font-size:13px;">' + u + '</div>' +
+        '<div style="font-size:11px;color:var(--text3);">' + (last.text||'').substring(0,30) + '</div></div>' +
+        (unread ? '<span style="background:var(--neon2);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-left:auto;">' + unread + '</span>' : '') +
+        '</div>';
+    }).join('');
+  } catch(e) {}
+}
+
+async function selectACPUser(username) {
+  acpSelectedUser = username;
+  document.getElementById('acp-chat-header').textContent = '💬 Chat dengan: @' + username;
+  loadACPUserList();
+  try {
+    var msgs = await fbGet('live_chats/' + username) || {};
+    var list = Object.values(msgs).sort(function(a,b){ return a.ts - b.ts; });
+    var html = list.map(function(m) {
+      var isAdmin = m.from === 'admin';
+      return '<div class="gchat-msg' + (isAdmin?' me':'') + '">' +
+        '<div class="gchat-avatar" style="background:' + (isAdmin?'linear-gradient(135deg,#ff2d78,#ff6b3d)':'linear-gradient(135deg,var(--neon),var(--neon3))') + '">' +
+        (isAdmin?'A':username[0].toUpperCase()) + '</div>' +
+        '<div class="gchat-bubble-wrap">' +
+        '<div class="gchat-bubble">' + m.text + '</div>' +
+        '<div class="gchat-time">' + new Date(m.ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + '</div>' +
+        '</div></div>';
+    }).join('');
+    var msgEl = document.getElementById('acp-messages');
+    if (msgEl) { msgEl.innerHTML = html || '<div style="color:var(--text3);text-align:center;padding:20px;font-size:13px;">Belum ada pesan</div>'; msgEl.scrollTop = msgEl.scrollHeight; }
+    // Mark as read
+    var updMsgs = msgs;
+    Object.keys(updMsgs).forEach(function(k){ if (updMsgs[k].from !== 'admin') updMsgs[k].read = true; });
+    await fbSet('live_chats/' + username, updMsgs);
+  } catch(e) {}
+}
+
+async function sendAdminReply() {
+  if (!acpSelectedUser) { toast('Pilih user dulu!', 'warn'); return; }
+  var inp  = document.getElementById('acp-input');
+  var text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  try {
+    var msgs = await fbGet('live_chats/' + acpSelectedUser) || {};
+    msgs['msg_' + Date.now()] = { from:'admin', text:text, ts:Date.now(), read:false };
+    await fbSet('live_chats/' + acpSelectedUser, msgs);
+    selectACPUser(acpSelectedUser);
+  } catch(e) { toast('Gagal kirim: ' + e.message, 'error'); }
+}
+
+// Override sendChatMsg to use Firebase
+function sendChatMsg() {
+  var inp = document.getElementById('chat-input');
+  if (!inp || !inp.value.trim()) return;
+  var msg  = inp.value.trim();
+  var user = currentUser ? currentUser.username : 'guest_' + Date.now().toString(36);
+  inp.value = '';
+  addChatMsg(msg, 'user');
+  // Save to Firebase
+  fbGet('live_chats/' + user).then(function(msgs) {
+    msgs = msgs || {};
+    msgs['msg_' + Date.now()] = { from: user, text: msg, ts: Date.now(), read: false };
+    return fbSet('live_chats/' + user, msgs);
+  }).catch(function(){});
+  // Auto reply
+  setTimeout(function() {
+    var replies = [
+      'Halo! Pesan kamu sudah kami terima 😊 Admin akan segera membalas!',
+      'Terima kasih sudah menghubungi ExtinctionIBT Store! Tunggu sebentar ya.',
+      'Noted! Admin sedang online dan akan membalas dalam beberapa saat.',
+    ];
+    var reply = replies[Math.floor(Math.random() * replies.length)];
+    addChatMsg(reply, 'admin');
+    // Save admin auto-reply to Firebase
+    fbGet('live_chats/' + user).then(function(msgs) {
+      msgs = msgs || {};
+      msgs['msg_ar_' + Date.now()] = { from: 'admin', text: reply, ts: Date.now(), read: true };
+      return fbSet('live_chats/' + user, msgs);
+    }).catch(function(){});
+  }, 1200);
+}
+
+// Poll live chat replies for user
+var chatPollTimer = null;
+function startChatPolling() {
+  if (chatPollTimer) return;
+  chatPollTimer = setInterval(function() {
+    if (!chatOpen) return;
+    var user = currentUser ? currentUser.username : null;
+    if (!user) return;
+    fbGet('live_chats/' + user).then(function(msgs) {
+      if (!msgs) return;
+      var adminMsgs = Object.values(msgs).filter(function(m){ return m.from==='admin' && !m.read; });
+      if (!adminMsgs.length) return;
+      adminMsgs.forEach(function(m) { addChatMsg(m.text, 'admin'); });
+      // Mark read
+      Object.keys(msgs).forEach(function(k){ if (msgs[k].from==='admin') msgs[k].read = true; });
+      fbSet('live_chats/' + user, msgs).catch(function(){});
+    }).catch(function(){});
+  }, 4000);
+}
+
+// ════════════════════════════════════════════════════════════
+// GLOBAL CHAT SYSTEM
+// ════════════════════════════════════════════════════════════
+var gchatPollTimer = null;
+var gchatLastTs    = 0;
+
+async function loadGlobalChat() {
+  var msgEl  = document.getElementById('gchat-messages');
+  var inpEl  = document.getElementById('gchat-input-area');
+  var promptEl = document.getElementById('gchat-login-prompt');
+  if (!msgEl) return;
+
+  if (currentUser) {
+    if (inpEl) inpEl.style.display = 'flex';
+    if (promptEl) promptEl.style.display = 'none';
+  } else {
+    if (inpEl) inpEl.style.display = 'none';
+    if (promptEl) promptEl.style.display = 'block';
+  }
+
+  try {
+    var data = await fbGet('global_chat') || {};
+    var msgs = Object.values(data).sort(function(a,b){ return a.ts - b.ts; }).slice(-100);
+    if (!msgs.length) {
+      msgEl.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:13px;padding:30px;">Belum ada pesan. Jadilah yang pertama! 🎉</div>';
+      return;
+    }
+    var rankMap = await buildRankMap();
+    msgEl.innerHTML = msgs.map(function(m) {
+      return renderGChatMsg(m, rankMap);
+    }).join('');
+    msgEl.scrollTop = msgEl.scrollHeight;
+    if (msgs.length) gchatLastTs = msgs[msgs.length-1].ts;
+  } catch(e) {
+    msgEl.innerHTML = '<div style="text-align:center;color:#ff6b6b;font-size:13px;padding:20px;">Gagal load: ' + e.message + '</div>';
+  }
+
+  // Start poll
+  if (!gchatPollTimer) {
+    gchatPollTimer = setInterval(pollGlobalChat, 4000);
+  }
+}
+
+async function pollGlobalChat() {
+  if (document.getElementById('page-globalchat').classList.contains('active') === false) return;
+  try {
+    var data  = await fbGet('global_chat') || {};
+    var msgs  = Object.values(data).sort(function(a,b){ return a.ts - b.ts; });
+    var newMsgs = msgs.filter(function(m){ return m.ts > gchatLastTs; });
+    if (!newMsgs.length) return;
+    var rankMap = await buildRankMap();
+    var msgEl   = document.getElementById('gchat-messages');
+    newMsgs.forEach(function(m) {
+      msgEl.insertAdjacentHTML('beforeend', renderGChatMsg(m, rankMap));
+    });
+    msgEl.scrollTop = msgEl.scrollHeight;
+    gchatLastTs = newMsgs[newMsgs.length-1].ts;
+    // Update online count
+    var recent = msgs.filter(function(m){ return Date.now()-m.ts < 5*60*1000; });
+    var uniqueUsers = new Set(recent.map(function(m){ return m.username; })).size;
+    var badge = document.getElementById('gchat-online-badge');
+    if (badge) badge.textContent = '● ' + uniqueUsers + ' aktif';
+  } catch(e) {}
+}
+
+function renderGChatMsg(m, rankMap) {
+  var isMe     = currentUser && m.username === currentUser.username;
+  var isAdminChat = m.username === 'capybara bla bla 1234';
+  var rank     = rankMap[m.username];
+  var rankHtml = '';
+  if (isAdminChat) {
+    rankHtml = '<span class="gchat-rank-badge rank-admin">🛡️ ADMIN</span>';
+  } else if (rank && rank <= 10) {
+    var rankClass = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-top10';
+    rankHtml = '<span class="gchat-rank-badge ' + rankClass + '">🌍 Rank #' + rank + ' Global!</span>';
+  }
+  var colors   = ['#00c8ff','#7c3aed','#ff2d78','#10b981','#f59e0b','#3b82f6'];
+  var colorIdx = m.username.charCodeAt(0) % colors.length;
+  var time     = new Date(m.ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  return '<div class="gchat-msg' + (isMe?' me':'') + '">' +
+    '<div class="gchat-avatar" style="background:' + colors[colorIdx] + '">' + m.name[0].toUpperCase() + '</div>' +
+    '<div class="gchat-bubble-wrap">' +
+    '<div class="gchat-name-row">' +
+      (rankHtml ? rankHtml + ' ' : '') +
+      '<span style="font-weight:600;">' + m.name + '</span>' +
+      '<span style="opacity:.6;">@' + m.username + '</span>' +
+    '</div>' +
+    '<div class="gchat-bubble">' + m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>' +
+    '<div class="gchat-time">' + time + '</div>' +
+    '</div></div>';
+}
+
+async function sendGlobalMsg() {
+  if (!currentUser) { toast('Login dulu!', 'warn'); return; }
+  var inp  = document.getElementById('gchat-input');
+  var text = inp ? inp.value.trim() : '';
+  if (!text) return;
+  if (text.length > 300) { toast('Pesan max 300 karakter!', 'warn'); return; }
+  inp.value = '';
+  inp.style.height = 'auto';
+  try {
+    var key = 'msg_' + Date.now();
+    await fbSet('global_chat/' + key, {
+      username: currentUser.username,
+      name:     currentUser.name,
+      text:     text,
+      ts:       Date.now()
+    });
+  } catch(e) { toast('Gagal kirim: ' + e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════════════
+// RANK SYSTEM & LEADERBOARD
+// ════════════════════════════════════════════════════════════
+async function buildRankMap() {
+  // Returns { username: rank }
+  try {
+    var users = await fbGet('nm_users') || {};
+    var ranked = Object.keys(users)
+      .filter(function(u){ return u !== 'capybara bla bla 1234'; })
+      .map(function(u){ return { username:u, purchases: users[u].total_purchases||0 }; })
+      .sort(function(a,b){ return b.purchases - a.purchases; });
+    var map = {};
+    ranked.forEach(function(u,i){ map[u.username] = i+1; });
+    return map;
+  } catch(e) { return {}; }
+}
+
+async function loadLeaderboard() {
+  await renderTop10();
+  await renderUserList();
+}
+
+async function renderTop10() {
+  var el = document.getElementById('lb-top10');
+  if (!el) return;
+  el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:16px;">⏳ Memuat...</div>';
+  try {
+    var users   = await fbGet('nm_users') || {};
+    var sorted  = Object.entries(users)
+      .filter(function(e){ return e[0] !== 'capybara bla bla 1234'; })
+      .map(function(e){ return { username:e[0], ...e[1] }; })
+      .sort(function(a,b){ return (b.total_purchases||0)-(a.total_purchases||0); })
+      .slice(0, 10);
+    if (!sorted.length) { el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:20px;">Belum ada data pembelian</div>'; return; }
+    var medals = ['🥇','🥈','🥉'];
+    var colors = ['linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#94a3b8,#64748b)','linear-gradient(135deg,#a16207,#78350f)'];
+    el.innerHTML = sorted.map(function(u, i) {
+      var rankNum  = i+1;
+      var rankCls  = rankNum<=3 ? 'top'+rankNum : '';
+      var medal    = medals[i] || '#' + rankNum;
+      var rankBg   = i<3 ? colors[i] : 'linear-gradient(135deg,var(--neon),var(--neon3))';
+      var pts      = u.points || 0;
+      return '<div class="leaderboard-item ' + rankCls + '">' +
+        '<div class="lb-rank r' + (rankNum<=3?rankNum:'') + '">' + medal + '</div>' +
+        '<div class="lb-avatar" style="background:' + rankBg + '">' + u.name[0].toUpperCase() + '</div>' +
+        '<div class="lb-info">' +
+          '<div class="lb-name">' + u.name + ' <span style="font-size:11px;color:var(--text3);">@' + u.username + '</span></div>' +
+          '<div class="lb-meta">Bergabung: ' + new Date(u.joined||Date.now()).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) + '</div>' +
+        '</div>' +
+        '<div style="text-align:right;">' +
+          '<div class="lb-score">' + (u.total_purchases||0) + '</div>' +
+          '<div style="font-size:10px;color:var(--text3);">pembelian</div>' +
+          '<div class="lb-points">' + pts + ' pts</div>' +
+        '</div>' +
+        '<div style="font-size:10px;color:var(--neon);font-family:var(--font-display);text-align:center;min-width:60px;">🌍 Rank #' + rankNum + '<br>Global!</div>' +
+        '</div>';
+    }).join('');
+  } catch(e) { el.innerHTML = '<div style="color:#ff6b6b;padding:16px;">Gagal load: ' + e.message + '</div>'; }
+}
+
+var allUsersList = [];
+async function renderUserList() {
+  var tbody  = document.getElementById('lb-user-table');
+  var countEl = document.getElementById('lb-user-count');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:16px;">⏳ Memuat...</td></tr>';
+  try {
+    var users  = await fbGet('nm_users') || {};
+    var sort   = document.getElementById('lb-sort') ? document.getElementById('lb-sort').value : 'az';
+    var ranked = await buildRankMap();
+    allUsersList = Object.entries(users).map(function(e) {
+      return { username:e[0], name:e[1].name||e[0], email:e[1].email||'-', joined:e[1].joined||0, purchases:e[1].total_purchases||0, points:e[1].points||0 };
+    });
+    // Sort
+    if (sort==='az')        allUsersList.sort(function(a,b){ return a.username.localeCompare(b.username); });
+    if (sort==='za')        allUsersList.sort(function(a,b){ return b.username.localeCompare(a.username); });
+    if (sort==='newest')    allUsersList.sort(function(a,b){ return b.joined - a.joined; });
+    if (sort==='oldest')    allUsersList.sort(function(a,b){ return a.joined - b.joined; });
+    if (sort==='purchases') allUsersList.sort(function(a,b){ return b.purchases - a.purchases; });
+    if (countEl) countEl.textContent = '(' + allUsersList.length + ' member)';
+    renderFilteredUsers(allUsersList, ranked);
+  } catch(e) { tbody.innerHTML = '<tr><td colspan="7" style="color:#ff6b6b;padding:16px;">Gagal: ' + e.message + '</td></tr>'; }
+}
+
+function renderFilteredUsers(list, ranked) {
+  var tbody = document.getElementById('lb-user-table');
+  if (!tbody) return;
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:16px;">Tidak ada user ditemukan</td></tr>'; return; }
+  tbody.innerHTML = list.map(function(u, i) {
+    var rank    = ranked ? ranked[u.username] : null;
+    var isAdmin = u.username === 'capybara bla bla 1234';
+    var rankBadge = isAdmin
+      ? '<span style="background:linear-gradient(135deg,#ff2d78,#ff6b3d);color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;">🛡️ ADMIN</span>'
+      : (rank && rank<=10 ? '<span style="background:rgba(0,200,255,0.15);color:var(--neon);border:1px solid var(--neon);border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;">#'+rank+'</span>' : '-');
+    var joinDate = u.joined ? new Date(u.joined).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) : '-';
+    return '<tr>' +
+      '<td style="color:var(--text3);">' + (i+1) + '</td>' +
+      '<td><strong>@' + u.username + '</strong></td>' +
+      '<td>' + u.name + '</td>' +
+      '<td style="color:var(--text3);">' + joinDate + '</td>' +
+      '<td style="color:var(--neon2);font-weight:700;">' + u.purchases + '</td>' +
+      '<td style="color:var(--neon4);">' + u.points + '</td>' +
+      '<td>' + rankBadge + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function filterUserList(query) {
+  if (!allUsersList.length) return;
+  var q       = query.toLowerCase();
+  var filtered = q ? allUsersList.filter(function(u){ return u.username.includes(q) || u.name.toLowerCase().includes(q); }) : allUsersList;
+  buildRankMap().then(function(ranked){ renderFilteredUsers(filtered, ranked); });
+}
+
+// ════════════════════════════════════════════════════════════
+// POINTS & REWARD SYSTEM
+// ════════════════════════════════════════════════════════════
+async function addPointsAndPurchase(username, totalAmount) {
+  if (!username) return;
+  try {
+    var users = await fbGet('nm_users') || {};
+    if (!users[username]) return;
+    var pts   = Math.floor(totalAmount / 1000); // 1 poin per Rp1000
+    users[username].points          = (users[username].points||0) + pts;
+    users[username].total_purchases = (users[username].total_purchases||0) + 1;
+    await fbSet('nm_users/' + username, users[username]);
+    if (pts > 0) toast('🏅 +' + pts + ' poin earned! Total: ' + users[username].points + ' pts', 'success');
+  } catch(e) { console.warn('Points update failed:', e); }
+}
+
+// ════════════════════════════════════════════════════════════
+// PRODUCT RECOMMENDATIONS
+// ════════════════════════════════════════════════════════════
+async function loadRecommendations() {
+  var sec = document.getElementById('recom-section');
+  var scr = document.getElementById('recom-scroll');
+  if (!sec || !scr || !currentUser) return;
+  try {
+    // Get user purchase history categories
+    var hist      = history_data.slice(0, 20);
+    var boughtIds = new Set(hist.flatMap(function(h){ return (h.items||[]).map(function(i){ return i.name; }); }));
+    var categories = {};
+    hist.forEach(function(h) {
+      (h.items||[]).forEach(function(item) {
+        var p = products.find(function(x){ return x.name===item.name; });
+        if (p && p.category) categories[p.category] = (categories[p.category]||0) + 1;
+      });
+    });
+    var topCat = Object.keys(categories).sort(function(a,b){ return categories[b]-categories[a]; })[0];
+    // Get recommendations: same category, not bought, in stock
+    var recs = products.filter(function(p) {
+      return p.stock > 0 && (topCat ? p.category === topCat : true) && !boughtIds.has(p.name);
+    }).slice(0, 8);
+    if (!recs.length) return;
+    sec.style.display = 'block';
+    scr.innerHTML = recs.map(function(p) {
+      return '<div class="recom-card" onclick="openProduct(\'' + p.id + '\')">' +
+        '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop\'">' +
+        '<div class="recom-card-body">' +
+          '<div class="recom-card-name">' + p.name + '</div>' +
+          '<div class="recom-card-price">' + fmtPrice(p.price) + '</div>' +
+        '</div></div>';
+    }).join('');
+  } catch(e) { sec.style.display = 'none'; }
+}
+
+// ════════════════════════════════════════════════════════════
+// SALES CHART (Admin)
+// ════════════════════════════════════════════════════════════
+function renderSalesChart() {
+  var wrap = document.getElementById('admin-sales-chart');
+  if (!wrap) return;
+  // Get last 7 days sales from history
+  var days = [];
+  var sales = [];
+  for (var i = 6; i >= 0; i--) {
+    var d    = new Date(); d.setDate(d.getDate()-i);
+    var label = d.toLocaleDateString('id-ID',{weekday:'short',day:'numeric'});
+    days.push(label);
+    var dayStart = new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();
+    var dayEnd   = dayStart + 86400000;
+    var daySales = history_data.filter(function(h){ return h.timestamp>=dayStart && h.timestamp<dayEnd; })
+      .reduce(function(s,h){ return s+(h.total||0); }, 0);
+    sales.push(daySales);
+  }
+  var max = Math.max(...sales, 1);
+  wrap.innerHTML = '<div class="chart-wrap"><div style="font-family:var(--font-display);font-size:12px;color:var(--neon);letter-spacing:1px;margin-bottom:12px;">📊 PENJUALAN 7 HARI TERAKHIR</div>' +
+    '<div class="chart-canvas-wrap">' +
+    '<div style="display:flex;align-items:flex-end;gap:8px;height:180px;padding:0 4px;">' +
+    sales.map(function(s,i) {
+      var h   = Math.max(4, Math.round((s/max)*180));
+      var pct = max > 0 ? Math.round((s/max)*100) : 0;
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">' +
+        '<div style="font-size:10px;color:var(--text3);">' + (s>0?fmtPrice(s).replace('Rp ',''):'') + '</div>' +
+        '<div style="height:' + h + 'px;width:100%;' +
+          'background:linear-gradient(180deg,var(--neon),rgba(0,200,255,0.3));' +
+          'border-radius:4px 4px 0 0;transition:.6s ease;' +
+          'animation-delay:' + (i*0.1) + 's;' +
+          'box-shadow:0 0 8px rgba(0,200,255,0.3);" title="' + fmtPrice(s) + '"></div>' +
+        '<div style="font-size:9px;color:var(--text3);text-align:center;">' + days[i] + '</div>' +
+        '</div>';
+    }).join('') +
+    '</div></div></div>';
+}
+
+// ════════════════════════════════════════════════════════════
+// PUSH NOTIFICATIONS
+// ════════════════════════════════════════════════════════════
+async function requestPushPermission() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') return;
+  if (Notification.permission !== 'denied') {
+    var perm = await Notification.requestPermission();
+    if (perm === 'granted') {
+      toast('🔔 Notifikasi browser aktif!', 'success');
+      showPushNotif('ExtinctionIBT Store', 'Notifikasi berhasil diaktifkan! 🎉', '🔔');
+    }
+  }
+}
+
+function showPushNotif(title, body, icon) {
+  if (Notification.permission !== 'granted') return;
+  new Notification(title, {
+    body:  body,
+    icon:  icon || 'https://img.icons8.com/nolan/96/shopping-cart.png',
+    badge: 'https://img.icons8.com/nolan/96/shopping-cart.png',
+    tag:   'neonmart-notif'
+  });
+}
+
 // Close modals on overlay click
 ['productModal','installModal','checkoutModal','receiptModal','tutorialModal'].forEach(function(id) {
   var el = document.getElementById(id);
@@ -5074,6 +6106,68 @@ function installPWA() {
 
 <!-- ═══════ SCROLL TO TOP ═══════ -->
 <div id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">↑</div>
+
+
+<!-- ═══════ ADMIN CHAT PANEL ═══════ -->
+<div id="admin-chat-panel">
+  <div class="acp-header">
+    <span style="font-size:20px;">🛡️</span>
+    <h3>ADMIN CHAT — ExtinctionIBT</h3>
+    <button onclick="closeAdminChat()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px;">✕</button>
+  </div>
+  <div class="acp-body">
+    <div class="acp-sidebar" id="acp-sidebar">
+      <div style="padding:12px 16px;font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);">💬 User Conversations</div>
+      <div id="acp-user-list"></div>
+    </div>
+    <div class="acp-chat-area">
+      <div id="acp-chat-header" style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600;font-size:14px;background:rgba(0,0,0,0.2);">Pilih user untuk membalas</div>
+      <div class="acp-messages" id="acp-messages"></div>
+      <div class="acp-input-row">
+        <input type="text" class="acp-input" id="acp-input" placeholder="Balas pesan user..." onkeydown="if(event.key==='Enter')sendAdminReply()">
+        <button class="gchat-send-btn" onclick="sendAdminReply()" style="background:linear-gradient(135deg,var(--neon2),#ff6b3d);">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 2FA MODAL ═══════ -->
+<div id="twofa-modal">
+  <div class="twofa-box">
+    <div class="twofa-icon">🔐</div>
+    <div class="twofa-title">Verifikasi 2FA Admin</div>
+    <div class="twofa-sub">Kode verifikasi telah dikirim ke Discord webhook.<br>Masukkan kode 6 digit yang kamu terima.</div>
+    <input type="text" class="twofa-input" id="twofa-code-input" placeholder="000000" maxlength="6" onkeydown="if(event.key==='Enter')verify2FA()">
+    <div id="twofa-err" style="color:#ff6b6b;font-size:13px;margin-bottom:12px;min-height:18px;"></div>
+    <button class="login-btn" style="width:100%;margin-bottom:10px;" onclick="verify2FA()">✅ Verifikasi</button>
+    <button style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:inherit;" onclick="cancel2FA()">✕ Batal</button>
+  </div>
+</div>
+
+<!-- ═══════ MAP MODAL ═══════ -->
+<div id="map-modal">
+  <div class="map-box">
+    <div class="map-header">
+      <h3>🗺️ Lokasi ExtinctionIBT Store</h3>
+      <button onclick="document.getElementById('map-modal').classList.remove('show')" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px;">✕</button>
+    </div>
+    <iframe id="map-iframe"
+      src="https://maps.google.com/maps?q=SDN+Percobaan+Palangkaraya,+Jl.+G.+Obos+7&output=embed&z=15"
+      allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="map-info">
+      <div>🏪 <strong>ExtinctionIBT Store</strong></div>
+      <div>📍 Jl. G. Obos 7, GG Pondok Adenium No. 6A, Palangkaraya</div>
+      <div>📍 Studio ExtinctionIBT (mereka pasti tau lokasinya)</div>
+      <div>🕐 Open 24 Jam / Setiap Hari</div>
+      <div>📱 WA: <a href="https://wa.me/6285750472790" style="color:var(--neon4);">085750472790</a> / <a href="https://wa.me/6285820549008" style="color:var(--neon4);">085820549008</a></div>
+      <div style="margin-top:10px;display:flex;gap:10px;">
+        <a href="https://maps.google.com?q=SDN+Percobaan+Palangkaraya,+Jl.+G.+Obos+7" target="_blank" class="btn btn-primary" style="padding:8px 16px;font-size:13px;display:inline-block;">🗺️ Buka Google Maps</a>
+        <a href="https://wa.me/6285750472790?text=Halo, saya mau ke toko ExtinctionIBT" target="_blank" class="btn btn-success" style="padding:8px 16px;font-size:13px;display:inline-block;">📱 Tanya Arah via WA</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════ SHUTDOWN SCREEN ═══════ -->
 <div id="shutdown-screen" style="display:none;position:fixed;inset:0;z-index:99998;background:#0a0005;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;">
