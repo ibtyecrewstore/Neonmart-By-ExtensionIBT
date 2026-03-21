@@ -709,6 +709,8 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
   .nav-btn span{display:none;}
   .nav-btn{padding:9px 10px;}
   .navbar-actions{display:none!important;}
+  #bottom-nav{display:flex!important;}
+  body{padding-bottom:74px;}
   .product-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
   .modal-actions{flex-direction:column;}
   .install-options{grid-template-columns:1fr;}
@@ -1023,31 +1025,19 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 
 /* ══ MOBILE BOTTOM NAV ══ */
 #bottom-nav {
-  display:none;
+  display:flex;
   position:fixed;bottom:0;left:0;right:0;z-index:900;
   background:rgba(8,12,20,0.97);backdrop-filter:blur(20px);
   border-top:1px solid var(--border);
   padding:8px 0 env(safe-area-inset-bottom, 8px);
   align-items:flex-end;
 }
-/* ══ PC: Full navbar visible, bottom nav hidden ══ */
+/* PC: selalu sembunyikan bottom nav */
 @media(min-width:769px) {
   #bottom-nav { display:none !important; }
-  body { padding-bottom: 0; }
-  .navbar-actions { display:flex !important; }
+  body { padding-bottom:0 !important; }
 }
-
-/* ══ MOBILE: Bottom nav only, hide top navbar actions ══ */
-@media(max-width:768px) {
-  .navbar-actions { display:none !important; }
-  #bottom-nav { display:flex; }
-  body { padding-bottom:74px; }
-  #chat-bubble { bottom:94px; }
-  #chat-panel  { bottom:162px; }
-  #scroll-top  { bottom:94px; }
-  /* Navbar hanya tampilkan logo di HP */
-  .navbar { padding:0 12px; min-height:52px; }
-}
+/* ══ RESPONSIVE: PC full navbar, Mobile bottom nav ══ */
 #bn-user-avatar:hover {
   transform:scale(1.1);
   box-shadow:0 6px 28px rgba(0,200,255,0.7)!important;
@@ -1676,7 +1666,7 @@ input, textarea, [contenteditable] {
       </div>
     </div>
   </div>
-  <div class="navbar-actions" style="display:flex;align-items:center;gap:4px;">
+  <div class="navbar-actions">
     <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
     <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
     <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
