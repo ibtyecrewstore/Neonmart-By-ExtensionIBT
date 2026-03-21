@@ -13,7 +13,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>NeonMart — Marketplace Digital</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("gB286duvc_M-0Qzo5");</script>
@@ -1575,6 +1575,61 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
   background:var(--neon4);animation:pulse-dot 1.5s infinite;margin-right:6px;
 }
 
+
+/* ══ LANDSCAPE LOCK ══ */
+@media screen and (orientation: portrait) and (max-width: 768px) {
+  #rotate-overlay {
+    display: flex !important;
+  }
+}
+#rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: var(--bg);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+}
+.rotate-icon {
+  font-size: 64px;
+  animation: rotate-hint 1.5s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+@keyframes rotate-hint {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+.rotate-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--neon);
+  margin-bottom: 8px;
+}
+.rotate-sub {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+
+/* ══ ANTI ZOOM + ANTI SELECT ══ */
+* {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-x pan-y;
+}
+input, textarea, [contenteditable] {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
 </style>
 </head>
 <body>
@@ -1598,23 +1653,22 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
   <div class="navbar-actions">
     <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
     <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
-    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative"><span>🛒</span><span id="t-cart">Cart</span><span class="badge" id="cart-badge" style="display:none">0</span></button>
-    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Installments</span></button>
-    <button class="nav-btn" onclick="goPage('history')" id="nav-history"><span>📜</span><span id="t-history">History</span></button>
-    <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;">
+    <button class="nav-btn" onclick="goPage('inbox')" id="nav-inbox" style="position:relative">
+      <span>🔔</span><span id="t-notif">Notif</span>
+      <span class="badge" id="inbox-badge" style="display:none;background:#ff2d78;">0</span>
+    </button>
+    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative">
+      <span>🛒</span><span id="t-cart">Cart</span>
+      <span class="badge" id="cart-badge" style="display:none">0</span>
+    </button>
+    <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;" title="Bahasa">
       <option value="en">🌐 EN</option>
       <option value="id">🇮🇩 ID</option>
       <option value="ar">🇸🇦 AR</option>
       <option value="ja">🇯🇵 JA</option>
       <option value="ms">🇲🇾 MS</option>
     </select>
-    <button class="nav-btn" onclick="goPage('inbox')" id="nav-inbox" style="position:relative">
-      <span>🔔</span>
-      <span class="badge" id="inbox-badge" style="display:none;background:#ff2d78;">0</span>
-    </button>
-    <button class="nav-btn" onclick="goPage('globalchat')" id="nav-globalchat"><span>💬</span></button>
-    <button class="nav-btn" onclick="goPage('leaderboard')" id="nav-leaderboard"><span>🏆</span></button>
-    <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span></button>
+    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
     <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil" style="width:32px;height:32px;font-size:13px;">👤</div>
   </div>
 </nav>
@@ -2169,6 +2223,10 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
         <div class="setting-info"><h4>🛡 Admin Panel</h4><p>Akses tersembunyi untuk admin</p></div>
         <button class="btn btn-secondary" onclick="goPage('admin')" style="padding:10px 20px;">Masuk Admin</button>
       </div>
+      <div class="setting-item">
+        <div class="setting-info"><h4>📜 Riwayat Pembelian</h4><p>Lihat semua history transaksi kamu</p></div>
+        <button class="btn btn-ghost" style="padding:8px 14px;font-size:13px;" onclick="goPage('history')">Lihat History</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2515,6 +2573,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Loading screen
   hideLoadingScreen();
+  lockLandscape();
   checkChangelog();
   initAurora();
   setTimeout(requestPushPermission, 3000);
@@ -5443,12 +5502,15 @@ function updateBottomNav(page) {
   document.querySelectorAll('.bottom-nav-item').forEach(function(el) {
     el.classList.remove('active');
   });
-  var el = document.getElementById('bn-' + page);
-  if (el) el.classList.add('active');
-  // Sync cart badge
-  var total = cart.reduce(function(s,i){ return s+i.qty; }, 0);
-  var bb = document.getElementById('bn-cart-badge');
-  if (bb) { bb.style.display = total>0?'flex':'none'; bb.textContent = total>9?'9+':total; }
+  // Map page names to bottom nav IDs
+  var pageMap = {
+    'globalchat': 'globalchat',
+    'leaderboard': 'leaderboard',
+    'settings': 'settings',
+  };
+  var bnId = pageMap[page] || page;
+  var el   = document.getElementById('bn-' + bnId);
+  if (el)  el.classList.add('active');
 }
 
 // ════════════════════════════════════════════════════════════
@@ -5486,6 +5548,31 @@ function installPWA() {
   });
 }
 
+
+
+// ════════════════════════════════════════════════════════════
+// SCREEN ORIENTATION LOCK (landscape)
+// ════════════════════════════════════════════════════════════
+function lockLandscape() {
+  // Try Screen Orientation API (modern)
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(function(e) {
+      console.log('Orientation lock not supported:', e.message);
+    });
+  }
+  // Show overlay on portrait mobile
+  function checkOrientation() {
+    var isPortrait  = window.innerHeight > window.innerWidth;
+    var isMobile    = window.innerWidth < 1024 || ('ontouchstart' in window);
+    var overlay     = document.getElementById('rotate-overlay');
+    if (overlay) overlay.style.display = (isPortrait && isMobile) ? 'flex' : 'none';
+  }
+  window.addEventListener('resize', checkOrientation);
+  window.addEventListener('orientationchange', function() {
+    setTimeout(checkOrientation, 200);
+  });
+  checkOrientation();
+}
 
 // ════════════════════════════════════════════════════════════
 // AURORA / PARTICLE BACKGROUND ANIMATION
@@ -6334,39 +6421,45 @@ var _origCheckAdminLogin = typeof checkAdminLogin !== 'undefined' ? checkAdminLo
 
 <!-- ═══════ MOBILE BOTTOM NAV ═══════ -->
 <div id="bottom-nav">
-  <div class="bottom-nav-item" onclick="goPage('home')" id="bn-home">
-    <div class="bn-icon">🏠</div>
-    <div>Home</div>
-  </div>
-  <div class="bottom-nav-item" onclick="goPage('wishlist')" id="bn-wishlist">
-    <div class="bn-icon">❤️</div>
-    <div>Wishlist</div>
+
+  <!-- 1. Admin Chat -->
+  <div class="bottom-nav-item" onclick="toggleChat()" id="bn-adminchat">
+    <div class="bn-icon">🟠</div>
+    <div>Admin</div>
   </div>
 
-  <!-- User Avatar — Tengah, Besar -->
-  <div class="bottom-nav-item" onclick="openLoginModal()" id="bn-user" style="position:relative;margin-top:-18px;">
+  <!-- 2. Global Chat -->
+  <div class="bottom-nav-item" onclick="goPage('globalchat')" id="bn-globalchat">
+    <div class="bn-icon">💬</div>
+    <div>Global</div>
+  </div>
+
+  <!-- 3. PROFIL — TENGAH BESAR -->
+  <div class="bottom-nav-item" onclick="openLoginModal()" id="bn-user" style="position:relative;margin-top:-20px;z-index:10;">
     <div id="bn-user-avatar" style="
-      width:56px;height:56px;border-radius:50%;
+      width:60px;height:60px;border-radius:50%;
       background:linear-gradient(135deg,var(--neon),var(--neon3));
       display:flex;align-items:center;justify-content:center;
-      font-size:22px;color:#fff;font-weight:700;
+      font-size:24px;color:#fff;font-weight:700;
       border:3px solid var(--bg);
-      box-shadow:0 4px 20px rgba(0,200,255,0.5);
+      box-shadow:0 4px 24px rgba(0,200,255,0.6);
       transition:var(--transition);
     ">👤</div>
-    <div style="font-size:9px;margin-top:4px;">Profil</div>
+    <div style="font-size:9px;margin-top:5px;font-weight:600;">Profil</div>
   </div>
 
-  <div class="bottom-nav-item" onclick="goPage('inbox')" id="bn-inbox" style="position:relative;">
-    <div class="bn-icon">🔔</div>
-    <div class="bn-badge" id="bn-notif-badge" style="display:none;">0</div>
-    <div>Notif</div>
+  <!-- 4. Leaderboard -->
+  <div class="bottom-nav-item" onclick="goPage('leaderboard')" id="bn-leaderboard">
+    <div class="bn-icon">🏆</div>
+    <div>Rank</div>
   </div>
-  <div class="bottom-nav-item" onclick="goPage('cart')" id="bn-cart" style="position:relative;">
-    <div class="bn-icon">🛒</div>
-    <div class="bn-badge" id="bn-cart-badge">0</div>
-    <div>Cart</div>
+
+  <!-- 5. Settings -->
+  <div class="bottom-nav-item" onclick="goPage('settings')" id="bn-settings">
+    <div class="bn-icon">⚙️</div>
+    <div>Setting</div>
   </div>
+
 </div>
 
 <!-- ═══════ COPYRIGHT FOOTER ═══════ -->
@@ -6449,8 +6542,8 @@ var _origCheckAdminLogin = typeof checkAdminLogin !== 'undefined' ? checkAdminLo
   </div>
 </div>
 
-<!-- ═══════ LIVE CHAT ═══════ -->
-<div id="chat-bubble" onclick="toggleChat()" title="Chat dengan Admin">
+<!-- ═══════ LIVE CHAT (bubble hidden, accessed via bottom nav) ═══════ -->
+<div id="chat-bubble" onclick="toggleChat()" title="Chat dengan Admin" style="display:none;">
   💬
   <div class="chat-badge" id="chat-badge" style="display:none;">1</div>
 </div>
