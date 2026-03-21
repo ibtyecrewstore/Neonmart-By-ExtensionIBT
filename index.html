@@ -134,15 +134,28 @@ input,textarea,select{font-family:var(--font-body);}
 .autocomplete-item:hover{background:rgba(0,200,255,0.1);}
 .navbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;}
 .nav-btn{
-  position:relative;
-  padding:9px 16px;border-radius:10px;
-  background:transparent;border:1px solid var(--border);
-  color:var(--text2);font-size:13px;
   display:flex;align-items:center;gap:6px;
-  transition:var(--transition);white-space:nowrap;
+  padding:8px 13px;border-radius:10px;
+  background:transparent;border:1px solid transparent;
+  color:var(--text2);font-size:13px;font-weight:500;
+  cursor:pointer;transition:var(--transition);
+  font-family:inherit;white-space:nowrap;
+  position:relative;
 }
-.nav-btn:hover{border-color:var(--neon);color:var(--neon);box-shadow:var(--glow);}
-.nav-btn.active{background:rgba(0,200,255,0.1);border-color:var(--neon);color:var(--neon);}
+.nav-btn:hover{
+  border-color:var(--border2);color:var(--neon);
+  background:rgba(0,200,255,0.07);
+}
+.nav-btn.active{
+  background:rgba(0,200,255,0.12);border-color:var(--neon);
+  color:var(--neon);box-shadow:0 0 12px rgba(0,200,255,0.15);
+}
+.nav-btn.active::after{
+  content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+  width:60%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--neon),transparent);
+  border-radius:2px;
+}
 .badge{
   position:absolute;top:-6px;right:-6px;
   background:var(--neon2);color:#fff;
@@ -692,8 +705,10 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
   .navbar{padding:10px 14px;gap:8px;}
   .navbar-logo{font-size:16px;}
   .navbar-search{max-width:none;flex:1;}
+  /* Mobile: sembunyikan semua navbar actions, hanya logo */
   .nav-btn span{display:none;}
   .nav-btn{padding:9px 10px;}
+  .navbar-actions{display:none!important;}
   .product-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
   .modal-actions{flex-direction:column;}
   .install-options{grid-template-columns:1fr;}
@@ -1015,12 +1030,23 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
   padding:8px 0 env(safe-area-inset-bottom, 8px);
   align-items:flex-end;
 }
-@media(max-width:768px){
-  #bottom-nav{display:flex;}
-  body{padding-bottom:74px;}
-  #chat-bubble{bottom:94px;}
-  #chat-panel{bottom:162px;}
-  #scroll-top{bottom:94px;}
+/* ══ PC: Full navbar visible, bottom nav hidden ══ */
+@media(min-width:769px) {
+  #bottom-nav { display:none !important; }
+  body { padding-bottom: 0; }
+  .navbar-actions { display:flex !important; }
+}
+
+/* ══ MOBILE: Bottom nav only, hide top navbar actions ══ */
+@media(max-width:768px) {
+  .navbar-actions { display:none !important; }
+  #bottom-nav { display:flex; }
+  body { padding-bottom:74px; }
+  #chat-bubble { bottom:94px; }
+  #chat-panel  { bottom:162px; }
+  #scroll-top  { bottom:94px; }
+  /* Navbar hanya tampilkan logo di HP */
+  .navbar { padding:0 12px; min-height:52px; }
 }
 #bn-user-avatar:hover {
   transform:scale(1.1);
@@ -1650,17 +1676,29 @@ input, textarea, [contenteditable] {
       </div>
     </div>
   </div>
-  <div class="navbar-actions">
+  <div class="navbar-actions" style="display:flex;align-items:center;gap:4px;">
     <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
     <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
-    <button class="nav-btn" onclick="goPage('inbox')" id="nav-inbox" style="position:relative">
+    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
+    <button class="nav-btn" onclick="goPage('history')" id="nav-history"><span>📜</span><span>History</span></button>
+    <button class="nav-btn" onclick="goPage('leaderboard')" id="nav-leaderboard"><span>🏆</span><span>Rank</span></button>
+    <button class="nav-btn" onclick="goPage('globalchat')" id="nav-globalchat"><span>💬</span><span>Global</span></button>
+
+    <!-- Divider -->
+    <div style="width:1px;height:24px;background:var(--border);margin:0 4px;"></div>
+
+    <button class="nav-btn" onclick="goPage('inbox')" id="nav-inbox" style="position:relative;">
       <span>🔔</span><span id="t-notif">Notif</span>
       <span class="badge" id="inbox-badge" style="display:none;background:#ff2d78;">0</span>
     </button>
-    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative">
+    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative;">
       <span>🛒</span><span id="t-cart">Cart</span>
-      <span class="badge" id="cart-badge" style="display:none">0</span>
+      <span class="badge" id="cart-badge" style="display:none;">0</span>
     </button>
+
+    <!-- Divider -->
+    <div style="width:1px;height:24px;background:var(--border);margin:0 4px;"></div>
+
     <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;" title="Bahasa">
       <option value="en">🌐 EN</option>
       <option value="id">🇮🇩 ID</option>
@@ -1668,8 +1706,8 @@ input, textarea, [contenteditable] {
       <option value="ja">🇯🇵 JA</option>
       <option value="ms">🇲🇾 MS</option>
     </select>
-    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
-    <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil" style="width:32px;height:32px;font-size:13px;">👤</div>
+    <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span><span>Setting</span></button>
+    <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil" style="width:34px;height:34px;font-size:14px;">👤</div>
   </div>
 </nav>
 
