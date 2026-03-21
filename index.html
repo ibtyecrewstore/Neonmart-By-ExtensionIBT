@@ -1010,15 +1010,21 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 #bottom-nav {
   display:none;
   position:fixed;bottom:0;left:0;right:0;z-index:900;
-  background:rgba(8,12,20,0.95);backdrop-filter:blur(20px);
+  background:rgba(8,12,20,0.97);backdrop-filter:blur(20px);
   border-top:1px solid var(--border);
   padding:8px 0 env(safe-area-inset-bottom, 8px);
+  align-items:flex-end;
 }
 @media(max-width:768px){
   #bottom-nav{display:flex;}
-  body{padding-bottom:70px;}
-  #chat-bubble{bottom:90px;}
-  #chat-panel{bottom:158px;}
+  body{padding-bottom:74px;}
+  #chat-bubble{bottom:94px;}
+  #chat-panel{bottom:162px;}
+  #scroll-top{bottom:94px;}
+}
+#bn-user-avatar:hover {
+  transform:scale(1.1);
+  box-shadow:0 6px 28px rgba(0,200,255,0.7)!important;
 }
 .bottom-nav-item{
   flex:1;display:flex;flex-direction:column;align-items:center;
@@ -1509,6 +1515,66 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 }
 .twofa-input:focus{border-color:var(--neon2);}
 
+
+/* ══ VERIFIED BADGE ══ */
+.verified-badge {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,#1d9bf0,#0ea5e9);
+  color:#fff;font-size:10px;margin-left:4px;
+  flex-shrink:0;vertical-align:middle;
+  box-shadow:0 0 6px rgba(29,155,240,0.5);
+}
+
+/* ══ ADMIN BROADCAST BTN ══ */
+.admin-broadcast-btn {
+  width:100%;padding:12px;border-radius:12px;
+  background:linear-gradient(135deg,#ff6b3d,#ff2d78);
+  border:none;color:#fff;font-size:14px;font-weight:700;
+  font-family:inherit;cursor:pointer;transition:var(--transition);
+  margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.admin-broadcast-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,45,120,0.4);}
+
+/* ══ PWA INSTALL SECTION ══ */
+.pwa-install-card {
+  background:linear-gradient(135deg,rgba(0,200,255,0.08),rgba(124,58,237,0.08));
+  border:1px solid var(--border2);border-radius:16px;
+  padding:20px;margin-bottom:16px;
+  display:flex;align-items:center;gap:16px;
+}
+.pwa-install-icon {
+  width:72px;height:72px;border-radius:18px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;
+  box-shadow:0 8px 24px rgba(0,200,255,0.3);
+}
+.pwa-install-info h3 {
+  font-family:var(--font-display);font-size:16px;margin-bottom:4px;
+}
+.pwa-install-info p {font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px;}
+.pwa-install-btns {display:flex;gap:8px;flex-wrap:wrap;}
+
+/* ══ VERIFIED ADMIN PANEL ══ */
+.verify-user-wrap {
+  background:var(--bg3);border-radius:12px;padding:16px;margin-bottom:12px;
+}
+.verify-search-row {
+  display:flex;gap:8px;margin-bottom:12px;
+}
+.verify-result {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;background:var(--bg);border:1px solid var(--border);
+  border-radius:10px;font-size:14px;
+}
+
+/* ══ REALTIME INDICATOR ══ */
+.realtime-dot {
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--neon4);animation:pulse-dot 1.5s infinite;margin-right:6px;
+}
+
 </style>
 </head>
 <body>
@@ -1549,7 +1615,7 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
     <button class="nav-btn" onclick="goPage('globalchat')" id="nav-globalchat"><span>💬</span></button>
     <button class="nav-btn" onclick="goPage('leaderboard')" id="nav-leaderboard"><span>🏆</span></button>
     <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span></button>
-    <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil">?</div>
+    <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil" style="width:32px;height:32px;font-size:13px;">👤</div>
   </div>
 </nav>
 
@@ -2022,9 +2088,19 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
         <option value="purchases">Pembelian Terbanyak</option>
       </select>
     </div>
-    <div class="table-wrap">
-      <table class="prod-table" style="font-size:13px;">
-        <thead><tr><th>#</th><th>Username</th><th>Nama</th><th>Bergabung</th><th>Pembelian</th><th>Poin</th><th>Rank</th></tr></thead>
+    <div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius2);border:1px solid var(--border);">
+      <table style="font-size:13px;width:100%;min-width:600px;border-collapse:collapse;">
+        <thead>
+          <tr style="background:rgba(0,200,255,0.08);border-bottom:1px solid var(--border);">
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">#</th>
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">Username</th>
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">Nama</th>
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">Bergabung</th>
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">Pembelian</th>
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">Poin</th>
+            <th style="padding:12px 14px;text-align:left;color:var(--text3);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">Rank</th>
+          </tr>
+        </thead>
         <tbody id="lb-user-table"></tbody>
       </table>
     </div>
@@ -2053,6 +2129,21 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
       <h1>⚙️ PENGATURAN</h1>
       <p>Kustomisasi pengalaman belanjamu</p>
     </div>
+
+    <!-- PWA INSTALL CARD -->
+    <div class="pwa-install-card">
+      <div class="pwa-install-icon">⚡</div>
+      <div class="pwa-install-info" style="flex:1;">
+        <h3>Install NeonMart App</h3>
+        <p>Install sebagai aplikasi di HP kamu. Akses lebih cepat, terasa seperti app native!</p>
+        <div class="pwa-install-btns">
+          <button class="btn btn-primary" style="padding:9px 18px;font-size:13px;" onclick="installPWA()" id="pwa-install-btn">📲 Install App</button>
+          <a href="https://webintoapp.com" target="_blank" class="btn btn-ghost" style="padding:9px 18px;font-size:13px;display:inline-flex;align-items:center;">📦 Buat APK</a>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text3);">💡 Untuk APK: buka webintoapp.com → masukkan URL GitHub Pages kamu</div>
+      </div>
+    </div>
+
     <div class="settings-list">
       <div class="setting-item">
         <div class="setting-info"><h4>🌓 Dark Mode</h4><p>Tampilan gelap / terang</p></div>
@@ -2142,6 +2233,19 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
           <button class="btn btn-ghost" style="padding:10px 18px;" onclick="hideAnnouncement()">✕ Sembunyikan</button>
         </div>
         <div id="ann-preview" style="display:none;margin-top:12px;padding:10px 14px;border-radius:8px;font-size:13px;"></div>
+      </div>
+
+      <!-- CENTANG BIRU / VERIFIED USER -->
+      <div class="admin-section-box" style="border-color:rgba(29,155,240,0.4);background:rgba(29,155,240,0.03);">
+        <div class="admin-section-title" style="color:#1d9bf0;">✅ CENTANG BIRU (Verified User)</div>
+        <div class="verify-user-wrap">
+          <div class="verify-search-row">
+            <input type="text" class="form-input" id="verify-search-input" placeholder="Cari username..." style="flex:1;">
+            <button class="btn" style="background:rgba(29,155,240,0.15);border:1px solid #1d9bf0;color:#1d9bf0;padding:10px 16px;" onclick="searchUserToVerify()">🔍 Cari</button>
+          </div>
+          <div id="verify-search-result" style="min-height:40px;"></div>
+        </div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px;">💡 User yang terverifikasi akan dapat badge ✅ biru di nama mereka di seluruh website</div>
       </div>
 
       <!-- VERIFIKASI PEMBAYARAN -->
@@ -3185,6 +3289,14 @@ async function migrateCompressImages() {
 
 // ─── ADMIN ───────────────────────────────────────────────────────
 function checkAdminLogin() {
+  // Admin chat user bypass password
+  if (currentUser && currentUser.username === ADMIN_CHAT_USER) {
+    adminLoggedIn = true;
+    document.getElementById('admin-login-section').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+    renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); renderSalesChart();
+    return;
+  }
   const val = document.getElementById('admin-pass-input').value;
   if (val === ADMIN_PASSWORD) {
     adminLoggedIn = true;
@@ -3664,11 +3776,17 @@ function goPage(name) {
   if (name === 'history') renderHistoryPage();
   if (name === 'inbox')       loadInbox();
   if (name === 'leaderboard') loadLeaderboard();
-  if (name === 'globalchat')  loadGlobalChat();
+  if (name === 'globalchat')  loadGlobalChatRealtime();
   if (name === 'admin' && adminLoggedIn) renderSalesChart();
   if (name === 'installments') renderInstallmentPage();
   if (name === 'wishlist') renderWishlistPage();
-  if (name === 'admin' && adminLoggedIn) { renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); }
+  if (name === 'admin') {
+    if (!adminLoggedIn && currentUser && currentUser.username === ADMIN_CHAT_USER) {
+      checkAdminLogin(); // auto bypass
+    } else if (adminLoggedIn) {
+      renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); renderSalesChart();
+    }
+  }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
   updateBottomNav(name);
@@ -3785,7 +3903,12 @@ async function checkInboxBadge() {
       badge.style.display = unread > 0 ? 'flex' : 'none';
       badge.textContent   = unread > 9 ? '9+' : unread;
     }
-    // Tampilkan toast kalau ada notif baru
+    // Sync bottom nav notif badge
+    var bnBadge = document.getElementById('bn-notif-badge');
+    if (bnBadge) {
+      bnBadge.style.display = unread > 0 ? 'flex' : 'none';
+      bnBadge.textContent   = unread > 9 ? '9+' : unread;
+    }
     if (unread > 0) {
       toast('🔔 Kamu punya ' + unread + ' notifikasi baru!', 'info');
     }
@@ -4803,6 +4926,11 @@ const CHANGELOGS = [
           'Grafik penjualan 7 hari realtime di admin panel',
           'Peta lokasi toko di halaman pembayaran agent',
           'Admin bisa balas semua chat user dari panel khusus',
+          'Centang biru (✅ verified) bisa diberikan admin ke user pilihan',
+          'Global chat realtime tanpa refresh — instant!',
+          'Tombol broadcast admin — kirim pesan ke semua user sekaligus',
+          'Admin chat otomatis bisa buka admin panel tanpa password',
+          'Tombol install PWA/APK di halaman Pengaturan',
         ]
       },
       {
@@ -5075,7 +5203,15 @@ function updateUserUI() {
     avatarEl.textContent   = currentUser.name[0].toUpperCase();
     avatarEl.title         = currentUser.name + ' (@' + currentUser.username + ')';
     avatarEl.onclick       = showUserMenu;
-    // Auto-fill checkout email
+    // Update bottom nav avatar
+    var bnAvatar = document.getElementById('bn-user-avatar');
+    if (bnAvatar) {
+      bnAvatar.textContent = currentUser.name[0].toUpperCase();
+      bnAvatar.style.fontSize = '22px';
+    }
+    var bnUser = document.getElementById('bn-user');
+    if (bnUser) bnUser.onclick = showUserMenu;
+    // Auto-fill checkout
     var coEmail = document.getElementById('co-email');
     if (coEmail && currentUser.email) coEmail.value = currentUser.email;
     var coUser = document.getElementById('co-username');
@@ -5084,7 +5220,12 @@ function updateUserUI() {
     avatarEl.textContent = '👤';
     avatarEl.title       = 'Login / Daftar';
     avatarEl.onclick     = openLoginModal;
+    var bnAvatar = document.getElementById('bn-user-avatar');
+    if (bnAvatar) bnAvatar.textContent = '👤';
+    var bnUser = document.getElementById('bn-user');
+    if (bnUser) bnUser.onclick = openLoginModal;
   }
+  checkAutoOpenAdmin();
 }
 
 function showUserMenu() {
@@ -5489,6 +5630,9 @@ function verify2FA() {
 function openAdminChatPanel() {
   document.getElementById('admin-chat-panel').classList.add('show');
   loadACPUserList();
+  // Show broadcast button in chat panel
+  var ba = document.getElementById('admin-broadcast-area');
+  if (ba) ba.style.display = 'block';
   // Poll every 5s
   if (acpPollTimer) clearInterval(acpPollTimer);
   acpPollTimer = setInterval(loadACPUserList, 5000);
@@ -5772,7 +5916,7 @@ async function renderTop10() {
         '<div class="lb-rank r' + (rankNum<=3?rankNum:'') + '">' + medal + '</div>' +
         '<div class="lb-avatar" style="background:' + rankBg + '">' + u.name[0].toUpperCase() + '</div>' +
         '<div class="lb-info">' +
-          '<div class="lb-name">' + u.name + ' <span style="font-size:11px;color:var(--text3);">@' + u.username + '</span></div>' +
+          '<div class="lb-name">' + u.name + (u.verified?'<span class="verified-badge" title="Verified">✓</span>':'') + ' <span style="font-size:11px;color:var(--text3);">@' + u.username + '</span></div>' +
           '<div class="lb-meta">Bergabung: ' + new Date(u.joined||Date.now()).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) + '</div>' +
         '</div>' +
         '<div style="text-align:right;">' +
@@ -5814,21 +5958,25 @@ function renderFilteredUsers(list, ranked) {
   var tbody = document.getElementById('lb-user-table');
   if (!tbody) return;
   if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:16px;">Tidak ada user ditemukan</td></tr>'; return; }
+  var tdStyle = 'padding:12px 14px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:middle;';
   tbody.innerHTML = list.map(function(u, i) {
-    var rank    = ranked ? ranked[u.username] : null;
-    var isAdmin = u.username === 'capybara bla bla 1234';
+    var rank     = ranked ? ranked[u.username] : null;
+    var isAdmin  = u.username === 'capybara bla bla 1234';
     var rankBadge = isAdmin
-      ? '<span style="background:linear-gradient(135deg,#ff2d78,#ff6b3d);color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;">🛡️ ADMIN</span>'
-      : (rank && rank<=10 ? '<span style="background:rgba(0,200,255,0.15);color:var(--neon);border:1px solid var(--neon);border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;">#'+rank+'</span>' : '-');
+      ? '<span style="background:linear-gradient(135deg,#ff2d78,#ff6b3d);color:#fff;border-radius:10px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;">🛡️ ADMIN</span>'
+      : (rank && rank<=10
+          ? '<span style="background:rgba(0,200,255,0.15);color:var(--neon);border:1px solid var(--neon);border-radius:10px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;">🌍 #'+rank+'</span>'
+          : '<span style="color:var(--text3);font-size:12px;">—</span>');
     var joinDate = u.joined ? new Date(u.joined).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) : '-';
-    return '<tr>' +
-      '<td style="color:var(--text3);">' + (i+1) + '</td>' +
-      '<td><strong>@' + u.username + '</strong></td>' +
-      '<td>' + u.name + '</td>' +
-      '<td style="color:var(--text3);">' + joinDate + '</td>' +
-      '<td style="color:var(--neon2);font-weight:700;">' + u.purchases + '</td>' +
-      '<td style="color:var(--neon4);">' + u.points + '</td>' +
-      '<td>' + rankBadge + '</td>' +
+    var rowBg    = i%2===0 ? 'transparent' : 'rgba(255,255,255,0.02)';
+    return '<tr style="background:' + rowBg + ';transition:background .15s;">' +
+      '<td style="' + tdStyle + 'color:var(--text3);font-size:12px;">' + (i+1) + '</td>' +
+      '<td style="' + tdStyle + '"><strong style="color:var(--neon);">@' + u.username + '</strong></td>' +
+      '<td style="' + tdStyle + '">' + u.name + '</td>' +
+      '<td style="' + tdStyle + 'color:var(--text3);font-size:12px;">' + joinDate + '</td>' +
+      '<td style="' + tdStyle + 'color:var(--neon2);font-weight:700;text-align:center;">' + u.purchases + '</td>' +
+      '<td style="' + tdStyle + 'color:var(--neon4);text-align:center;">' + u.points + '</td>' +
+      '<td style="' + tdStyle + '">' + rankBadge + '</td>' +
       '</tr>';
   }).join('');
 }
@@ -5956,6 +6104,218 @@ function showPushNotif(title, body, icon) {
   });
 }
 
+
+// ════════════════════════════════════════════════════════════
+// ADMIN CHAT — Fix: X menutup panel, tampil normal, broadcast
+// ════════════════════════════════════════════════════════════
+
+// Override toggleChat untuk admin — X nutup panel admin
+var originalToggleChat = toggleChat;
+function toggleChat() {
+  if (adminChatLoggedIn) {
+    var panel = document.getElementById('admin-chat-panel');
+    if (panel && panel.classList.contains('show')) {
+      closeAdminChat();
+    } else {
+      openAdminChatPanel();
+    }
+    return;
+  }
+  originalToggleChat();
+}
+
+// Broadcast ke semua user dari admin
+async function broadcastToAllUsers() {
+  var msg = prompt('📢 Broadcast ke SEMUA user:\n(Pesan ini akan muncul di chat semua user)');
+  if (!msg || !msg.trim()) return;
+  try {
+    var users = await fbGet('nm_users') || {};
+    var usernames = Object.keys(users).filter(function(u){ return u !== ADMIN_CHAT_USER; });
+    if (!usernames.length) { toast('Tidak ada user untuk dibroadcast', 'warn'); return; }
+    var ts = Date.now();
+    for (var i = 0; i < usernames.length; i++) {
+      var u = usernames[i];
+      var msgs = await fbGet('live_chats/' + u) || {};
+      msgs['broadcast_' + ts] = {
+        from: 'admin',
+        text: '📢 ' + msg,
+        ts: ts,
+        read: false,
+        isBroadcast: true
+      };
+      await fbSet('live_chats/' + u, msgs);
+    }
+    toast('📢 Broadcast terkirim ke ' + usernames.length + ' user!', 'success');
+    // Also post to global chat
+    await fbSet('global_chat/broadcast_' + ts, {
+      username: ADMIN_CHAT_USER,
+      name: '🛡️ Admin',
+      text: '📢 PENGUMUMAN: ' + msg,
+      ts: ts
+    });
+  } catch(e) { toast('Gagal broadcast: ' + e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════════════
+// VERIFIED / CENTANG BIRU SYSTEM
+// ════════════════════════════════════════════════════════════
+async function searchUserToVerify() {
+  var q      = document.getElementById('verify-search-input').value.trim().toLowerCase();
+  var resEl  = document.getElementById('verify-search-result');
+  if (!q) { resEl.innerHTML = '<div style="color:var(--text3);font-size:13px;">Masukkan username dulu</div>'; return; }
+  resEl.innerHTML = '<div style="color:var(--text3);font-size:13px;">⏳ Mencari...</div>';
+  try {
+    var users = await fbGet('nm_users') || {};
+    var found = Object.entries(users).find(function(e){ return e[0].toLowerCase() === q || e[1].name.toLowerCase().includes(q); });
+    if (!found) {
+      resEl.innerHTML = '<div style="color:#ff6b6b;font-size:13px;">❌ User tidak ditemukan</div>';
+      return;
+    }
+    var username   = found[0];
+    var userData   = found[1];
+    var isVerified = userData.verified || false;
+    resEl.innerHTML = '<div class="verify-result">' +
+      '<div>' +
+        '<div style="font-weight:700;">@' + username + ' — ' + userData.name +
+          (isVerified ? ' <span class="verified-badge">✓</span>' : '') +
+        '</div>' +
+        '<div style="font-size:12px;color:var(--text3);">' + (isVerified ? '✅ Sudah terverifikasi' : '○ Belum terverifikasi') + '</div>' +
+      '</div>' +
+      '<button class="btn ' + (isVerified ? 'btn-danger' : 'btn-primary') + '" style="padding:8px 14px;font-size:12px;" onclick="toggleVerify(\'' + username + '\',' + isVerified + ')">' +
+        (isVerified ? '✕ Cabut Centang' : '✅ Beri Centang Biru') +
+      '</button>' +
+    '</div>';
+  } catch(e) { resEl.innerHTML = '<div style="color:#ff6b6b;font-size:13px;">Error: ' + e.message + '</div>'; }
+}
+
+async function toggleVerify(username, currentStatus) {
+  try {
+    var users = await fbGet('nm_users') || {};
+    if (!users[username]) { toast('User tidak ditemukan', 'error'); return; }
+    users[username].verified = !currentStatus;
+    await fbSet('nm_users', users);
+    toast((currentStatus ? '✕ Centang biru dicabut dari ' : '✅ Centang biru diberikan ke ') + '@' + username + '!', 'success');
+    searchUserToVerify();
+    // Jika user ini sedang login, update UI mereka juga
+    if (currentUser && currentUser.username === username) {
+      currentUser.verified = !currentStatus;
+      localStorage.setItem('nm_current_user', JSON.stringify(currentUser));
+    }
+  } catch(e) { toast('Gagal: ' + e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════════════
+// GLOBAL CHAT REALTIME — Firebase listener (instant, no poll)
+// ════════════════════════════════════════════════════════════
+var gchatListenerActive = false;
+
+async function loadGlobalChatRealtime() {
+  var msgEl    = document.getElementById('gchat-messages');
+  var inpEl    = document.getElementById('gchat-input-area');
+  var promptEl = document.getElementById('gchat-login-prompt');
+  if (!msgEl) return;
+
+  if (currentUser) {
+    if (inpEl) inpEl.style.display = 'flex';
+    if (promptEl) promptEl.style.display = 'none';
+  } else {
+    if (inpEl) inpEl.style.display = 'none';
+    if (promptEl) promptEl.style.display = 'block';
+  }
+
+  if (!gchatListenerActive) {
+    gchatListenerActive = true;
+    // Use Firebase REST polling at 1.5s for near-realtime
+    setInterval(async function() {
+      if (!document.getElementById('page-globalchat').classList.contains('active')) return;
+      try {
+        var data  = await fbGet('global_chat') || {};
+        var msgs  = Object.values(data).sort(function(a,b){ return a.ts - b.ts; }).slice(-100);
+        var newMsgs = msgs.filter(function(m){ return m.ts > gchatLastTs; });
+        if (!newMsgs.length) return;
+        var rankMap = await buildRankMap();
+        var users   = await fbGet('nm_users') || {};
+        newMsgs.forEach(function(m) {
+          var verified = users[m.username] && users[m.username].verified;
+          msgEl.insertAdjacentHTML('beforeend', renderGChatMsgV2(m, rankMap, verified));
+        });
+        msgEl.scrollTop = msgEl.scrollHeight;
+        gchatLastTs = newMsgs[newMsgs.length-1].ts;
+        var recent    = msgs.filter(function(m){ return Date.now()-m.ts < 5*60*1000; });
+        var unique    = new Set(recent.map(function(m){ return m.username; })).size;
+        var badge     = document.getElementById('gchat-online-badge');
+        if (badge) badge.innerHTML = '<span class="realtime-dot"></span>' + unique + ' aktif';
+      } catch(e) {}
+    }, 1500);
+  }
+
+  // Initial load
+  try {
+    msgEl.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:13px;padding:20px;">⏳ Memuat chat...</div>';
+    var data  = await fbGet('global_chat') || {};
+    var msgs  = Object.values(data).sort(function(a,b){ return a.ts - b.ts; }).slice(-100);
+    if (!msgs.length) {
+      msgEl.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:13px;padding:30px;">Belum ada pesan. Jadilah yang pertama! 🎉</div>';
+      return;
+    }
+    var rankMap = await buildRankMap();
+    var users   = await fbGet('nm_users') || {};
+    msgEl.innerHTML = msgs.map(function(m) {
+      var verified = users[m.username] && users[m.username].verified;
+      return renderGChatMsgV2(m, rankMap, verified);
+    }).join('');
+    msgEl.scrollTop = msgEl.scrollHeight;
+    gchatLastTs = msgs[msgs.length-1].ts;
+  } catch(e) {
+    msgEl.innerHTML = '<div style="text-align:center;color:#ff6b6b;font-size:13px;padding:20px;">Gagal load: ' + e.message + '</div>';
+  }
+}
+
+function renderGChatMsgV2(m, rankMap, verified) {
+  var isMe        = currentUser && m.username === currentUser.username;
+  var isAdminChat = m.username === ADMIN_CHAT_USER;
+  var rank        = rankMap[m.username];
+  var rankHtml    = '';
+  if (isAdminChat) {
+    rankHtml = '<span class="gchat-rank-badge rank-admin">🛡️ ADMIN</span>';
+  } else if (rank && rank <= 10) {
+    var rc = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-top10';
+    rankHtml = '<span class="gchat-rank-badge ' + rc + '">🌍 Rank #' + rank + ' Global!</span>';
+  }
+  var verifiedHtml = verified ? '<span class="verified-badge" title="Verified">✓</span>' : '';
+  var colors   = ['#00c8ff','#7c3aed','#ff2d78','#10b981','#f59e0b','#3b82f6'];
+  var ci       = m.username.charCodeAt(0) % colors.length;
+  var time     = new Date(m.ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  return '<div class="gchat-msg' + (isMe?' me':'') + '">' +
+    '<div class="gchat-avatar" style="background:' + (isAdminChat?'linear-gradient(135deg,#ff2d78,#ff6b3d)':colors[ci]) + '">' + m.name[0].toUpperCase() + '</div>' +
+    '<div class="gchat-bubble-wrap">' +
+    '<div class="gchat-name-row">' +
+      (rankHtml ? rankHtml + ' ' : '') +
+      '<span style="font-weight:600;">' + m.name + '</span>' +
+      verifiedHtml +
+      '<span style="opacity:.6;font-size:10px;">@' + m.username + '</span>' +
+    '</div>' +
+    '<div class="gchat-bubble">' + m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>' +
+    '<div class="gchat-time">' + time + '</div>' +
+    '</div></div>';
+}
+
+// ════════════════════════════════════════════════════════════
+// ADMIN PANEL AUTO-OPEN (khusus akun admin chat)
+// ════════════════════════════════════════════════════════════
+function checkAutoOpenAdmin() {
+  if (currentUser && currentUser.username === ADMIN_CHAT_USER) {
+    // Tombol admin panel langsung bisa dibuka tanpa password
+    var adminBtn = document.getElementById('nav-admin');
+    if (adminBtn) adminBtn.style.display = 'flex';
+    // Jika goPage admin dipanggil, bypass password
+    window._adminAutoLogin = true;
+  }
+}
+
+// Override checkAdminLogin untuk skip password jika admin chat
+var _origCheckAdminLogin = typeof checkAdminLogin !== 'undefined' ? checkAdminLogin : null;
+
 // Close modals on overlay click
 ['productModal','installModal','checkoutModal','receiptModal','tutorialModal'].forEach(function(id) {
   var el = document.getElementById(id);
@@ -5982,18 +6342,30 @@ function showPushNotif(title, body, icon) {
     <div class="bn-icon">❤️</div>
     <div>Wishlist</div>
   </div>
+
+  <!-- User Avatar — Tengah, Besar -->
+  <div class="bottom-nav-item" onclick="openLoginModal()" id="bn-user" style="position:relative;margin-top:-18px;">
+    <div id="bn-user-avatar" style="
+      width:56px;height:56px;border-radius:50%;
+      background:linear-gradient(135deg,var(--neon),var(--neon3));
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;color:#fff;font-weight:700;
+      border:3px solid var(--bg);
+      box-shadow:0 4px 20px rgba(0,200,255,0.5);
+      transition:var(--transition);
+    ">👤</div>
+    <div style="font-size:9px;margin-top:4px;">Profil</div>
+  </div>
+
+  <div class="bottom-nav-item" onclick="goPage('inbox')" id="bn-inbox" style="position:relative;">
+    <div class="bn-icon">🔔</div>
+    <div class="bn-badge" id="bn-notif-badge" style="display:none;">0</div>
+    <div>Notif</div>
+  </div>
   <div class="bottom-nav-item" onclick="goPage('cart')" id="bn-cart" style="position:relative;">
     <div class="bn-icon">🛒</div>
     <div class="bn-badge" id="bn-cart-badge">0</div>
     <div>Cart</div>
-  </div>
-  <div class="bottom-nav-item" onclick="goPage('inbox')" id="bn-inbox">
-    <div class="bn-icon">🔔</div>
-    <div>Notif</div>
-  </div>
-  <div class="bottom-nav-item" onclick="goPage('settings')" id="bn-settings">
-    <div class="bn-icon">⚙️</div>
-    <div>Settings</div>
   </div>
 </div>
 
@@ -6087,6 +6459,11 @@ function showPushNotif(title, body, icon) {
     <div class="chat-online"></div>
     <h4>Chat Admin ExtinctionIBT</h4>
     <button onclick="toggleChat()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;">✕</button>
+  </div>
+  <div id="admin-broadcast-area" style="display:none;padding:8px 10px;border-bottom:1px solid var(--border);">
+    <button class="admin-broadcast-btn" onclick="broadcastToAllUsers()">
+      📢 Broadcast ke Semua User
+    </button>
   </div>
   <div class="chat-messages" id="chat-messages">
     <div class="chat-msg admin">
