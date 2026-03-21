@@ -1646,6 +1646,189 @@ input, textarea, [contenteditable] {
   user-select: text !important;
 }
 
+
+/* ══ HERO REDESIGN ══ */
+.hero {
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,200,255,0.06) 0%,rgba(124,58,237,0.08) 50%,rgba(255,45,120,0.05) 100%);
+  border:1px solid var(--border2);border-radius:24px;
+  padding:clamp(24px,5vw,48px) clamp(20px,4vw,40px);
+  margin-bottom:20px;text-align:center;
+}
+.hero::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(0,200,255,0.08),transparent 60%),
+             radial-gradient(ellipse at 80% 50%,rgba(124,58,237,0.08),transparent 60%);
+  pointer-events:none;
+}
+.hero h1 {
+  font-family:var(--font-display);
+  font-size:clamp(28px,6vw,56px);
+  font-weight:900;letter-spacing:2px;
+  background:linear-gradient(135deg,#fff 0%,var(--neon) 40%,var(--neon3) 70%,var(--neon2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:10px;position:relative;z-index:1;
+  text-shadow:none;
+}
+.hero p {
+  color:var(--text2);font-size:clamp(13px,2vw,15px);
+  position:relative;z-index:1;max-width:500px;margin:0 auto;
+}
+.hero-badges {
+  display:flex;gap:8px;justify-content:center;
+  flex-wrap:wrap;margin-top:16px;position:relative;z-index:1;
+}
+.hero-badge {
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border2);
+  color:var(--text2);transition:var(--transition);
+}
+.hero-badge:hover{border-color:var(--neon);color:var(--neon);}
+
+
+/* ══ FILTER BAR REDESIGN ══ */
+.filter-bar {
+  display:flex;gap:10px;align-items:center;
+  padding:12px 16px;
+  background:var(--bg2);
+  border:1px solid var(--border);border-radius:16px;
+  margin-bottom:16px;flex-wrap:wrap;
+}
+.filter-chips {
+  display:flex;gap:6px;flex-wrap:wrap;flex:1;
+}
+.chip {
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  cursor:pointer;transition:var(--transition);
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--text3);white-space:nowrap;
+}
+.chip:hover { border-color:var(--border2);color:var(--text2); }
+.chip.active {
+  background:linear-gradient(135deg,rgba(0,200,255,0.2),rgba(124,58,237,0.2));
+  border-color:var(--neon);color:var(--neon);
+  box-shadow:0 0 10px rgba(0,200,255,0.15);
+}
+.filter-select {
+  padding:7px 12px;border-radius:10px;
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--text);font-size:12px;font-family:inherit;
+  cursor:pointer;outline:none;transition:var(--transition);
+  -webkit-appearance:none;appearance:none;
+}
+.filter-select:focus{border-color:var(--neon);}
+
+
+/* ══ PRODUCT CARD REDESIGN ══ */
+.product-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;
+}
+.prod-card {
+  background:linear-gradient(145deg,rgba(13,18,32,0.95),rgba(17,24,39,0.95));
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:18px;overflow:hidden;
+  transition:all .3s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;
+}
+.prod-card:hover {
+  border-color:rgba(0,200,255,0.4);
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 0 1px rgba(0,200,255,0.15),0 0 30px rgba(0,200,255,0.1);
+}
+.prod-img-wrap {
+  position:relative;overflow:hidden;
+  aspect-ratio:4/3;
+}
+.prod-img-wrap img {
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .4s ease;
+}
+.prod-card:hover .prod-img-wrap img { transform:scale(1.08); }
+.prod-body { padding:14px; }
+.prod-name {
+  font-size:14px;font-weight:700;margin-bottom:6px;
+  line-height:1.4;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.prod-price {
+  font-family:var(--font-display);font-size:16px;font-weight:900;
+  background:linear-gradient(135deg,var(--neon2),#ff6b3d);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.prod-meta {
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--text3);margin-bottom:8px;flex-wrap:wrap;
+}
+.prod-rating { color:var(--gold); }
+.prod-stock { font-size:12px;margin-bottom:10px; }
+.prod-btn {
+  width:100%;padding:10px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(0,200,255,0.15),rgba(124,58,237,0.15));
+  border:1px solid rgba(0,200,255,0.3);
+  color:var(--neon);font-size:13px;font-weight:600;
+  font-family:inherit;cursor:pointer;transition:var(--transition);
+}
+.prod-btn:hover:not(:disabled) {
+  background:linear-gradient(135deg,rgba(0,200,255,0.3),rgba(124,58,237,0.3));
+  border-color:var(--neon);box-shadow:0 0 20px rgba(0,200,255,0.2);
+  transform:translateY(-2px);
+}
+.prod-btn:disabled {
+  background:rgba(100,116,139,0.08);border-color:var(--border);
+  color:var(--text3);cursor:not-allowed;opacity:.5;
+}
+
+
+/* ══ BUTTONS REDESIGN ══ */
+.btn {
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .25s cubic-bezier(0.34,1.56,0.64,1);
+  border:1px solid transparent;font-family:inherit;white-space:nowrap;
+  position:relative;overflow:hidden;
+}
+.btn::after {
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,0);transition:.2s;border-radius:inherit;
+}
+.btn:hover::after { background:rgba(255,255,255,0.05); }
+.btn:active { transform:scale(0.97); }
+.btn-primary {
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  color:#000;font-weight:700;
+  box-shadow:0 4px 16px rgba(0,200,255,0.25);
+}
+.btn-primary:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(0,200,255,0.4);
+}
+.btn-success {
+  background:linear-gradient(135deg,var(--neon4),#059669);
+  color:#fff;font-weight:700;
+  box-shadow:0 4px 16px rgba(16,185,129,0.25);
+}
+.btn-success:hover { transform:translateY(-3px);box-shadow:0 8px 28px rgba(16,185,129,0.4); }
+.btn-danger {
+  background:linear-gradient(135deg,var(--neon2),#dc2626);
+  color:#fff;font-weight:700;
+  box-shadow:0 4px 16px rgba(255,45,120,0.25);
+}
+.btn-danger:hover { transform:translateY(-3px);box-shadow:0 8px 28px rgba(255,45,120,0.4); }
+.btn-ghost {
+  background:transparent;
+  border-color:var(--border2);color:var(--text2);
+}
+.btn-ghost:hover { border-color:var(--neon);color:var(--neon);background:rgba(0,200,255,0.06); }
+.btn-secondary {
+  background:rgba(255,255,255,0.06);
+  border-color:var(--border2);color:var(--text);
+}
+.btn-secondary:hover { border-color:var(--neon);color:var(--neon); }
+
 </style>
 </head>
 <body>
@@ -1670,33 +1853,23 @@ input, textarea, [contenteditable] {
     <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
     <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
     <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
-    <button class="nav-btn" onclick="goPage('history')" id="nav-history"><span>📜</span><span>History</span></button>
     <button class="nav-btn" onclick="goPage('leaderboard')" id="nav-leaderboard"><span>🏆</span><span>Rank</span></button>
-    <button class="nav-btn" onclick="goPage('globalchat')" id="nav-globalchat"><span>💬</span><span>Global</span></button>
-
-    <!-- Divider -->
-    <div style="width:1px;height:24px;background:var(--border);margin:0 4px;"></div>
-
     <button class="nav-btn" onclick="goPage('inbox')" id="nav-inbox" style="position:relative;">
       <span>🔔</span><span id="t-notif">Notif</span>
       <span class="badge" id="inbox-badge" style="display:none;background:#ff2d78;">0</span>
     </button>
+    <div style="width:1px;height:22px;background:var(--border);margin:0 2px;flex-shrink:0;"></div>
     <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative;">
       <span>🛒</span><span id="t-cart">Cart</span>
       <span class="badge" id="cart-badge" style="display:none;">0</span>
     </button>
-
-    <!-- Divider -->
-    <div style="width:1px;height:24px;background:var(--border);margin:0 4px;"></div>
-
-    <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;" title="Bahasa">
+    <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:6px 8px;border-radius:8px;font-size:12px;cursor:pointer;">
       <option value="en">🌐 EN</option>
       <option value="id">🇮🇩 ID</option>
       <option value="ar">🇸🇦 AR</option>
       <option value="ja">🇯🇵 JA</option>
       <option value="ms">🇲🇾 MS</option>
     </select>
-    <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span><span>Setting</span></button>
     <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil" style="width:34px;height:34px;font-size:14px;">👤</div>
   </div>
 </nav>
@@ -1729,8 +1902,59 @@ input, textarea, [contenteditable] {
       <input type="email" class="login-input" id="ru-email" placeholder="Email (untuk notifikasi)">
       <input type="password" class="login-input" id="ru-password" placeholder="Password (min 6 karakter)">
       <div class="login-err" id="ru-err"></div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;line-height:1.7;">
+        Dengan mendaftar, kamu menyetujui
+        <span onclick="showTerms()" style="color:#3b82f6;text-decoration:underline;cursor:pointer;font-weight:600;">
+          Syarat &amp; Ketentuan Penggunaan
+        </span>
+        dan
+        <span onclick="showTerms()" style="color:#3b82f6;text-decoration:underline;cursor:pointer;font-weight:600;">
+          Kebijakan Privasi
+        </span>
+        NeonMart.
+      </div>
       <button class="login-btn" onclick="doRegister()">✨ Buat Akun</button>
       <button style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:inherit;" onclick="closeLoginModal()">Lewati — Belanja tanpa akun</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════ TERMS OF USE MODAL ═══════ -->
+<div id="terms-modal" style="
+  display:none;position:fixed;inset:0;z-index:99000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;padding:20px;
+">
+  <div style="
+    background:var(--bg2);border:1px solid var(--border2);
+    border-radius:20px;width:100%;max-width:680px;max-height:88vh;
+    display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  ">
+    <div style="
+      padding:18px 24px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      background:linear-gradient(135deg,rgba(0,200,255,0.08),rgba(124,58,237,0.08));
+    ">
+      <div>
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:900;color:var(--neon);">📋 SYARAT & KETENTUAN PENGGUNAAN</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">NeonMart — ExtinctionIBT Store · Terakhir diperbarui: Maret 2026</div>
+      </div>
+      <button onclick="document.getElementById('terms-modal').style.display='none'" style="
+        background:rgba(255,255,255,0.08);border:1px solid var(--border);
+        border-radius:50%;width:32px;height:32px;color:var(--text2);
+        cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
+      ">✕</button>
+    </div>
+    <div style="overflow-y:auto;padding:24px;flex:1;font-size:13px;line-height:1.9;color:var(--text2);" id="terms-content"></div>
+    <div style="padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;">
+      <button onclick="document.getElementById('terms-modal').style.display='none'" style="
+        flex:1;padding:12px;border-radius:12px;
+        background:linear-gradient(135deg,var(--neon),var(--neon3));
+        border:none;color:#000;font-weight:700;font-size:14px;
+        font-family:inherit;cursor:pointer;
+      ">✅ Saya Mengerti & Setuju</button>
     </div>
   </div>
 </div>
@@ -1964,8 +2188,15 @@ input, textarea, [contenteditable] {
 <div class="page active" id="page-home">
   <div class="container">
     <div class="hero">
-      <h1>⚡ NEONMART DIGITAL STORE</h1>
-      <p>Platform belanja digital futuristik · Produk premium pilihan terbaik</p>
+      <h1>⚡ NEONMART</h1>
+      <p id="hero-sub">Platform belanja digital premium · ExtinctionIBT Store</p>
+      <div class="hero-badges">
+        <div class="hero-badge">🔒 Transaksi Aman</div>
+        <div class="hero-badge">⭐ Rating 4.9</div>
+        <div class="hero-badge">📦 Produk Digital</div>
+        <div class="hero-badge">⚡ Proses Cepat</div>
+        <div class="hero-badge">🎮 Gaming · Streaming · AI</div>
+      </div>
     </div>
 
     <!-- Analytics Bar -->
@@ -1975,19 +2206,28 @@ input, textarea, [contenteditable] {
       <div class="analytic-item">⭐ Rating toko <b style="color:var(--gold)">4.9</b></div>
     </div>
 
-    <!-- Flash Sale -->
-    <div class="flash-sale-banner">
-      <div class="flash-icon">⚡</div>
-      <div class="flash-info">
-        <h3>FLASH SALE HARI INI</h3>
-        <p>Diskon hingga 50% untuk produk pilihan</p>
-      </div>
-      <div class="flash-timer">
-        <div class="timer-block"><div class="timer-num" id="fs-h">00</div><div class="timer-label">Jam</div></div>
-        <span class="timer-sep">:</span>
-        <div class="timer-block"><div class="timer-num" id="fs-m">00</div><div class="timer-label">Menit</div></div>
-        <span class="timer-sep">:</span>
-        <div class="timer-block"><div class="timer-num" id="fs-s">00</div><div class="timer-label">Detik</div></div>
+    <!-- Welcome Banner -->
+    <div id="welcome-banner" style="
+      background:linear-gradient(135deg,rgba(0,200,255,0.08),rgba(124,58,237,0.1),rgba(255,45,120,0.06));
+      border:1px solid var(--border2);border-radius:18px;
+      padding:20px 24px;margin-bottom:20px;
+      position:relative;overflow:hidden;
+    ">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(0,200,255,0.06),transparent);pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <div id="welcome-title" style="
+          font-family:var(--font-display);font-size:clamp(16px,3vw,22px);
+          font-weight:900;margin-bottom:6px;
+          background:linear-gradient(135deg,var(--neon),var(--neon3),var(--neon2));
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+        ">👋 Selamat Datang di NeonMart!</div>
+        <div id="welcome-sub" style="font-size:13px;color:var(--text2);line-height:1.7;max-width:600px;">
+          Temukan produk digital terbaik pilihan kami. Dari gaming hingga produktivitas — semua ada di sini. Belanja aman, cepat, dan terpercaya! 🚀
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <div class="points-badge" id="welcome-points" style="display:none;">🏅 0 Poin</div>
+          <div style="font-size:11px;color:var(--text3);">⭐ Toko Rating 4.9 · 🔒 Transaksi Aman · 📦 Produk Digital</div>
+        </div>
       </div>
     </div>
 
@@ -2226,6 +2466,40 @@ input, textarea, [contenteditable] {
       </div>
     </div>
 
+    <!-- NAVIGASI CEPAT -->
+    <div style="font-family:var(--font-display);font-size:11px;color:var(--neon);letter-spacing:1px;margin-bottom:10px;margin-top:4px;">🗂️ NAVIGASI CEPAT</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px;">
+      <button onclick="goPage('home')" style="padding:12px;border-radius:14px;background:rgba(0,200,255,0.08);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon)'" onmouseout="this.style.borderColor='var(--border2)'">
+        🏠 <span>Home</span>
+      </button>
+      <button onclick="goPage('wishlist')" style="padding:12px;border-radius:14px;background:rgba(255,45,120,0.08);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon2)'" onmouseout="this.style.borderColor='var(--border2)'">
+        ❤️ <span>Wishlist</span>
+      </button>
+      <button onclick="goPage('cart')" style="padding:12px;border-radius:14px;background:rgba(0,200,255,0.06);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon)'" onmouseout="this.style.borderColor='var(--border2)'">
+        🛒 <span>Keranjang</span>
+      </button>
+      <button onclick="goPage('installments')" style="padding:12px;border-radius:14px;background:rgba(124,58,237,0.08);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon3)'" onmouseout="this.style.borderColor='var(--border2)'">
+        💳 <span>Cicilan</span>
+      </button>
+      <button onclick="goPage('history')" style="padding:12px;border-radius:14px;background:rgba(245,158,11,0.08);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">
+        📜 <span>History</span>
+      </button>
+      <button onclick="goPage('inbox')" style="padding:12px;border-radius:14px;background:rgba(255,45,120,0.06);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon2)'" onmouseout="this.style.borderColor='var(--border2)'">
+        🔔 <span>Notifikasi</span>
+      </button>
+      <button onclick="goPage('globalchat')" style="padding:12px;border-radius:14px;background:rgba(0,200,255,0.06);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon)'" onmouseout="this.style.borderColor='var(--border2)'">
+        💬 <span>Global Chat</span>
+      </button>
+      <button onclick="goPage('leaderboard')" style="padding:12px;border-radius:14px;background:rgba(245,158,11,0.08);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">
+        🏆 <span>Leaderboard</span>
+      </button>
+      <button onclick="goPage('admin')" style="padding:12px;border-radius:14px;background:rgba(255,45,120,0.06);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon2)'" onmouseout="this.style.borderColor='var(--border2)'">
+        🛡️ <span>Admin Panel</span>
+      </button>
+    </div>
+
+    <!-- PENGATURAN UTAMA -->
+    <div style="font-family:var(--font-display);font-size:11px;color:var(--neon);letter-spacing:1px;margin-bottom:10px;">⚙️ PREFERENSI</div>
     <div class="settings-list">
       <div class="setting-item">
         <div class="setting-info"><h4>🌓 Dark Mode</h4><p>Tampilan gelap / terang</p></div>
@@ -2240,20 +2514,16 @@ input, textarea, [contenteditable] {
         <label class="toggle-switch"><input type="checkbox" id="tog-sound" checked onchange="toggleSound(this)"><span class="toggle-slider"></span></label>
       </div>
       <div class="setting-item">
-        <div class="setting-info"><h4>🗑 Hapus Semua Data</h4><p>Cart, history, cicilan, wishlist</p></div>
-        <button class="btn btn-danger" onclick="clearAllData()" style="padding:10px 20px;">Hapus Data</button>
-      </div>
-      <div class="setting-item">
         <div class="setting-info"><h4>📖 Tutorial</h4><p>Tampilkan panduan penggunaan</p></div>
         <button class="btn btn-ghost" onclick="showTutorial()" style="padding:10px 20px;">Lihat Tutorial</button>
       </div>
       <div class="setting-item">
-        <div class="setting-info"><h4>🛡 Admin Panel</h4><p>Akses tersembunyi untuk admin</p></div>
-        <button class="btn btn-secondary" onclick="goPage('admin')" style="padding:10px 20px;">Masuk Admin</button>
+        <div class="setting-info"><h4>📋 Syarat & Ketentuan</h4><p>Baca aturan penggunaan NeonMart</p></div>
+        <button class="btn btn-ghost" onclick="showTerms()" style="padding:10px 20px;">Baca</button>
       </div>
       <div class="setting-item">
-        <div class="setting-info"><h4>📜 Riwayat Pembelian</h4><p>Lihat semua history transaksi kamu</p></div>
-        <button class="btn btn-ghost" style="padding:8px 14px;font-size:13px;" onclick="goPage('history')">Lihat History</button>
+        <div class="setting-info"><h4>🗑 Hapus Semua Data</h4><p>Cart, history, cicilan, wishlist</p></div>
+        <button class="btn btn-danger" onclick="clearAllData()" style="padding:10px 20px;">Hapus Data</button>
       </div>
     </div>
   </div>
@@ -2609,6 +2879,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // User auth UI
   updateUserUI();
+  updateWelcomeBanner();
 
   // Language init
   const savedLang = localStorage.getItem('nm_lang') || 'en';
@@ -5185,6 +5456,283 @@ function showAllChangelogs() {
   if (CHANGELOGS[idx]) showChangelog(CHANGELOGS[idx].version);
 }
 
+
+// ════════════════════════════════════════════════════════════
+// TERMS OF USE — 500+ baris
+// ════════════════════════════════════════════════════════════
+var TERMS_CONTENT = `
+<div style="margin-bottom:24px;">
+  <h2 style="font-family:var(--font-display);color:var(--neon);font-size:18px;margin-bottom:8px;">SYARAT DAN KETENTUAN PENGGUNAAN NEONMART</h2>
+  <p style="color:var(--text3);font-size:12px;">Versi 1.0 · Berlaku sejak Maret 2026 · ExtinctionIBT Store</p>
+</div>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB I — KETENTUAN UMUM</h3>
+
+<p><strong style="color:var(--text);">Pasal 1 — Definisi</strong></p>
+<p>1.1. "NeonMart" adalah platform belanja digital yang dikelola oleh ExtinctionIBT Store, beroperasi di wilayah Indonesia.</p>
+<p>1.2. "Pengguna" adalah setiap individu yang mengakses, mendaftar, atau menggunakan layanan NeonMart dalam bentuk apapun.</p>
+<p>1.3. "Akun" adalah identitas digital yang dibuat Pengguna untuk mengakses fitur-fitur eksklusif NeonMart.</p>
+<p>1.4. "Produk Digital" adalah barang non-fisik yang diperjualbelikan melalui platform ini, meliputi namun tidak terbatas pada: game currency, voucher, layanan berlangganan, dan konten digital lainnya.</p>
+<p>1.5. "Admin" adalah pengelola resmi platform NeonMart dari ExtinctionIBT Store yang memiliki kewenangan penuh atas operasional platform.</p>
+<p>1.6. "Transaksi" adalah setiap aktivitas pembelian, pembayaran, atau pertukaran nilai yang terjadi melalui platform NeonMart.</p>
+<p>1.7. "Pembayaran" adalah proses penyerahan dana dari Pengguna kepada ExtinctionIBT Store sebagai imbalan atas produk atau layanan yang diperoleh.</p>
+<p>1.8. "Konten Pengguna" adalah segala bentuk teks, gambar, ulasan, atau materi lain yang diunggah atau dibagikan oleh Pengguna di platform.</p>
+<p>1.9. "Layanan" mengacu pada seluruh fitur, fungsi, dan fasilitas yang disediakan oleh NeonMart kepada Pengguna.</p>
+<p>1.10. "Kebijakan Privasi" adalah dokumen terpisah yang mengatur cara pengumpulan, penggunaan, dan perlindungan data pribadi Pengguna.</p>
+
+<p><strong style="color:var(--text);">Pasal 2 — Penerimaan Syarat</strong></p>
+<p>2.1. Dengan mengakses atau menggunakan NeonMart, Pengguna dianggap telah membaca, memahami, dan menyetujui seluruh Syarat dan Ketentuan ini secara penuh.</p>
+<p>2.2. Apabila Pengguna tidak menyetujui salah satu atau seluruh ketentuan ini, Pengguna diharuskan untuk segera menghentikan penggunaan layanan NeonMart.</p>
+<p>2.3. NeonMart berhak mengubah, memperbarui, atau merevisi Syarat dan Ketentuan ini sewaktu-waktu tanpa pemberitahuan terlebih dahulu.</p>
+<p>2.4. Perubahan pada Syarat dan Ketentuan akan berlaku efektif segera setelah dipublikasikan di platform.</p>
+<p>2.5. Penggunaan berkelanjutan atas layanan NeonMart setelah perubahan dipublikasikan dianggap sebagai persetujuan atas perubahan tersebut.</p>
+<p>2.6. Pengguna yang berusia di bawah 18 tahun hanya dapat menggunakan layanan ini atas sepengetahuan dan izin orang tua atau wali yang sah.</p>
+<p>2.7. Pengguna menjamin bahwa informasi yang diberikan saat pendaftaran adalah akurat, terkini, dan lengkap.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB II — PENDAFTARAN DAN AKUN</h3>
+
+<p><strong style="color:var(--text);">Pasal 3 — Pembuatan Akun</strong></p>
+<p>3.1. Pengguna dapat menggunakan layanan NeonMart secara terbatas tanpa mendaftar.</p>
+<p>3.2. Untuk mengakses fitur-fitur eksklusif seperti Global Chat, Ulasan Produk, dan Riwayat Pembelian, Pengguna diwajibkan membuat akun.</p>
+<p>3.3. Setiap Pengguna hanya diperbolehkan memiliki satu akun aktif. Pembuatan akun ganda dapat mengakibatkan pemblokiran permanen.</p>
+<p>3.4. Username yang dipilih harus memenuhi ketentuan: minimal 3 karakter, tidak mengandung kata-kata kasar atau menyinggung, dan tidak menyamar sebagai pihak lain.</p>
+<p>3.5. Password harus terdiri dari minimal 6 karakter dan merupakan kombinasi yang kuat untuk menjaga keamanan akun.</p>
+<p>3.6. Pengguna bertanggung jawab penuh atas kerahasiaan data login akun mereka.</p>
+<p>3.7. Segala aktivitas yang terjadi menggunakan akun Pengguna menjadi tanggung jawab penuh Pengguna yang bersangkutan.</p>
+<p>3.8. Pengguna wajib segera memberitahukan Admin jika mengetahui atau menduga adanya akses tidak sah ke akun mereka.</p>
+<p>3.9. NeonMart tidak bertanggung jawab atas kerugian yang timbul akibat kelalaian Pengguna dalam menjaga keamanan akun.</p>
+<p>3.10. Akun yang tidak aktif selama lebih dari 12 bulan dapat dihapus oleh Admin tanpa pemberitahuan sebelumnya.</p>
+
+<p><strong style="color:var(--text);">Pasal 4 — Verifikasi Akun</strong></p>
+<p>4.1. Admin berhak memberikan atau mencabut status "Verified" (centang biru) kepada Pengguna tertentu berdasarkan pertimbangan internal.</p>
+<p>4.2. Status Verified bukan merupakan hak yang dapat dituntut oleh Pengguna.</p>
+<p>4.3. Verifikasi akun tidak memberikan hak atau keistimewaan khusus dalam hal pembelian atau prioritas layanan.</p>
+<p>4.4. Admin berhak mencabut status Verified kapan saja jika ditemukan pelanggaran ketentuan.</p>
+<p>4.5. Pengguna dilarang memperdagangkan, mengklaim, atau menyalahgunakan status Verified untuk kepentingan pihak ketiga.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB III — TRANSAKSI DAN PEMBAYARAN</h3>
+
+<p><strong style="color:var(--text);">Pasal 5 — Proses Pembelian</strong></p>
+<p>5.1. Semua harga yang tercantum di NeonMart adalah harga dalam mata uang Rupiah (IDR) dan sudah termasuk pajak yang berlaku.</p>
+<p>5.2. Pengguna wajib memastikan kebenaran data pemesanan sebelum melakukan konfirmasi pembayaran.</p>
+<p>5.3. Pemesanan yang telah dikonfirmasi tidak dapat dibatalkan secara sepihak oleh Pengguna tanpa persetujuan Admin.</p>
+<p>5.4. NeonMart berhak membatalkan pesanan jika terjadi kesalahan harga akibat kesalahan teknis atau human error.</p>
+<p>5.5. Dalam hal pembatalan pesanan oleh NeonMart, dana Pengguna akan dikembalikan sepenuhnya dalam waktu 3-7 hari kerja.</p>
+<p>5.6. Pengguna bertanggung jawab untuk memastikan ketersediaan dana yang cukup sebelum melakukan transaksi.</p>
+<p>5.7. Setiap transaksi akan mendapatkan bukti pembelian berupa struk digital yang dapat digunakan sebagai bukti sah.</p>
+<p>5.8. Pengguna dilarang melakukan chargebacks atau membalik transaksi secara sepihak melalui pihak ketiga.</p>
+
+<p><strong style="color:var(--text);">Pasal 6 — Metode Pembayaran</strong></p>
+<p>6.1. NeonMart menerima pembayaran melalui: Transfer DANA, QRIS, pembayaran langsung di Agent, dan Cicilan Fisik.</p>
+<p>6.2. Semua pembayaran bersifat manual dan memerlukan verifikasi oleh Admin sebelum produk diserahkan.</p>
+<p>6.3. Bukti pembayaran harus diserahkan kepada Admin melalui WhatsApp atau sistem verifikasi yang tersedia.</p>
+<p>6.4. NeonMart tidak bertanggung jawab atas pembayaran yang dikirimkan ke nomor atau rekening yang salah akibat kelalaian Pengguna.</p>
+<p>6.5. Proses verifikasi pembayaran dapat memerlukan waktu hingga 24 jam pada hari kerja.</p>
+<p>6.6. Pembayaran yang tidak dapat diverifikasi dalam 3x24 jam akan dianggap batal dan dana dikembalikan.</p>
+<p>6.7. Biaya transfer bank atau biaya layanan pihak ketiga ditanggung sepenuhnya oleh Pengguna.</p>
+
+<p><strong style="color:var(--text);">Pasal 7 — Kode Voucher dan Diskon</strong></p>
+<p>7.1. Kode voucher hanya dapat digunakan sekali per transaksi dan tidak dapat digabungkan dengan voucher lain.</p>
+<p>7.2. Masa berlaku kode voucher ditentukan oleh Admin dan dapat berubah sewaktu-waktu.</p>
+<p>7.3. Kode voucher tidak dapat ditukarkan dengan uang tunai atau dipindahtangankan kepada pihak lain.</p>
+<p>7.4. NeonMart berhak membatalkan voucher yang diperoleh melalui cara tidak sah.</p>
+<p>7.5. Penyalahgunaan kode voucher dapat mengakibatkan pemblokiran akun permanen.</p>
+
+<p><strong style="color:var(--text);">Pasal 8 — Cicilan Fisik</strong></p>
+<p>8.1. Cicilan Fisik adalah skema pembayaran yang memungkinkan Pengguna membayar secara bertahap secara langsung.</p>
+<p>8.2. Besaran uang muka (DP) dan jadwal cicilan ditentukan oleh Admin berdasarkan kesepakatan bersama.</p>
+<p>8.3. Keterlambatan pembayaran cicilan dapat dikenakan denda atau pembatalan perjanjian cicilan.</p>
+<p>8.4. Produk tidak akan diserahkan sebelum keseluruhan pembayaran cicilan diselesaikan, kecuali ada perjanjian khusus.</p>
+<p>8.5. Perjanjian cicilan bersifat mengikat dan tidak dapat dibatalkan sepihak setelah produk diserahkan.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB IV — PRODUK DAN LAYANAN</h3>
+
+<p><strong style="color:var(--text);">Pasal 9 — Ketersediaan Produk</strong></p>
+<p>9.1. Stok produk dapat berubah sewaktu-waktu dan tidak dijamin ketersediaannya.</p>
+<p>9.2. NeonMart berhak menarik, menghapus, atau mengubah harga produk kapan saja tanpa pemberitahuan sebelumnya.</p>
+<p>9.3. Produk yang tercantum sebagai "Out of Stock" tidak dapat dipesan hingga stok kembali tersedia.</p>
+<p>9.4. Deskripsi produk dibuat seakurat mungkin, namun Pengguna disarankan untuk melakukan pengecekan mandiri.</p>
+<p>9.5. NeonMart tidak bertanggung jawab atas ekspektasi Pengguna yang tidak sesuai dengan deskripsi produk yang sudah tercantum.</p>
+<p>9.6. Semua produk yang dijual di NeonMart adalah produk digital yang tidak memerlukan pengiriman fisik.</p>
+
+<p><strong style="color:var(--text);">Pasal 10 — Garansi dan Pengembalian</strong></p>
+<p>10.1. Produk digital pada umumnya tidak dapat dikembalikan setelah diserahkan kepada Pengguna.</p>
+<p>10.2. Pengembalian dana hanya dapat dilakukan dalam kondisi: produk tidak sesuai dengan deskripsi, terjadi kesalahan teknis dari pihak NeonMart, atau produk tidak dapat diserahkan.</p>
+<p>10.3. Klaim garansi harus diajukan dalam waktu 24 jam sejak produk diserahkan.</p>
+<p>10.4. Klaim yang diajukan melewati batas waktu tersebut tidak akan diproses.</p>
+<p>10.5. Proses pengembalian dana memerlukan verifikasi dan dapat memakan waktu hingga 7 hari kerja.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB V — KONTEN DAN PERILAKU PENGGUNA</h3>
+
+<p><strong style="color:var(--text);">Pasal 11 — Ulasan Produk</strong></p>
+<p>11.1. Pengguna dapat memberikan ulasan dan rating setelah memiliki akun aktif di NeonMart.</p>
+<p>11.2. Ulasan harus berdasarkan pengalaman nyata dan tidak boleh mengandung konten palsu atau menyesatkan.</p>
+<p>11.3. Admin berhak menghapus ulasan yang dianggap tidak sesuai, mengandung ujaran kebencian, atau melanggar ketentuan.</p>
+<p>11.4. Pengguna dilarang memberikan ulasan negatif palsu untuk merusak reputasi toko atau produk tertentu.</p>
+<p>11.5. Pengguna dilarang menjual, menyewakan, atau memperdagangkan ulasan dalam bentuk apapun.</p>
+<p>11.6. Semua ulasan yang dikirimkan menjadi hak milik NeonMart dan dapat digunakan untuk keperluan promosi.</p>
+
+<p><strong style="color:var(--text);">Pasal 12 — Global Chat</strong></p>
+<p>12.1. Global Chat adalah fitur komunikasi yang hanya dapat diakses oleh Pengguna yang telah memiliki akun aktif.</p>
+<p>12.2. Pengguna dilarang menggunakan Global Chat untuk: menyebarkan spam, konten SARA, ancaman, ujaran kebencian, atau informasi palsu.</p>
+<p>12.3. Pengguna dilarang membagikan informasi pribadi orang lain tanpa izin di Global Chat.</p>
+<p>12.4. Admin memiliki hak untuk memblokir, membisukan, atau menghapus pesan Pengguna yang melanggar ketentuan.</p>
+<p>12.5. Seluruh percakapan di Global Chat direkam dan dapat digunakan sebagai bukti jika terjadi pelanggaran.</p>
+<p>12.6. Pengguna yang melakukan pelanggaran berulang di Global Chat akan diblokir secara permanen.</p>
+<p>12.7. Promosi atau iklan tidak resmi di Global Chat tanpa izin Admin dilarang keras.</p>
+
+<p><strong style="color:var(--text);">Pasal 13 — Konten yang Dilarang</strong></p>
+<p>13.1. Pengguna dilarang mengunggah atau membagikan konten yang mengandung: pornografi, kekerasan ekstrem, atau konten ilegal.</p>
+<p>13.2. Pengguna dilarang menyebarkan malware, virus, atau kode berbahaya melalui platform.</p>
+<p>13.3. Pengguna dilarang melakukan scraping, crawling, atau pengambilan data massal dari platform tanpa izin.</p>
+<p>13.4. Pengguna dilarang melakukan reverse engineering terhadap platform atau komponennya.</p>
+<p>13.5. Pengguna dilarang menggunakan bot, script otomatis, atau alat non-manusia untuk berinteraksi dengan platform.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB VI — SISTEM POIN DAN LEADERBOARD</h3>
+
+<p><strong style="color:var(--text);">Pasal 14 — Poin Reward</strong></p>
+<p>14.1. Sistem poin adalah program loyalitas yang memberikan penghargaan kepada Pengguna aktif.</p>
+<p>14.2. Poin diperoleh dengan formula: 1 poin untuk setiap Rp1.000 yang dibelanjakan.</p>
+<p>14.3. Poin tidak memiliki nilai tunai dan tidak dapat ditukarkan dengan uang.</p>
+<p>14.4. Poin dapat digunakan untuk keperluan yang ditentukan oleh Admin di masa mendatang.</p>
+<p>14.5. Poin yang diperoleh melalui transaksi yang dibatalkan akan dikurangi kembali secara otomatis.</p>
+<p>14.6. NeonMart berhak mengubah, menyesuaikan, atau menghapus sistem poin kapan saja.</p>
+<p>14.7. Poin tidak dapat dipindahtangankan antar akun.</p>
+<p>14.8. Penipuan dalam memperoleh poin akan mengakibatkan pemblokiran akun dan penghapusan semua poin.</p>
+
+<p><strong style="color:var(--text);">Pasal 15 — Leaderboard</strong></p>
+<p>15.1. Leaderboard menampilkan peringkat Pengguna berdasarkan jumlah transaksi yang telah diselesaikan.</p>
+<p>15.2. Peringkat di leaderboard bersifat informatif dan tidak memberikan keistimewaan finansial.</p>
+<p>15.3. Admin berhak menyesuaikan atau menghapus data leaderboard untuk keperluan maintenance.</p>
+<p>15.4. Manipulasi peringkat leaderboard melalui transaksi palsu adalah pelanggaran berat.</p>
+<p>15.5. Badge rank (🌍 Global!) bersifat dekoratif dan tidak memiliki nilai finansial.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB VII — PRIVASI DAN DATA</h3>
+
+<p><strong style="color:var(--text);">Pasal 16 — Pengumpulan Data</strong></p>
+<p>16.1. NeonMart mengumpulkan data Pengguna yang diperlukan untuk operasional layanan, termasuk: username, nama, email, dan riwayat transaksi.</p>
+<p>16.2. Data yang dikumpulkan disimpan di Firebase (Google Cloud) dengan enkripsi standar industri.</p>
+<p>16.3. NeonMart tidak akan menjual data pribadi Pengguna kepada pihak ketiga tanpa izin.</p>
+<p>16.4. Data transaksi dapat digunakan untuk keperluan internal seperti analisis bisnis dan peningkatan layanan.</p>
+<p>16.5. Pengguna berhak meminta penghapusan akun dan data pribadi mereka dengan menghubungi Admin.</p>
+<p>16.6. Penghapusan data dapat memerlukan waktu hingga 30 hari untuk diselesaikan sepenuhnya.</p>
+<p>16.7. Data yang sudah menjadi bagian dari catatan transaksi yang sah tidak dapat dihapus sepenuhnya demi kepentingan hukum.</p>
+
+<p><strong style="color:var(--text);">Pasal 17 — Cookie dan Penyimpanan Lokal</strong></p>
+<p>17.1. NeonMart menggunakan localStorage browser untuk menyimpan preferensi dan data sesi Pengguna.</p>
+<p>17.2. Data yang disimpan secara lokal mencakup: preferensi bahasa, tema, keranjang belanja, dan riwayat pencarian.</p>
+<p>17.3. Menghapus cache browser akan menghapus data lokal tersebut.</p>
+<p>17.4. Pengguna dapat mengelola data lokal melalui pengaturan browser mereka masing-masing.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB VIII — TANGGUNG JAWAB DAN PEMBATASAN</h3>
+
+<p><strong style="color:var(--text);">Pasal 18 — Batasan Tanggung Jawab</strong></p>
+<p>18.1. NeonMart tidak bertanggung jawab atas kerugian tidak langsung, insidental, atau konsekuensial yang dialami Pengguna.</p>
+<p>18.2. NeonMart tidak menjamin bahwa layanan akan selalu tersedia tanpa gangguan, error, atau downtime.</p>
+<p>18.3. NeonMart tidak bertanggung jawab atas kerugian yang timbul akibat force majeure seperti bencana alam, pandemi, atau kebijakan pemerintah.</p>
+<p>18.4. Pengguna menggunakan layanan NeonMart atas risiko mereka sendiri.</p>
+<p>18.5. Total tanggung jawab NeonMart tidak akan melebihi nilai transaksi terakhir yang dilakukan Pengguna.</p>
+<p>18.6. NeonMart tidak bertanggung jawab atas konten pihak ketiga yang mungkin muncul di platform.</p>
+
+<p><strong style="color:var(--text);">Pasal 19 — Penghentian Layanan</strong></p>
+<p>19.1. NeonMart berhak menghentikan, menangguhkan, atau membatasi akses Pengguna tanpa pemberitahuan jika terjadi pelanggaran.</p>
+<p>19.2. Pengguna yang diblokir tidak berhak atas pengembalian dana kecuali ada transaksi yang belum diselesaikan.</p>
+<p>19.3. NeonMart berhak menghentikan seluruh layanan kapan saja dengan pemberitahuan minimal 7 hari sebelumnya.</p>
+<p>19.4. Dalam hal penghentian layanan, NeonMart akan berupaya menyelesaikan semua transaksi yang sedang berjalan.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB IX — KEAMANAN</h3>
+
+<p><strong style="color:var(--text);">Pasal 20 — Keamanan Platform</strong></p>
+<p>20.1. NeonMart menerapkan langkah-langkah keamanan standar industri untuk melindungi data Pengguna.</p>
+<p>20.2. Password disimpan dalam bentuk terenkripsi (hash) dan tidak dapat diakses oleh Admin.</p>
+<p>20.3. Pengguna bertanggung jawab untuk menggunakan perangkat yang aman saat mengakses NeonMart.</p>
+<p>20.4. Jika Pengguna menemukan celah keamanan, wajib melaporkan kepada Admin melalui WhatsApp resmi.</p>
+<p>20.5. Eksploitasi celah keamanan untuk keuntungan pribadi adalah pelanggaran hukum yang dapat ditindaklanjuti secara pidana.</p>
+<p>20.6. NeonMart menerapkan sistem 2FA (Two-Factor Authentication) untuk akun Admin demi keamanan tambahan.</p>
+
+<p><strong style="color:var(--text);">Pasal 21 — Admin Chat dan Komunikasi</strong></p>
+<p>21.1. Fitur Live Chat tersedia untuk komunikasi langsung antara Pengguna dan Admin.</p>
+<p>21.2. Waktu respons Admin adalah maksimal 1x24 jam pada hari kerja.</p>
+<p>21.3. Pengguna dilarang menggunakan fitur chat untuk tujuan tidak sah atau pelecehan terhadap Admin.</p>
+<p>21.4. Seluruh percakapan chat direkam dan disimpan untuk keperluan audit dan keamanan.</p>
+<p>21.5. Admin berhak memblokir Pengguna yang melakukan pelecehan atau spam melalui fitur chat.</p>
+
+<h3 style="color:var(--neon2);margin:20px 0 8px;">BAB X — HUKUM YANG BERLAKU</h3>
+
+<p><strong style="color:var(--text);">Pasal 22 — Yurisdiksi dan Hukum</strong></p>
+<p>22.1. Syarat dan Ketentuan ini tunduk pada hukum yang berlaku di Republik Indonesia.</p>
+<p>22.2. Setiap sengketa yang timbul dari penggunaan NeonMart akan diselesaikan melalui musyawarah mufakat terlebih dahulu.</p>
+<p>22.3. Jika musyawarah tidak mencapai mufakat, sengketa akan diselesaikan melalui mekanisme hukum yang berlaku di Indonesia.</p>
+<p>22.4. Pengguna setuju untuk tunduk pada yurisdiksi pengadilan di wilayah Kalimantan Tengah, Indonesia.</p>
+<p>22.5. Tidak ada ketentuan dalam Syarat ini yang membatasi hak hukum Pengguna yang dilindungi oleh undang-undang perlindungan konsumen Indonesia.</p>
+
+<p><strong style="color:var(--text);">Pasal 23 — Ketentuan Khusus Produk Gaming</strong></p>
+<p>23.1. Produk gaming seperti Robux, Game Pass, atau currency in-game tunduk pada ketentuan pengembang game masing-masing.</p>
+<p>23.2. NeonMart tidak bertanggung jawab atas perubahan kebijakan dari pihak pengembang game yang mempengaruhi produk.</p>
+<p>23.3. Pembelian item game yang kemudian dihapus atau diubah oleh pengembang game bukan merupakan tanggung jawab NeonMart.</p>
+<p>23.4. Pengguna disarankan untuk memahami ketentuan layanan game yang bersangkutan sebelum melakukan pembelian.</p>
+<p>23.5. Akun game yang diblokir oleh pengembang game akibat penggunaan produk yang dibeli di NeonMart bukan tanggung jawab NeonMart.</p>
+
+<p><strong style="color:var(--text);">Pasal 24 — Layanan AFK dan Jasa Digital</strong></p>
+<p>24.1. Layanan AFK (Away From Keyboard) adalah jasa yang dilakukan oleh pihak NeonMart untuk keperluan tertentu dalam game.</p>
+<p>24.2. Layanan AFK memerlukan akses ke akun game Pengguna sesuai kesepakatan.</p>
+<p>24.3. NeonMart menjamin kerahasiaan data akun game Pengguna selama proses layanan AFK berlangsung.</p>
+<p>24.4. Risiko yang mungkin timbul dari layanan AFK, termasuk penalti dari pengembang game, menjadi risiko bersama yang disetujui Pengguna.</p>
+<p>24.5. Layanan AFK tidak dapat dimintakan refund jika game memberikan penalti di luar kendali NeonMart.</p>
+
+<p><strong style="color:var(--text);">Pasal 25 — Ketentuan Final</strong></p>
+<p>25.1. Jika ada ketentuan dalam dokumen ini yang dinyatakan tidak sah atau tidak berlaku, ketentuan tersebut akan dipisahkan dan tidak mempengaruhi ketentuan lainnya.</p>
+<p>25.2. Kegagalan NeonMart untuk menjalankan hak-haknya berdasarkan ketentuan ini tidak dianggap sebagai pengesampingan hak tersebut.</p>
+<p>25.3. Syarat dan Ketentuan ini merupakan perjanjian lengkap antara Pengguna dan NeonMart mengenai penggunaan layanan.</p>
+<p>25.4. Versi terbaru dari Syarat dan Ketentuan ini selalu dapat diakses melalui platform NeonMart.</p>
+<p>25.5. Untuk pertanyaan terkait Syarat dan Ketentuan, hubungi Admin melalui WhatsApp: 085750472790.</p>
+
+<div style="margin-top:28px;padding:16px;background:rgba(0,200,255,0.06);border:1px solid var(--border2);border-radius:12px;font-size:12px;color:var(--text3);line-height:1.8;">
+  <strong style="color:var(--neon);">📋 RINGKASAN SINGKAT:</strong><br>
+  • Belanja dengan jujur dan bertanggung jawab<br>
+  • Jaga keamanan akun kamu sendiri<br>
+  • Bayar sesuai nominal yang tertera<br>
+  • Hubungi Admin jika ada masalah<br>
+  • Jangan spam atau ganggu pengguna lain<br>
+  • Hormati sesama pengguna di Global Chat<br>
+  <br>
+  <em>Dokumen ini terakhir diperbarui pada Maret 2026 oleh Tim ExtinctionIBT Store.</em>
+</div>
+`;
+
+function showTerms() {
+  var modal   = document.getElementById('terms-modal');
+  var content = document.getElementById('terms-content');
+  if (content) content.innerHTML = TERMS_CONTENT;
+  if (modal)   modal.style.display = 'flex';
+}
+
+// ════════════════════════════════════════════════════════════
+// WELCOME BANNER — Update berdasarkan status login
+// ════════════════════════════════════════════════════════════
+function updateWelcomeBanner() {
+  var titleEl  = document.getElementById('welcome-title');
+  var subEl    = document.getElementById('welcome-sub');
+  var ptsEl    = document.getElementById('welcome-points');
+  if (!titleEl) return;
+
+  if (currentUser) {
+    titleEl.innerHTML = '👋 Welcome back, <span style="-webkit-text-fill-color:var(--neon2);">' + currentUser.name + '</span>! Thanks for shopping here ✨';
+    subEl.innerHTML   = 'Senang melihat kamu lagi! Cek produk terbaru kami — ada yang baru tiap minggu. Poin kamu terus bertambah dengan setiap pembelian! 🏅';
+    // Load points
+    fbGet('nm_users/' + currentUser.username).then(function(u) {
+      if (u && ptsEl) {
+        ptsEl.style.display = 'flex';
+        ptsEl.textContent   = '🏅 ' + (u.points||0) + ' Poin';
+      }
+    }).catch(function(){});
+  } else {
+    titleEl.innerHTML = '👋 Selamat Datang di <span style="-webkit-text-fill-color:var(--neon2);">NeonMart</span>! ⚡';
+    subEl.innerHTML   = 'Platform belanja digital terpercaya milik ExtinctionIBT Store. Temukan produk gaming, streaming, dan digital favoritmu! Login untuk pengalaman lebih lengkap 🚀';
+    if (ptsEl) ptsEl.style.display = 'none';
+  }
+}
+
 // ════════════════════════════════════════════════════════════
 // LOADING SCREEN
 // ════════════════════════════════════════════════════════════
@@ -5313,6 +5861,7 @@ function updateUserUI() {
     if (bnUser) bnUser.onclick = openLoginModal;
   }
   checkAutoOpenAdmin();
+  updateWelcomeBanner();
 }
 
 function showUserMenu() {
@@ -6493,12 +7042,12 @@ var _origCheckAdminLogin = typeof checkAdminLogin !== 'undefined' ? checkAdminLo
 <!-- ═══════ COPYRIGHT FOOTER ═══════ -->
 <div style="
   position:fixed;bottom:0;left:0;right:0;z-index:500;
-  background:rgba(8,12,20,0.92);
-  backdrop-filter:blur(12px);
-  border-top:1px solid rgba(0,200,255,0.15);
-  padding:8px 20px;
+  background:rgba(8,12,20,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(0,200,255,0.12);
+  padding:7px 20px;
   display:flex;align-items:center;justify-content:center;
-  gap:16px;font-size:12px;
+  gap:16px;font-size:11px;
   font-family:'Syne',sans-serif;
   color:#64748b;
 ">
