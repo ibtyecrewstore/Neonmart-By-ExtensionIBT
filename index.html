@@ -3190,6 +3190,37 @@ window.addEventListener('load', function() {
         <div id="ann-preview" style="display:none;margin-top:12px;padding:10px 14px;border-radius:8px;font-size:13px;"></div>
       </div>
 
+      <!-- USER MARKETPLACE APPROVAL -->
+      <div class="admin-section-box" style="border-color:rgba(16,185,129,0.4);background:rgba(16,185,129,0.03);">
+        <div class="admin-section-title" style="color:var(--neon4);display:flex;justify-content:space-between;align-items:center;">
+          <span>🏪 APPROVAL BARANG USER</span>
+          <button class="btn btn-ghost" style="padding:5px 12px;font-size:12px;" onclick="loadUserListings()">🔄 Refresh</button>
+        </div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Barang yang didaftarkan user — approve agar muncul di toko</div>
+        <div id="user-listings-admin" style="font-size:13px;color:var(--text3);text-align:center;padding:12px;">Klik Refresh untuk lihat listing user</div>
+      </div>
+
+      <!-- CUSTOM PRICE ORDER -->
+      <div class="admin-section-box" style="border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.03);">
+        <div class="admin-section-title" style="color:var(--gold);">💰 CUSTOM PRICE ORDER</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px;">Buat order dengan harga khusus untuk konsumen tertentu (AFK, jasa, dll)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div class="form-group" style="margin:0;"><label class="form-label">Username Konsumen</label><input type="text" class="form-input" id="nego-username" placeholder="username konsumen"></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Nama Item</label><input type="text" class="form-input" id="nego-item" placeholder="contoh: AFK 2 jam"></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Harga Khusus (Rp)</label><input type="number" class="form-input" id="nego-price" placeholder="contoh: 15000" min="0"></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Durasi/Jumlah</label><input type="text" class="form-input" id="nego-qty" placeholder="contoh: 2 jam / 1x"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catatan untuk konsumen</label>
+          <textarea class="form-input" id="nego-note" placeholder="Detail pesanan, instruksi, dll..." style="min-height:60px;"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="createNegoOrder()">💰 Kirim Custom Order ke Konsumen</button>
+        <div style="margin-top:16px;">
+          <div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:600;">📋 Custom Order Aktif:</div>
+          <div id="nego-orders-list" style="font-size:13px;color:var(--text3);">Belum ada custom order</div>
+        </div>
+      </div>
+
       <!-- CENTANG BIRU / VERIFIED USER -->
       <div class="admin-section-box" style="border-color:rgba(29,155,240,0.4);background:rgba(29,155,240,0.03);">
         <div class="admin-section-title" style="color:#1d9bf0;">✅ CENTANG BIRU (Verified User)</div>
@@ -4271,6 +4302,7 @@ function checkAdminLogin() {
     renderAdminStats();
     renderAdminTable();
     toast('🛡️ Selamat datang, Admin!', 'success');
+    setTimeout(function() { loadUserListings(); loadNegoOrders(); }, 500);
   } else {
     playSound('error');
     toast('❌ Kata sandi salah!', 'error');
@@ -4758,6 +4790,7 @@ function goPage(name) {
       checkAdminLogin(); // auto bypass
     } else if (adminLoggedIn) {
       renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); renderSalesChart();
+      loadUserListings(); loadNegoOrders();
     }
   }
 
@@ -8146,6 +8179,19 @@ async function submitSellItem() {
     var prev = document.getElementById('sf-img-preview');
     if (prev) prev.style.display = 'none';
     loadMyListings();
+
+    // ── Kirim notif Discord ke admin ──────────────────────
+    sendDiscordWebhook({
+      order_id: listing.id,
+      username: currentUser.name + ' (@' + currentUser.username + ')',
+      note: '🏪 USER INGIN JUAL BARANG | Item: ' + name + ' | Harga: Rp' + price.toLocaleString('id-ID') + ' | Stok: ' + stock + ' | E-wallet: ' + ewalletType + ' ' + ewalletNum + ' (' + ewalletOwner + ') | WA: ' + wa,
+      items: [{name: name, qty: stock, price: price}],
+      total: price,
+      method: '🏪 User Marketplace Listing',
+      timestamp: new Date().toLocaleString('id-ID'),
+      need_verify: true
+    });
+
   } catch(e) {
     if (errEl) errEl.textContent = '❌ Gagal: ' + e.message;
   }
