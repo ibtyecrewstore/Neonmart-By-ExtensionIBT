@@ -13,7 +13,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>NeonMart — Marketplace Digital</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("gB286duvc_M-0Qzo5");</script>
@@ -66,7 +66,6 @@ body{padding-bottom:44px;
   color:var(--text);
   min-height:100vh;
   overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
   transition:background .3s,color .3s;
 }
 body::before{
@@ -779,16 +778,12 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 #loading-screen {
   position:fixed;inset:0;z-index:99999;
   background:var(--bg);
-  display:flex !important;flex-direction:column;
+  display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   transition:opacity .6s ease, transform .6s ease;
-  opacity:1;
 }
 #loading-screen.fade-out {
-  opacity:0 !important;pointer-events:none;transform:scale(1.05);
-}
-#loading-screen.done {
-  display:none !important;
+  opacity:0;pointer-events:none;transform:scale(1.05);
 }
 .loading-logo {
   font-family:var(--font-display);
@@ -829,32 +824,25 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 
 /* ══ LOGIN MODAL ══ */
 #login-modal {
-  position:fixed;inset:0;z-index:999995;
+  position:fixed;inset:0;z-index:8000;
   background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);
-  display:flex;align-items:flex-start;justify-content:center;
-  padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;
-}
-@media(min-width:600px){
-  #login-modal { align-items:center; }
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;
 }
 #login-modal.show{opacity:1;pointer-events:all;}
 .login-box {
   background:linear-gradient(135deg,rgba(13,18,32,0.98),rgba(17,24,39,0.98));
-  border:1px solid var(--border2);border-radius:20px;
-  width:100%;max-width:400px;
-  padding:clamp(14px,3vw,24px);
-  box-shadow:0 24px 80px rgba(0,0,0,0.6);
+  border:1px solid var(--border2);border-radius:24px;
+  width:100%;max-width:420px;padding:36px;
+  box-shadow:0 24px 80px rgba(0,0,0,0.6),0 0 40px rgba(0,200,255,0.08);
   transform:scale(.92) translateY(20px);transition:transform .3s;
-  max-height:88vh;overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
 }
 #login-modal.show .login-box{transform:scale(1) translateY(0);}
 .login-logo {
-  text-align:center;margin-bottom:16px;
+  text-align:center;margin-bottom:28px;
 }
 .login-logo h2{
-  font-family:var(--font-display);font-size:18px;font-weight:900;
+  font-family:var(--font-display);font-size:22px;font-weight:900;
   background:linear-gradient(135deg,var(--neon),var(--neon3));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   margin-bottom:4px;
@@ -1175,7 +1163,7 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 
 /* ══ CHANGELOG POPUP ══ */
 #changelog-modal {
-  position:fixed;inset:0;z-index:999993;
+  position:fixed;inset:0;z-index:89999;
   background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);
   display:flex;align-items:center;justify-content:center;
   padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;
@@ -1183,11 +1171,11 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 #changelog-modal.show{opacity:1;pointer-events:all;}
 .changelog-box {
   background:linear-gradient(135deg,rgba(13,18,32,0.98),rgba(17,24,39,0.98));
-  border:1px solid var(--border2);border-radius:20px;
-  width:95%;max-width:460px;max-height:88vh;
-  box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  border:1px solid var(--border2);border-radius:24px;
+  width:100%;max-width:480px;
+  box-shadow:0 24px 80px rgba(0,0,0,0.7),0 0 60px rgba(0,200,255,0.08);
   transform:scale(.92) translateY(20px);transition:transform .3s;
-  overflow:hidden;display:flex;flex-direction:column;
+  overflow:hidden;
 }
 #changelog-modal.show .changelog-box{transform:scale(1) translateY(0);}
 .changelog-header{
@@ -1217,7 +1205,7 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 }
 .changelog-close:hover{background:rgba(255,45,120,0.2);color:var(--neon2);border-color:var(--neon2);}
 .changelog-body{
-  padding:14px 18px;flex:1;overflow-y:auto;
+  padding:20px 24px;max-height:360px;overflow-y:auto;
 }
 .changelog-body::-webkit-scrollbar{width:3px;}
 .changelog-body::-webkit-scrollbar-thumb{background:var(--border2);}
@@ -1528,10 +1516,8 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 #twofa-modal.show{display:flex;}
 .twofa-box {
   background:var(--bg2);border:1px solid rgba(255,45,120,0.4);
-  border-radius:20px;padding:clamp(16px,4vw,28px);
-  width:95%;max-width:360px;
+  border-radius:24px;padding:36px;width:100%;max-width:380px;
   text-align:center;box-shadow:0 24px 80px rgba(255,45,120,0.2);
-  max-height:88vh;overflow-y:auto;
 }
 .twofa-icon{font-size:52px;margin-bottom:12px;}
 .twofa-title{font-family:var(--font-display);font-size:18px;color:var(--neon2);margin-bottom:6px;}
@@ -1608,9 +1594,11 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 
 /* ══ LANDSCAPE LOCK ══ */
 @media screen and (orientation: portrait) and (max-width: 768px) {
+  #rotate-overlay {
     display: flex !important;
   }
 }
+#rotate-overlay {
   display: none;
   position: fixed;
   inset: 0;
@@ -1645,18 +1633,17 @@ input:checked+.toggle-slider:before{transform:translateX(22px);background:var(--
 }
 
 
-/* ══ ANTI ZOOM ══ */
+/* ══ ANTI ZOOM + ANTI SELECT ══ */
 * {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
-  box-sizing: border-box;
+  touch-action: pan-x pan-y;
 }
 input, textarea, [contenteditable] {
   -webkit-user-select: text !important;
   user-select: text !important;
-}
-button, a, [onclick] {
-  touch-action: manipulation;
-  cursor: pointer;
 }
 
 
@@ -1850,11 +1837,10 @@ button, a, [onclick] {
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   padding:24px;
-  /* No transition - avoid transparency flicker */
+  transition:opacity .5s ease, transform .5s ease;
 }
 #lobby-screen.hide {
-  opacity:0 !important;pointer-events:none !important;
-  transform:scale(1.03);display:none !important;
+  opacity:0;pointer-events:none;transform:scale(1.03);
 }
 
 /* Floating orbs subtle animation */
@@ -1933,9 +1919,8 @@ button, a, [onclick] {
 }
 #whochat-modal.show{display:flex;}
 .whochat-box {
-  background:#fff;border-radius:20px;
-  width:95%;max-width:420px;
-  max-height:88vh;overflow-y:auto;
+  background:#fff;border-radius:24px;
+  width:100%;max-width:440px;overflow:hidden;
   box-shadow:0 24px 80px rgba(0,0,0,0.2);
   animation:fadeInScale .3s ease;
 }
@@ -2036,234 +2021,45 @@ button, a, [onclick] {
 }
 
 
-/* ══ BACK TO LOBBY BTN ══ */
-.back-to-lobby {
-  display:inline-flex;align-items:center;gap:6px;
-  padding:8px 16px;border-radius:20px;
-  background:rgba(255,255,255,0.06);border:1px solid var(--border);
-  color:var(--text2);font-size:12px;font-weight:600;
-  cursor:pointer;transition:var(--transition);
-  font-family:inherit;margin-bottom:16px;
+/* ══ PREMIUM SYSTEM ══ */
+.premium-badge {
+  display:inline-flex;align-items:center;gap:3px;
+  background:linear-gradient(135deg,#f59e0b,#ef4444);
+  color:#fff;border-radius:10px;padding:2px 8px;
+  font-size:10px;font-weight:800;letter-spacing:.5px;
+  box-shadow:0 2px 8px rgba(245,158,11,0.4);
+  animation:premium-glow 2s ease-in-out infinite alternate;
 }
-.back-to-lobby:hover{border-color:var(--neon);color:var(--neon);}
-
-
-/* ══ USER MARKETPLACE ══ */
-.market-section-label {
-  font-family:var(--font-display);font-size:11px;letter-spacing:2px;
-  padding:6px 14px;border-radius:20px;margin-bottom:12px;
-  display:inline-block;
+@keyframes premium-glow {
+  from{box-shadow:0 2px 8px rgba(245,158,11,0.3);}
+  to{box-shadow:0 4px 16px rgba(245,158,11,0.7);}
 }
-.market-admin-label {
-  background:rgba(0,200,255,0.1);color:var(--neon);border:1px solid rgba(0,200,255,0.3);
+.premium-name {
+  background:linear-gradient(135deg,#f59e0b,#ff2d78);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-weight:700;
 }
-.market-user-label {
-  background:rgba(16,185,129,0.1);color:var(--neon4);border:1px solid rgba(16,185,129,0.3);
-}
-.user-prod-badge {
-  display:inline-flex;align-items:center;gap:4px;
-  background:rgba(16,185,129,0.12);color:var(--neon4);
-  border:1px solid rgba(16,185,129,0.3);border-radius:10px;
-  padding:2px 8px;font-size:10px;font-weight:700;
+.lb-item-premium {
+  background:rgba(245,158,11,0.06) !important;
+  border-color:rgba(245,158,11,0.3) !important;
 }
 
-/* Sell form */
-.sell-form-wrap {
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:var(--radius2);padding:24px;
-  max-width:560px;margin:0 auto;
-}
-.sell-form-title {
-  font-family:var(--font-display);font-size:16px;font-weight:900;
-  color:var(--neon4);margin-bottom:20px;
-  display:flex;align-items:center;gap:8px;
+/* ══ ADMIN LOCKOUT TIMER ══ */
+#admin-lockout-msg {
+  display:none;
+  background:rgba(255,45,120,0.1);
+  border:1px solid rgba(255,45,120,0.3);
+  border-radius:10px;padding:12px 16px;
+  font-size:14px;text-align:center;
+  margin-bottom:12px;color:var(--neon2);
 }
 
-/* Negotiation */
-.nego-badge {
-  background:rgba(245,158,11,0.15);color:var(--gold);
-  border:1px solid rgba(245,158,11,0.3);border-radius:10px;
-  padding:2px 8px;font-size:10px;font-weight:700;
-}
+/* ══ PRODUCT SECTION LABELS ══ */
+[data-user-section] { animation:fadeInUp .4s ease; }
 
 </style>
-
-<script>
-// Safety: paksa hide loading screen setelah 5 detik apapun yang terjadi
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    var el = document.getElementById('loading-screen');
-    if (el && el.style.display !== 'none') {
-      el.style.opacity = '0';
-      el.style.pointerEvents = 'none';
-      setTimeout(function() { el.style.display = 'none'; }, 600);
-    }
-  }, 3000);
-});
-// Juga show skip button setelah 2 detik
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    var btn = document.getElementById('skip-loading-btn');
-    var cd  = document.getElementById('skip-countdown');
-    if (btn) btn.style.display = 'block';
-    if (cd)  cd.style.display  = 'block';
-  }, 2000);
-});
-</script>
 </head>
 <body>
-
-<!-- ═══════ LOBBY SCREEN ═══════ -->
-<!-- ═══════ LOADING SCREEN ═══════ -->
-<div id="loading-screen" style="position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,transform .6s ease;">
-  <div style="font-family:var(--font-display);font-size:48px;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--neon3),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logo-pulse 1.5s ease-in-out infinite alternate;margin-bottom:8px;">⚡NEONMART</div>
-  <div style="font-size:14px;color:var(--text3);margin-bottom:40px;letter-spacing:2px;">EXTINCIONIBT STORE</div>
-  <div style="width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;">
-    <div style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--neon),var(--neon3),var(--neon2));animation:loading-fill 1.8s ease-in-out forwards;"></div>
-  </div>
-  <div style="display:flex;gap:8px;margin-top:20px;margin-bottom:32px;">
-    <div style="width:8px;height:8px;border-radius:50%;background:var(--neon);animation:dot-bounce 1.4s infinite;"></div>
-    <div style="width:8px;height:8px;border-radius:50%;background:var(--neon3);animation:dot-bounce 1.4s infinite;animation-delay:.2s;"></div>
-    <div style="width:8px;height:8px;border-radius:50%;background:var(--neon2);animation:dot-bounce 1.4s infinite;animation-delay:.4s;"></div>
-  </div>
-  <!-- Skip button — muncul setelah 2 detik -->
-  <button id="skip-loading-btn" onclick="hideLoadingScreen()" style="
-    display:none;
-    padding:10px 28px;border-radius:20px;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.2);
-    color:var(--text2);font-size:13px;
-    cursor:pointer;font-family:inherit;
-    transition:.2s;margin-top:8px;
-  " onmouseover="this.style.background='rgba(0,200,255,0.15)';this.style.borderColor='var(--neon)';this.style.color='var(--neon)'"
-     onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='var(--text2)'">
-    ⏭ Skip
-  </button>
-  <div id="skip-countdown" style="display:none;font-size:11px;color:var(--text3);margin-top:6px;">Auto skip dalam <span id="skip-num">3</span>s</div>
-</div>
-
-<div id="lobby-screen" style="position:fixed;inset:0;z-index:99998;background:#ffffff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s ease,transform .5s ease;">
-  <div class="lobby-orb lobby-orb-1"></div>
-  <div class="lobby-orb lobby-orb-2"></div>
-  <div class="lobby-orb lobby-orb-3"></div>
-  <div class="lobby-logo">⚡ NEONMART</div>
-  <div class="lobby-tagline">ExtinctionIBT Store · Digital Marketplace</div>
-  <div class="lobby-menu">
-    <div class="lobby-btn" style="--lb-color:rgba(0,200,255,0.08);--lb-border:#00c8ff;" onclick="enterShop()">
-      <span class="lobby-btn-icon">🛍️</span>
-      <div class="lobby-btn-label">Shop</div>
-      <div class="lobby-btn-sub">Belanja produk digital premium</div>
-    </div>
-    <div class="lobby-btn" style="--lb-color:rgba(124,58,237,0.08);--lb-border:#7c3aed;" onclick="enterGlobalChat()">
-      <span class="lobby-btn-icon">💬</span>
-      <div class="lobby-btn-label">Chat Global</div>
-      <div class="lobby-btn-sub">Ngobrol dengan semua user NeonMart</div>
-    </div>
-    <div class="lobby-btn" style="--lb-color:rgba(255,45,120,0.08);--lb-border:#ff2d78;" onclick="openWhoChat()">
-      <span class="lobby-btn-icon">🎭</span>
-      <div class="lobby-btn-label">Who Chat?</div>
-      <div class="lobby-btn-sub">Kirim pesan misterius ke siapapun</div>
-    </div>
-    <div class="lobby-btn" style="--lb-color:rgba(16,185,129,0.08);--lb-border:#10b981;" onclick="openPrivateChat()">
-      <span class="lobby-btn-icon">🔒</span>
-      <div class="lobby-btn-label">My Private Chat</div>
-      <div class="lobby-btn-sub">Lihat pesan misterius untukmu</div>
-    </div>
-  </div>
-  <div style="position:absolute;bottom:20px;font-size:11px;color:#bbb;letter-spacing:1px;">v5.0 · © 2026 ExtinctionIBT Store</div>
-</div>
-
-
-<!-- ═══════ TERMS POPUP BEFORE CHAT ═══════ -->
-<div id="chat-terms-modal" style="
-  display:none;position:fixed;inset:0;z-index:999990;
-  background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);
-  align-items:center;justify-content:center;padding:20px;
-">
-  <div style="
-    background:#fff;border-radius:20px;
-    width:95%;max-width:380px;
-    max-height:88vh;overflow-y:auto;
-    box-shadow:0 24px 80px rgba(0,0,0,0.2);
-    animation:fadeInScale .3s ease;
-  ">
-    <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:28px 24px 20px;text-align:center;">
-      <div style="font-size:44px;margin-bottom:10px;">💬</div>
-      <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;">Chat Global</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.8);">Sebelum lanjut, mohon baca Terms of Use dulu!</div>
-    </div>
-    <div style="padding:20px 24px;">
-      <div style="background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px;color:#555;line-height:1.8;">
-        <div style="font-weight:700;color:#111;margin-bottom:8px;">📋 Aturan Chat Global:</div>
-        <div>✅ Bersikap sopan dan hormat ke sesama</div>
-        <div>✅ Tidak boleh spam atau flood pesan</div>
-        <div>✅ Tidak boleh SARA, ujaran kebencian, atau pornografi</div>
-        <div>✅ Tidak boleh promosi/iklan tanpa izin admin</div>
-        <div>✅ Semua pesan direkam & dipantau admin</div>
-        <div style="margin-top:8px;font-size:11px;color:#999;">Pelanggaran = akun diblokir permanen</div>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="showTermsFromChat()" style="
-          flex:1;padding:12px;border-radius:12px;
-          background:#f1f5f9;border:1.5px solid #e5e7eb;
-          font-size:13px;font-weight:600;color:#555;
-          cursor:pointer;font-family:inherit;transition:.2s;
-        " onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
-          📖 Baca Selengkapnya
-        </button>
-        <button onclick="acceptChatTermsAndEnter()" style="
-          flex:1;padding:12px;border-radius:12px;
-          background:linear-gradient(135deg,#7c3aed,#4f46e5);
-          border:none;font-size:13px;font-weight:700;color:#fff;
-          cursor:pointer;font-family:inherit;transition:.2s;
-        " onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
-          ✅ Setuju & Masuk
-        </button>
-      </div>
-      <button onclick="document.getElementById('chat-terms-modal').style.display='none'" style="
-        width:100%;margin-top:10px;padding:10px;border-radius:12px;
-        background:none;border:none;font-size:13px;color:#aaa;
-        cursor:pointer;font-family:inherit;
-      ">Batal</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════ WHO CHAT MODAL ═══════ -->
-<div id="whochat-modal" style="position:fixed;inset:0;z-index:999991;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;">
-  <div class="whochat-box">
-    <div class="whochat-header">
-      <div style="font-size:36px;margin-bottom:8px;">🎭</div>
-      <h3>Who Chat?</h3>
-      <p>Kirim pesan misterius ke username tertentu</p>
-    </div>
-    <div class="whochat-body">
-      <input type="text" class="whochat-input" id="wc-target" placeholder="Username tujuan (contoh: john123)">
-      <textarea class="whochat-textarea" id="wc-message" placeholder="Tulis pesanmu di sini... 🎭"></textarea>
-      <div style="font-size:12px;color:#888;margin-bottom:8px;font-weight:600;">Identitasmu:</div>
-      <div class="whochat-name-opts">
-        <button class="whochat-name-btn active" id="wc-hide-btn" onclick="selectWCMode('hide')">🎭 Sembunyikan Nama</button>
-        <button class="whochat-name-btn" id="wc-show-btn" onclick="selectWCMode('show')">👤 Tampilkan Nama</button>
-      </div>
-      <div id="wc-name-preview" style="font-size:12px;color:#888;margin-bottom:14px;padding:8px 12px;background:#f8fafc;border-radius:8px;border:1px solid #e5e7eb;">🎭 Pesanmu akan terlihat dari: <strong>Seseorang yang misterius</strong></div>
-      <div class="whochat-err" id="wc-err"></div>
-      <button class="whochat-send-btn" onclick="sendWhoChat()">🎭 Kirim Pesan Misterius</button>
-      <button onclick="document.getElementById('whochat-modal').style.display='none';showLobby();" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;background:none;border:1.5px solid #e5e7eb;font-size:13px;color:#888;cursor:pointer;font-family:inherit;">✕ Batal & Kembali</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════ PRIVATE CHAT MODAL ═══════ -->
-<div id="privatechat-modal" style="position:fixed;inset:0;z-index:999991;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;">
-  <div class="privatechat-box">
-    <div class="privatechat-header">
-      <div><h3>🔒 Pesan Privatmu</h3><div style="font-size:12px;color:#888;" id="pc-login-info">Login untuk melihat pesanmu</div></div>
-      <button onclick="document.getElementById('privatechat-modal').style.display='none';showLobby();" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
-    </div>
-    <div class="privatechat-messages" id="pc-messages"><div style="text-align:center;color:#aaa;font-size:13px;padding:30px;">⏳ Memuat pesan...</div></div>
-  </div>
-</div>
-
 
 <!-- BUILD: 202603180429 -->
 <!-- ═══════ NAVBAR ═══════ -->
@@ -2282,24 +2078,6 @@ window.addEventListener('load', function() {
     </div>
   </div>
   <div class="navbar-actions">
-    <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Profil" style="width:34px;height:34px;font-size:14px;flex-shrink:0;cursor:pointer;">👤</div>
-    <div style="width:1px;height:22px;background:var(--border);flex-shrink:0;margin:0 2px;"></div>
-    <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
-    <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
-    <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
-    <button class="nav-btn" onclick="goPage('leaderboard')" id="nav-leaderboard"><span>🏆</span><span>Rank</span></button>
-    <button class="nav-btn" onclick="goPage('inbox')" id="nav-inbox" style="position:relative;">
-      <span>🔔</span><span id="t-notif">Notif</span>
-      <span class="badge" id="inbox-badge" style="display:none;background:#ff2d78;">0</span>
-    </button>
-    <div style="width:1px;height:22px;background:var(--border);flex-shrink:0;margin:0 2px;"></div>
-    <button class="nav-btn" onclick="goPage('cart')" id="nav-cart" style="position:relative;">
-      <span>🛒</span><span id="t-cart">Cart</span>
-      <span class="badge" id="cart-badge" style="display:none;">0</span>
-    </button>
-    <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span><span>Setting</span></button>
-  </div></div>
-    <div style="width:1px;height:22px;background:var(--border);flex-shrink:0;"></div>
     <button class="nav-btn" onclick="goPage('home')" id="nav-home"><span>🏠</span><span id="t-home">Home</span></button>
     <button class="nav-btn" onclick="goPage('wishlist')" id="nav-wishlist"><span>❤️</span><span id="t-wishlist">Wishlist</span></button>
     <button class="nav-btn" onclick="goPage('installments')" id="nav-installments"><span>💳</span><span id="t-cicilan">Cicilan</span></button>
@@ -2313,8 +2091,15 @@ window.addEventListener('load', function() {
       <span>🛒</span><span id="t-cart">Cart</span>
       <span class="badge" id="cart-badge" style="display:none;">0</span>
     </button>
-
+    <select class="filter-select" id="langSelect" onchange="setLang(this.value)" style="padding:6px 8px;border-radius:8px;font-size:12px;cursor:pointer;">
+      <option value="en">🌐 EN</option>
+      <option value="id">🇮🇩 ID</option>
+      <option value="ar">🇸🇦 AR</option>
+      <option value="ja">🇯🇵 JA</option>
+      <option value="ms">🇲🇾 MS</option>
+    </select>
     <button class="nav-btn" onclick="goPage('settings')" id="nav-settings"><span>⚙️</span><span>Setting</span></button>
+    <div id="nav-user-avatar" onclick="openLoginModal()" class="user-avatar-nav" title="Login / Profil" style="width:34px;height:34px;font-size:14px;">👤</div>
   </div>
 </nav>
 
@@ -2372,7 +2157,7 @@ window.addEventListener('load', function() {
 ">
   <div style="
     background:var(--bg2);border:1px solid var(--border2);
-    border-radius:20px;width:95%;max-width:640px;max-height:86vh;
+    border-radius:20px;width:100%;max-width:680px;max-height:88vh;
     display:flex;flex-direction:column;overflow:hidden;
     box-shadow:0 24px 80px rgba(0,0,0,0.7);
   ">
@@ -2393,7 +2178,7 @@ window.addEventListener('load', function() {
     </div>
     <div style="overflow-y:auto;padding:24px;flex:1;font-size:13px;line-height:1.9;color:var(--text2);" id="terms-content"></div>
     <div style="padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;">
-      <button onclick="closeTermsModal()" style="
+      <button onclick="document.getElementById('terms-modal').style.display='none'" style="
         flex:1;padding:12px;border-radius:12px;
         background:linear-gradient(135deg,var(--neon),var(--neon3));
         border:none;color:#000;font-weight:700;font-size:14px;
@@ -2742,8 +2527,7 @@ window.addEventListener('load', function() {
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-wishlist">
   <div class="container">
-    <div class="page-header"><button class="back-to-lobby" onclick="showLobby()">← Menu</button>
-      
+    <div class="page-header">
       <h1>❤️ WISHLIST</h1>
       <p>Produk favorit kamu</p>
     </div>
@@ -2756,8 +2540,7 @@ window.addEventListener('load', function() {
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-cart">
   <div class="container">
-    <div class="page-header"><button class="back-to-lobby" onclick="showLobby()">← Menu</button>
-      
+    <div class="page-header">
       <h1>🛒 KERANJANG</h1>
       <p>Item yang siap dibeli</p>
     </div>
@@ -2777,8 +2560,7 @@ window.addEventListener('load', function() {
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-installments">
   <div class="container">
-    <div class="page-header"><button class="back-to-lobby" onclick="showLobby()">← Menu</button>
-      
+    <div class="page-header">
       <h1>💳 CICILAN AKTIF</h1>
       <p>Kelola pembayaran cicilanmu</p>
     </div>
@@ -2814,37 +2596,10 @@ window.addEventListener('load', function() {
         <div style="text-align:center;color:var(--text3);font-size:13px;padding:20px;">⏳ Memuat chat...</div>
       </div>
       <div id="gchat-input-area" class="gchat-input-row" style="display:none;">
-        <button id="gchat-emoji-btn" onclick="toggleEmojiPicker()" style="
-          width:36px;height:36px;border-radius:50%;flex-shrink:0;
-          background:rgba(255,255,255,0.06);border:1px solid var(--border);
-          font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-          transition:.15s;
-        ">😊</button>
-        <textarea class="gchat-textarea" id="gchat-input" placeholder="Tulis pesan... (@ untuk mention)" rows="1"
-          onkeydown="handleChatKeydown(event)"
-          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';handleMentionInput(this)"></textarea>
+        <textarea class="gchat-textarea" id="gchat-input" placeholder="Tulis pesan..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendGlobalMsg();}"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
         <button class="gchat-send-btn" onclick="sendGlobalMsg()">➤</button>
-      </div>
-      <!-- Emoji picker -->
-      <div id="gchat-emoji-picker" style="display:none;padding:10px 12px;border-top:1px solid var(--border);flex-wrap:wrap;gap:6px;">
-        <span onclick="insertEmoji('😀')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">😀</span>
-        <span onclick="insertEmoji('😂')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">😂</span>
-        <span onclick="insertEmoji('❤️')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">❤️</span>
-        <span onclick="insertEmoji('🔥')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">🔥</span>
-        <span onclick="insertEmoji('👍')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">👍</span>
-        <span onclick="insertEmoji('🎉')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">🎉</span>
-        <span onclick="insertEmoji('😎')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">😎</span>
-        <span onclick="insertEmoji('🤔')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">🤔</span>
-        <span onclick="insertEmoji('💯')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">💯</span>
-        <span onclick="insertEmoji('✨')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">✨</span>
-        <span onclick="insertEmoji('😭')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">😭</span>
-        <span onclick="insertEmoji('🙏')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">🙏</span>
-        <span onclick="insertEmoji('😍')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">😍</span>
-        <span onclick="insertEmoji('🚀')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">🚀</span>
-        <span onclick="insertEmoji('💪')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">💪</span>
-        <span onclick="insertEmoji('😏')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">😏</span>
-        <span onclick="insertEmoji('🤣')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">🤣</span>
-        <span onclick="insertEmoji('👀')" style="font-size:22px;cursor:pointer;transition:.15s;" onmouseover="this.style.transform='scale(1.3)'" onmouseout="this.style.transform='scale(1)'">👀</span>
       </div>
       <div id="gchat-login-prompt" style="padding:16px;text-align:center;border-top:1px solid var(--border);">
         <span style="font-size:13px;color:var(--text3);">Login dulu untuk bisa chat → </span>
@@ -2859,8 +2614,7 @@ window.addEventListener('load', function() {
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-leaderboard">
   <div class="container">
-    <div class="page-header"><button class="back-to-lobby" onclick="showLobby()">← Menu</button>
-      
+    <div class="page-header">
       <h1>🏆 LEADERBOARD</h1>
       <p>Top pembeli & semua member NeonMart</p>
     </div>
@@ -2909,9 +2663,8 @@ window.addEventListener('load', function() {
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-history">
   <div class="container">
-    <div class="page-header"><button class="back-to-lobby" onclick="showLobby()">← Menu</button>
-      
-      <h1>📜 RIWAYAT PEMBELIAN</h1><div style="margin-top:8px;"><button class="btn btn-danger" style="padding:7px 14px;font-size:12px;" onclick="clearAllHistory()">🗑️ Hapus Semua</button></div>
+    <div class="page-header">
+      <h1>📜 RIWAYAT PEMBELIAN</h1>
       <p>Semua transaksi kamu</p>
     </div>
     <div id="historyList"></div>
@@ -2923,10 +2676,19 @@ window.addEventListener('load', function() {
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-settings">
   <div class="container">
-    <div class="page-header"><button class="back-to-lobby" onclick="showLobby()">← Menu</button>
-      
+    <div class="page-header">
       <h1>⚙️ PENGATURAN</h1>
       <p>Kustomisasi pengalaman belanjamu</p>
+    </div>
+
+    <!-- COPYRIGHT INFO -->
+    <div style="background:rgba(0,200,255,0.04);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;">
+      <div style="font-size:28px;">⚡</div>
+      <div>
+        <div style="font-weight:700;font-size:14px;font-family:var(--font-display);color:var(--neon);">NeonMart v5.0</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px;">© 2026 ExtinctionIBT Store · All Rights Reserved</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Jl. G. Obos 7, GG Pondok Adenium No. 6A, Palangkaraya · Open 24 Jam</div>
+      </div>
     </div>
 
     <!-- PWA INSTALL CARD -->
@@ -2973,9 +2735,16 @@ window.addEventListener('load', function() {
       <button onclick="goPage('admin')" style="padding:12px;border-radius:14px;background:rgba(255,45,120,0.06);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon2)'" onmouseout="this.style.borderColor='var(--border2)'">
         🛡️ <span>Admin Panel</span>
       </button>
-      <button onclick="goPage('sellitem')" style="padding:12px;border-radius:14px;background:rgba(16,185,129,0.08);border:1px solid var(--border2);color:var(--text);font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--neon4)'" onmouseout="this.style.borderColor='var(--border2)'">
-        🏪 <span>Jual Barang</span>
-      </button>
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:16px;text-align:center;">
+      <div style="font-family:var(--font-display);font-size:13px;color:var(--neon);margin-bottom:6px;">⚡ NEONMART</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.8;">
+        © 2026 ExtinctionIBT Store · All Rights Reserved<br>
+        <span style="color:var(--text2);">v5.0 · Platform Belanja Digital Premium</span><br>
+        <a href="https://wa.me/6285750472790" target="_blank" style="color:var(--neon4);font-size:11px;">📱 085750472790</a>
+      </div>
     </div>
 
     <!-- PENGATURAN UTAMA -->
@@ -3009,125 +2778,6 @@ window.addEventListener('load', function() {
   </div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════
-   PAGE: SELL ITEM (User Marketplace)
-═══════════════════════════════════════════════ -->
-<div class="page" id="page-sellitem">
-  <div class="container">
-    <div class="page-header">
-      <h1>🏪 JUAL BARANG</h1>
-      <p>Jual item digitalmu di NeonMart</p>
-    </div>
-
-    <!-- Login required -->
-    <div id="sell-login-required" style="display:none;text-align:center;padding:40px;">
-      <div style="font-size:48px;margin-bottom:12px;">🔐</div>
-      <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Login Dulu!</div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:20px;">Kamu harus login untuk bisa menjual barang di NeonMart</div>
-      <button class="btn btn-primary" onclick="openLoginModal()">Login / Daftar</button>
-    </div>
-
-    <!-- Sell form -->
-    <div id="sell-form-area">
-      <div class="sell-form-wrap">
-        <div class="sell-form-title">📦 Info Barang yang Dijual</div>
-
-        <div class="form-group">
-          <label class="form-label">Nama Item * <span style="color:var(--text3);font-size:11px;">(contoh: 80 Robux, Minecraft Java)</span></label>
-          <input type="text" class="form-input" id="sf-name" placeholder="Nama item yang dijual">
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div class="form-group">
-            <label class="form-label">Harga (Rp) *</label>
-            <input type="number" class="form-input" id="sf-price" placeholder="contoh: 25000" min="1000">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Jumlah Stok *</label>
-            <input type="number" class="form-input" id="sf-stock" placeholder="contoh: 10" min="1">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Kategori *</label>
-          <select class="form-input" id="sf-category">
-            <option value="">Pilih kategori...</option>
-            <option value="Gaming">🎮 Gaming</option>
-            <option value="Streaming">🎬 Streaming</option>
-            <option value="Software">💻 Software</option>
-            <option value="AFK">⏰ AFK / Jasa</option>
-            <option value="Voucher">🎁 Voucher</option>
-            <option value="Other">📦 Lainnya</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Deskripsi *</label>
-          <textarea class="form-input" id="sf-desc" placeholder="Jelaskan detail itemmu..." style="min-height:70px;"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Gambar Item <span style="color:var(--text3);font-size:11px;">(URL atau upload)</span></label>
-          <input type="text" class="form-input" id="sf-img" placeholder="https://... atau kosongkan">
-          <label style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:9px 14px;border-radius:10px;background:rgba(0,200,255,0.08);border:1px dashed var(--neon);color:var(--neon);font-size:13px;cursor:pointer;">
-            📁 Upload Gambar
-            <input type="file" accept="image/*" style="display:none;" onchange="handleSellImgUpload(this)">
-          </label>
-          <div id="sf-img-preview" style="display:none;margin-top:8px;">
-            <img id="sf-img-preview-el" style="width:100px;height:75px;object-fit:cover;border-radius:8px;border:1px solid var(--border2);">
-          </div>
-        </div>
-
-        <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:4px;">
-          <div class="sell-form-title" style="font-size:14px;">💳 Info Pembayaran Penjual</div>
-          <div class="form-group">
-            <label class="form-label">Nama Lengkap Pemilik * <span style="color:var(--neon2);font-size:11px;">wajib</span></label>
-            <input type="text" class="form-input" id="sf-owner-name" placeholder="Nama lengkap sesuai identitas">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nomor E-Wallet * <span style="color:var(--neon2);font-size:11px;">wajib (DANA/GoPay/OVO)</span></label>
-            <input type="text" class="form-input" id="sf-ewallet-num" placeholder="contoh: 08123456789">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nama Pemilik Nomor * <span style="color:var(--neon2);font-size:11px;">wajib</span></label>
-            <input type="text" class="form-input" id="sf-ewallet-owner" placeholder="Nama sesuai di aplikasi e-wallet">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Jenis E-Wallet *</label>
-            <select class="form-input" id="sf-ewallet-type">
-              <option value="DANA">💚 DANA</option>
-              <option value="GoPay">🟢 GoPay</option>
-              <option value="OVO">🟣 OVO</option>
-              <option value="ShopeePay">🟠 ShopeePay</option>
-              <option value="Bank">🏦 Transfer Bank</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">QR Code Pembayaran <span style="color:var(--text3);font-size:11px;">opsional</span></label>
-            <input type="text" class="form-input" id="sf-qr-url" placeholder="Link gambar QR code (opsional)">
-          </div>
-          <div class="form-group">
-            <label class="form-label">WhatsApp untuk konfirmasi *</label>
-            <input type="text" class="form-input" id="sf-wa" placeholder="contoh: 08123456789">
-          </div>
-        </div>
-
-        <div id="sf-err" style="color:#ff6b6b;font-size:13px;margin-bottom:12px;min-height:16px;"></div>
-        <button class="btn btn-success" style="width:100%;padding:14px;" onclick="submitSellItem()">
-          🏪 Daftarkan Barang untuk Dijual
-        </button>
-        <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.7;">
-          Dengan mendaftarkan barang, kamu setuju bahwa Admin NeonMart berhak menolak atau menghapus listingmu.<br>
-          Pembayaran akan langsung ke e-wallet kamu setelah pembeli konfirmasi.
-        </div>
-      </div>
-
-      <!-- My listings -->
-      <div style="margin-top:32px;">
-        <div class="section-title"><h2>📦 BARANGMU YANG DIJUAL</h2><div class="section-line"></div></div>
-        <div id="my-listings"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ═══════════════════════════════════════════════
    PAGE: ADMIN
 ═══════════════════════════════════════════════ -->
@@ -3143,6 +2793,7 @@ window.addEventListener('load', function() {
           <input type="password" class="form-input" id="admin-pass-input" placeholder="Kata sandi admin" onkeydown="if(event.key==='Enter')checkAdminLogin()">
         </div>
         <button class="btn btn-primary" style="width:100%;" onclick="checkAdminLogin()">🔓 Masuk</button>
+        <div id="admin-lockout-msg" style="display:none;margin-top:10px;text-align:center;font-size:13px;color:var(--neon2);font-family:var(--font-display);"></div>
       </div>
     </div>
     <!-- Dashboard -->
@@ -3196,29 +2847,59 @@ window.addEventListener('load', function() {
           <span>🏪 APPROVAL BARANG USER</span>
           <button class="btn btn-ghost" style="padding:5px 12px;font-size:12px;" onclick="loadUserListings()">🔄 Refresh</button>
         </div>
-        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Barang yang didaftarkan user — approve agar muncul di toko</div>
-        <div id="user-listings-admin" style="font-size:13px;color:var(--text3);text-align:center;padding:12px;">Klik Refresh untuk lihat listing user</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Approve barang user agar muncul di toko</div>
+        <div id="user-listings-admin" style="font-size:13px;color:var(--text3);text-align:center;padding:12px;">Klik Refresh untuk melihat listing</div>
       </div>
 
       <!-- CUSTOM PRICE ORDER -->
       <div class="admin-section-box" style="border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.03);">
-        <div class="admin-section-title" style="color:var(--gold);">💰 CUSTOM PRICE ORDER</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:14px;">Buat order dengan harga khusus untuk konsumen tertentu (AFK, jasa, dll)</div>
+        <div class="admin-section-title" style="color:var(--gold);">💰 CUSTOM PRICE ORDER (AFK, Jasa, dll)</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-          <div class="form-group" style="margin:0;"><label class="form-label">Username Konsumen</label><input type="text" class="form-input" id="nego-username" placeholder="username konsumen"></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Username Konsumen</label><input type="text" class="form-input" id="nego-username" placeholder="username"></div>
           <div class="form-group" style="margin:0;"><label class="form-label">Nama Item</label><input type="text" class="form-input" id="nego-item" placeholder="contoh: AFK 2 jam"></div>
-          <div class="form-group" style="margin:0;"><label class="form-label">Harga Khusus (Rp)</label><input type="number" class="form-input" id="nego-price" placeholder="contoh: 15000" min="0"></div>
-          <div class="form-group" style="margin:0;"><label class="form-label">Durasi/Jumlah</label><input type="text" class="form-input" id="nego-qty" placeholder="contoh: 2 jam / 1x"></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Harga (Rp)</label><input type="number" class="form-input" id="nego-price" placeholder="15000"></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Durasi/Jumlah</label><input type="text" class="form-input" id="nego-qty" placeholder="2 jam / 1x"></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Catatan untuk konsumen</label>
-          <textarea class="form-input" id="nego-note" placeholder="Detail pesanan, instruksi, dll..." style="min-height:60px;"></textarea>
+        <div class="form-group"><label class="form-label">Catatan</label><textarea class="form-input" id="nego-note" placeholder="Detail..." style="min-height:50px;"></textarea></div>
+        <button class="btn btn-primary" style="width:100%;" onclick="createNegoOrder()">💰 Kirim Custom Order</button>
+        <div style="margin-top:12px;"><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Order Aktif:</div><div id="nego-orders-list" style="font-size:13px;color:var(--text3);">-</div></div>
+      </div>
+
+      <!-- ⭐ PREMIUM SYSTEM -->
+      <div class="admin-section-box" style="border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.04);">
+        <div class="admin-section-title" style="color:var(--gold);">⭐ PREMIUM USER SYSTEM</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div class="form-group" style="margin:0;">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" id="prem-username" placeholder="username...">
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label class="form-label">Durasi</label>
+            <select class="form-input" id="prem-dur" onchange="document.getElementById('prem-custom-wrap').style.display=this.value==='custom'?'block':'none'">
+              <option value="1m">1 Menit (Test)</option>
+              <option value="1h">1 Jam</option>
+              <option value="1d">1 Hari</option>
+              <option value="1mo">1 Bulan</option>
+              <option value="1y">1 Tahun</option>
+              <option value="lifetime">Lifetime ♾️</option>
+              <option value="custom">Custom (menit)</option>
+            </select>
+          </div>
         </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="createNegoOrder()">💰 Kirim Custom Order ke Konsumen</button>
-        <div style="margin-top:16px;">
-          <div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:600;">📋 Custom Order Aktif:</div>
-          <div id="nego-orders-list" style="font-size:13px;color:var(--text3);">Belum ada custom order</div>
+        <div class="form-group" id="prem-custom-wrap" style="display:none;">
+          <label class="form-label">Custom durasi (menit)</label>
+          <input type="number" class="form-input" id="prem-custom-min" placeholder="contoh: 1440 = 1 hari" min="1">
         </div>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:12px;" onclick="(function(){
+          var u=document.getElementById('prem-username').value.trim();
+          var d=document.getElementById('prem-dur').value;
+          var customMs = d==='custom' ? (parseInt(document.getElementById('prem-custom-min').value||0)*60000) : null;
+          assignPremium(u,d,customMs);
+        })()">⭐ Berikan Premium</button>
+        <select onchange="document.getElementById('prem-custom-wrap').style.display=this.value==='custom'?'block':'none'"
+          style="position:absolute;opacity:0;pointer-events:none;" id="prem-dur-watcher">
+        </select>
+        <div id="premium-user-list" style="margin-top:8px;"></div>
       </div>
 
       <!-- CENTANG BIRU / VERIFIED USER -->
@@ -3253,6 +2934,15 @@ window.addEventListener('load', function() {
         <div class="admin-section-title">📊 STATISTIK</div>
         <div class="admin-grid" id="admin-stats"></div>
         <div id="admin-sales-chart"></div>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="admin-section-box" style="border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.03);">
+        <div class="admin-section-title" style="color:var(--neon3);display:flex;justify-content:space-between;align-items:center;">
+          <span>📋 LOG AKTIVITAS ADMIN</span>
+          <button class="btn btn-ghost" style="padding:5px 12px;font-size:12px;" onclick="renderAdminActivityLog()">🔄</button>
+        </div>
+        <div id="admin-activity-log" style="max-height:240px;overflow-y:auto;"></div>
       </div>
       <!-- Add Product -->
       <div class="admin-section-box">
@@ -3483,11 +3173,6 @@ const BUILTIN_PRODUCTS = [];
 
 // ─── INIT ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // ═══ LOADING SCREEN — paling pertama! ═══
-  hideLoadingScreen();
-  // Safety: paksa hilang setelah 4 detik apapun yang terjadi
-  setTimeout(function() { doHideLoading(); }, 4000);
-
   applySettings();
   loadProducts();
   updateCartBadge();
@@ -3500,13 +3185,13 @@ document.addEventListener('DOMContentLoaded', () => {
   checkAnnouncementOnLoad();
 
   // Apply settings toggles
-  try {
-    document.getElementById('tog-dark').checked = settings_data.dark !== false;
-    document.getElementById('tog-anim').checked = settings_data.anim !== false;
-    document.getElementById('tog-sound').checked = settings_data.sound !== false;
-  } catch(e) {}
+  document.getElementById('tog-dark').checked = settings_data.dark !== false;
+  document.getElementById('tog-anim').checked = settings_data.anim !== false;
+  document.getElementById('tog-sound').checked = settings_data.sound !== false;
 
-  showLobby();
+  // Loading screen
+  hideLoadingScreen();
+  lockLandscape();
   checkChangelog();
   initAurora();
   setTimeout(requestPushPermission, 3000);
@@ -3525,12 +3210,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // First visit tutorial
   checkFirstVisit();
-  // Auto-hide lobby jika sudah login sebelumnya
-  if (currentUser) {
-    document.getElementById('lobby-screen').style.display = 'flex'; // tetap tampil
-  }
   // Cek inbox badge
   setTimeout(checkInboxBadge, 3000);
+  setTimeout(checkCurrentUserPremium, 2000);
   setInterval(checkInboxBadge, 15000);
 });
 
@@ -4285,28 +3967,64 @@ async function migrateCompressImages() {
 }
 
 // ─── ADMIN ───────────────────────────────────────────────────────
-function checkAdminLogin() {
-  // Admin chat user bypass password
-  if (currentUser && currentUser.username === ADMIN_CHAT_USER) {
-    adminLoggedIn = true;
-    document.getElementById('admin-login-section').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'block';
-    renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); renderSalesChart();
-    return;
+// ── Admin lockout ──────────────────────────────────────────
+var adminFailCount=0, adminLockUntil=0, adminLockInterval=null;
+function scheduleAdminReset(){
+  function msToNext12(){var now=new Date(),h=now.getHours(),next=new Date(now);next.setSeconds(0);next.setMinutes(0);next.setMilliseconds(0);if(h<12){next.setHours(12);}else{next.setHours(24);}if(next<=now){next.setDate(next.getDate()+1);next.setHours(0);}return next-now;}
+  setTimeout(function(){adminFailCount=0;adminLockUntil=0;if(adminLockInterval)clearInterval(adminLockInterval);var inp=document.getElementById('admin-pass-input');if(inp)inp.disabled=false;var lk=document.getElementById('admin-lockout-msg');if(lk)lk.style.display='none';scheduleAdminReset();},msToNext12());
+}
+scheduleAdminReset();
+function startAdminLockout(secs){
+  adminLockUntil=Date.now()+secs*1000;
+  var inp=document.getElementById('admin-pass-input'),lk=document.getElementById('admin-lockout-msg');
+  if(inp)inp.disabled=true;if(lk)lk.style.display='block';
+  if(adminLockInterval)clearInterval(adminLockInterval);
+  adminLockInterval=setInterval(function(){var rem=Math.ceil((adminLockUntil-Date.now())/1000);if(lk)lk.textContent='Tunggu '+rem+'s...';if(rem<=0){clearInterval(adminLockInterval);if(inp){inp.disabled=false;inp.focus();}if(lk){lk.textContent='';lk.style.display='none';}}},500);
+}
+
+function checkAdminLockReset() {
+  var now = new Date();
+  var h = now.getHours(), m = now.getMinutes();
+  if ((h===0||h===12) && m===0) {
+    adminFailCount = 0; adminLockUntil = 0;
+    localStorage.removeItem('nm_admin_lock');
+    var el = document.getElementById('admin-lockout-msg');
+    var inp = document.getElementById('admin-pass-input');
+    var btn = document.querySelector('[onclick="checkAdminLogin()"]');
+    if (el) { el.style.display='none'; el.textContent=''; }
+    if (inp) inp.disabled = false;
+    if (btn) btn.disabled = false;
+    toast('🔓 Admin panel unlocked (reset jam 12)!','info');
   }
-  const val = document.getElementById('admin-pass-input').value;
-  if (val === ADMIN_PASSWORD) {
-    adminLoggedIn = true;
-    document.getElementById('admin-login-section').style.display = 'none';
-    document.getElementById('admin-dashboard-section').style.display = 'block';
-    renderAdminStats();
-    renderAdminTable();
-    toast('🛡️ Selamat datang, Admin!', 'success');
-    setTimeout(function() { loadUserListings(); loadNegoOrders(); }, 500);
-  } else {
-    playSound('error');
-    toast('❌ Kata sandi salah!', 'error');
-    document.getElementById('admin-pass-input').value = '';
+}
+
+function checkAdminLogin(){
+  if(currentUser&&currentUser.username===ADMIN_CHAT_USER){
+    adminLoggedIn=true;
+    document.getElementById('admin-login-section').style.display='none';
+    document.getElementById('admin-dashboard-section').style.display='block';
+    renderAdminStats();renderAdminTable();updateAdminShutdownUI();loadPendingPayments();renderSalesChart();
+    setTimeout(function(){loadUserListings();loadNegoOrders();},500);return;
+  }
+  if(Date.now()<adminLockUntil)return;
+  const val=document.getElementById('admin-pass-input').value;
+  if(val===ADMIN_PASSWORD){
+    adminLoggedIn=true;adminFailCount=0;
+    document.getElementById('admin-login-section').style.display='none';
+    document.getElementById('admin-dashboard-section').style.display='block';
+    renderAdminStats();renderAdminTable();
+    toast('Selamat datang, Admin!','success');
+    setTimeout(function(){loadUserListings();loadNegoOrders();},500);
+  }else{
+    playSound('error');adminFailCount++;
+    document.getElementById('admin-pass-input').value='';
+    if(adminFailCount>=3){
+      var lockSecs=Math.min(5*Math.pow(2,adminFailCount-3),3600);
+      toast('Terlalu banyak percobaan! Tunggu '+Math.round(lockSecs)+'s.','error');
+      startAdminLockout(Math.round(lockSecs));
+    }else{
+      toast('Kata sandi salah! '+(3-adminFailCount)+' percobaan tersisa.','error');
+    }
   }
 }
 function adminLogout() {
@@ -4765,8 +4483,6 @@ async function sendDiscordWebhook(data) {
 
 // ─── NAVIGATION ──────────────────────────────────────────────────
 function goPage(name) {
-  // Sembunyikan lobby kalau masih aktif
-  if (lobbyActive) hideLobby();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(`page-${name}`)?.classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -4776,11 +4492,6 @@ function goPage(name) {
   if (name === 'history') renderHistoryPage();
   if (name === 'inbox')       loadInbox();
   if (name === 'leaderboard') loadLeaderboard();
-  if (name === 'sellitem') {
-    var reqEl=document.getElementById('sell-login-required');
-    var formEl=document.getElementById('sell-form-area');
-    if(currentUser){if(reqEl)reqEl.style.display='none';if(formEl)formEl.style.display='block';loadMyListings();}else{if(reqEl)reqEl.style.display='block';if(formEl)formEl.style.display='none';}
-  }
   if (name === 'globalchat')  loadGlobalChatRealtime();
   if (name === 'admin' && adminLoggedIn) renderSalesChart();
   if (name === 'installments') renderInstallmentPage();
@@ -4790,7 +4501,6 @@ function goPage(name) {
       checkAdminLogin(); // auto bypass
     } else if (adminLoggedIn) {
       renderAdminStats(); renderAdminTable(); updateAdminShutdownUI(); loadPendingPayments(); renderSalesChart();
-      loadUserListings(); loadNegoOrders();
     }
   }
 
@@ -5185,9 +4895,6 @@ async function loadPendingPayments() {
   var list  = document.getElementById('pending-payments-list');
   var badge = document.getElementById('pending-count-badge');
   if (!list) return;
-  // Limit to 3 items
-  var pendAll = pending_data || []; var showAll3 = list.dataset.showAll3 === 'true';
-  var pendShow = showAll3 ? pendAll : pendAll.slice(0, 3);
   list.innerHTML = '<div style="text-align:center;color:var(--text3);padding:16px;font-size:13px;">⏳ Memuat...</div>';
 
   try {
@@ -5204,10 +4911,7 @@ async function loadPendingPayments() {
     }
 
     if (!entries.length) {
-      // Limit to 3 items
-  var pendAll = pending_data || []; var showAll3 = list.dataset.showAll3 === 'true';
-  var pendShow = showAll3 ? pendAll : pendAll.slice(0, 3);
-  list.innerHTML = '<div style="text-align:center;color:var(--text3);padding:20px;font-size:13px;">Tidak ada pembayaran pending</div>';
+      list.innerHTML = '<div style="text-align:center;color:var(--text3);padding:20px;font-size:13px;">Tidak ada pembayaran pending</div>';
       return;
     }
 
@@ -5248,10 +4952,7 @@ async function loadPendingPayments() {
     });
     list.innerHTML = html;
   } catch(e) {
-    // Limit to 3 items
-  var pendAll = pending_data || []; var showAll3 = list.dataset.showAll3 === 'true';
-  var pendShow = showAll3 ? pendAll : pendAll.slice(0, 3);
-  list.innerHTML = '<div style="text-align:center;color:#ff6b6b;padding:20px;font-size:13px;">Gagal load: ' + e.message + '</div>';
+    list.innerHTML = '<div style="text-align:center;color:#ff6b6b;padding:20px;font-size:13px;">Gagal load: ' + e.message + '</div>';
   }
 }
 
@@ -5268,6 +4969,7 @@ async function verifyPayment(orderId) {
     if (lp[orderId]) { lp[orderId].status = 'VERIFIED'; localStorage.setItem('nm_pending', JSON.stringify(lp)); }
 
     toast('Order #' + orderId + ' berhasil diverifikasi!', 'success');
+    logAdminActivity('VERIFY PAYMENT', orderId);
 
     // ── Kirim Email via EmailJS ──────────────────────────────
     var recipientEmail = orderData.email || '';
@@ -6114,449 +5816,6 @@ function showAllChangelogs() {
 }
 
 
-
-
-// ════════════════════════════════════════════════════════════
-// CHAT GLOBAL ACCESSORIES
-// ════════════════════════════════════════════════════════════
-var gchatReplyTo   = null; // { username, text, msgKey }
-var gchatEmojiOpen = false;
-var CHAT_REACTIONS = ['👍','❤️','😂','🔥','😮','😢'];
-var DAILY_MSG_LIMIT = 50;
-
-// ── Emoji picker ─────────────────────────────────────────
-function toggleEmojiPicker() {
-  var picker = document.getElementById('gchat-emoji-picker');
-  if (!picker) return;
-  gchatEmojiOpen = !gchatEmojiOpen;
-  picker.style.display = gchatEmojiOpen ? 'flex' : 'none';
-}
-
-function insertEmoji(emoji) {
-  var inp = document.getElementById('gchat-input');
-  if (!inp) return;
-  var pos  = inp.selectionStart;
-  var val  = inp.value;
-  inp.value = val.slice(0,pos) + emoji + val.slice(pos);
-  inp.selectionStart = inp.selectionEnd = pos + emoji.length;
-  inp.focus();
-}
-
-// ── Reply system ─────────────────────────────────────────
-function replyToMsg(username, text, msgKey) {
-  gchatReplyTo = { username, text, msgKey };
-  var bar     = document.getElementById('gchat-reply-bar');
-  var preview = document.getElementById('gchat-reply-preview');
-  if (bar)     bar.classList.add('show');
-  if (preview) preview.textContent = 'Membalas @' + username + ': ' + text.substring(0,40) + (text.length>40?'...':'');
-  document.getElementById('gchat-input').focus();
-}
-
-function cancelReply() {
-  gchatReplyTo = null;
-  var bar = document.getElementById('gchat-reply-bar');
-  if (bar) bar.classList.remove('show');
-}
-
-// ── Keyboard handler ─────────────────────────────────────
-function handleChatKeydown(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendGlobalMsg();
-  }
-  if (e.key === 'Escape') cancelReply();
-}
-
-// ── Mention autocomplete ─────────────────────────────────
-function handleMentionInput(inp) {
-  inp.style.height = 'auto';
-  inp.style.height = Math.min(inp.scrollHeight, 80) + 'px';
-  // Close emoji picker on type
-  if (gchatEmojiOpen) toggleEmojiPicker();
-}
-
-// ── Daily message limit check ────────────────────────────
-async function checkDailyLimit() {
-  if (!currentUser) return true;
-  try {
-    var today = new Date().toDateString();
-    var key   = 'gchat_count_' + currentUser.username + '_' + today;
-    var count = parseInt(localStorage.getItem(key) || '0');
-    if (count >= DAILY_MSG_LIMIT) {
-      toast('⚠️ Batas pesan harian (' + DAILY_MSG_LIMIT + ') tercapai!', 'warn');
-      return false;
-    }
-    localStorage.setItem(key, count + 1);
-    return true;
-  } catch(e) { return true; }
-}
-
-// ── Override sendGlobalMsg to include accessories ────────
-var _origSendGlobalMsg = sendGlobalMsg;
-sendGlobalMsg = async function() {
-  if (!currentUser) { toast('Login dulu!', 'warn'); return; }
-  var inp  = document.getElementById('gchat-input');
-  var text = inp ? inp.value.trim() : '';
-  if (!text) return;
-  if (text.length > 500) { toast('Pesan max 500 karakter!', 'warn'); return; }
-
-  // Check daily limit
-  var allowed = await checkDailyLimit();
-  if (!allowed) return;
-
-  // Process mentions — @username → highlight
-  var processedText = text.replace(/@(\w+)/g, function(match, uname) {
-    return '@' + uname; // stored as-is, rendered with CSS
-  });
-
-  inp.value = '';
-  inp.style.height = 'auto';
-  if (gchatEmojiOpen) toggleEmojiPicker();
-
-  try {
-    var key = 'msg_' + Date.now();
-    var msgData = {
-      username: currentUser.username,
-      name:     currentUser.name,
-      text:     processedText,
-      ts:       Date.now(),
-      reactions: {}
-    };
-    // Add reply info if replying
-    if (gchatReplyTo) {
-      msgData.reply_to = gchatReplyTo;
-      cancelReply();
-    }
-    await fbSet('global_chat/' + key, msgData);
-  } catch(e) { toast('Gagal kirim: ' + e.message, 'error'); }
-};
-
-// ── Add reaction to message ──────────────────────────────
-async function addReaction(msgKey, emoji) {
-  if (!currentUser) { toast('Login dulu!', 'warn'); return; }
-  try {
-    var msg = await fbGet('global_chat/' + msgKey);
-    if (!msg) return;
-    if (!msg.reactions) msg.reactions = {};
-    if (!msg.reactions[emoji]) msg.reactions[emoji] = [];
-    var idx = msg.reactions[emoji].indexOf(currentUser.username);
-    if (idx > -1) {
-      msg.reactions[emoji].splice(idx, 1); // toggle off
-      if (!msg.reactions[emoji].length) delete msg.reactions[emoji];
-    } else {
-      msg.reactions[emoji].push(currentUser.username);
-    }
-    await fbSet('global_chat/' + msgKey, msg);
-  } catch(e) {}
-}
-
-// ── Updated renderGChatMsgV2 to include accessories ──────
-var _origRenderMsg = renderGChatMsgV2;
-renderGChatMsgV2 = function(m, rankMap, verified) {
-  var isMe        = currentUser && m.username === currentUser.username;
-  var isAdminChat = m.username === ADMIN_CHAT_USER;
-  var rank        = rankMap ? rankMap[m.username] : null;
-  var rankHtml    = '';
-  if (isAdminChat) {
-    rankHtml = '<span class="gchat-rank-badge rank-admin">🛡️ ADMIN</span>';
-  } else if (rank && rank <= 10) {
-    var rc = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-top10';
-    rankHtml = '<span class="gchat-rank-badge ' + rc + '">🌍 #' + rank + '</span>';
-  }
-  var verifiedHtml = verified ? '<span class="verified-badge" title="Verified">✓</span>' : '';
-  var colors   = ['#00c8ff','#7c3aed','#ff2d78','#10b981','#f59e0b','#3b82f6'];
-  var ci       = m.username.charCodeAt(0) % colors.length;
-  var time     = new Date(m.ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  var msgKey   = m._key || ('msg_' + m.ts);
-
-  // Process text — highlight mentions
-  var displayText = (m.text||'')
-    .replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/@(\w+)/g, '<span class="mention">@$1</span>');
-
-  // Reply quote
-  var replyHtml = '';
-  if (m.reply_to) {
-    replyHtml = '<div style="background:rgba(255,255,255,0.06);border-left:3px solid var(--neon);border-radius:0 6px 6px 0;padding:4px 8px;margin-bottom:4px;font-size:11px;color:var(--text3);">↩️ @' + m.reply_to.username + ': ' + (m.reply_to.text||'').substring(0,40) + '</div>';
-  }
-
-  // Reactions
-  var reactionsHtml = '';
-  if (m.reactions && Object.keys(m.reactions).length) {
-    reactionsHtml = '<div class="gchat-reactions">';
-    Object.entries(m.reactions).forEach(function(entry) {
-      var emoji  = entry[0];
-      var users  = entry[1];
-      var isMine = currentUser && users.includes(currentUser.username);
-      reactionsHtml += '<span class="gchat-reaction-btn' + (isMine?' mine':'') + '" onclick="addReaction(\'' + msgKey + '\',\'' + emoji + '\')">' + emoji + ' ' + users.length + '</span>';
-    });
-    reactionsHtml += '</div>';
-  }
-
-  // Action buttons
-  var actionsHtml = '<div class="gchat-msg-actions">' +
-    CHAT_REACTIONS.map(function(e) {
-      return '<button class="gchat-msg-action-btn" onclick="addReaction(\'' + msgKey + '\',\'' + e + '\')">' + e + '</button>';
-    }).join('') +
-    '<button class="gchat-msg-action-btn" onclick="replyToMsg(\'' + m.username + '\',\'' + (m.text||'').replace(/'/g,"\\'").substring(0,40) + '\',\'' + msgKey + '\')" title="Reply">↩️</button>' +
-    '</div>';
-
-  return '<div class="gchat-msg-wrap gchat-msg' + (isMe?' me':'') + '" data-key="' + msgKey + '">' +
-    actionsHtml +
-    '<div class="gchat-avatar" style="background:' + (isAdminChat?'linear-gradient(135deg,#ff2d78,#ff6b3d)':colors[ci]) + '">' + (m.name||'?')[0].toUpperCase() + '</div>' +
-    '<div class="gchat-bubble-wrap">' +
-    '<div class="gchat-name-row">' +
-      (rankHtml?rankHtml+' ':'') +
-      '<span style="font-weight:600;">' + (m.name||'?') + '</span>' +
-      verifiedHtml +
-      '<span style="opacity:.5;font-size:10px;">@' + m.username + '</span>' +
-    '</div>' +
-    replyHtml +
-    '<div class="gchat-bubble">' + displayText + '</div>' +
-    '<div class="gchat-time">' + time + '</div>' +
-    reactionsHtml +
-    '</div></div>';
-};
-
-// ════════════════════════════════════════════════════════════
-// LOBBY SCREEN SYSTEM
-// ════════════════════════════════════════════════════════════
-var lobbyActive = true;
-var wcMode      = 'hide'; // 'hide' | 'show'
-
-function showLobby() {
-  var el = document.getElementById('lobby-screen');
-  if (!el) return;
-  el.style.display = 'flex';
-  el.style.opacity = '1';
-  el.style.transform = 'none';
-  el.style.pointerEvents = 'auto';
-  el.style.zIndex = '99998';
-  el.classList.remove('hide');
-  lobbyActive = true;
-}
-
-function hideLobby() {
-  var el = document.getElementById('lobby-screen');
-  if (!el) return;
-  // Langsung hide - tidak ada transparency/flicker
-  el.style.display = 'none';
-  el.style.pointerEvents = 'none';
-  el.classList.add('hide');
-  lobbyActive = false;
-}
-
-// Shop — wajib login dulu
-function enterShop() {
-  hideLobby(); // selalu hide lobby dulu
-  if (!currentUser) {
-    window._redirectAfterLogin = 'home';
-    setTimeout(function(){ openLoginModal(); }, 50);
-  }
-  // kalau sudah login lobby sudah di-hide, langsung masuk
-}
-
-// Chat — langsung ke sign in
-function enterChat() {
-  enterGlobalChat();
-}
-
-function enterGlobalChat() {
-  // LANGSUNG masuk chat global - tidak perlu popup
-  hideLobby();
-  setTimeout(function() { goPage('globalchat'); }, 300);
-}
-
-function showTermsFromChat() {
-  // Tutup chat terms popup dulu
-  var chatModal = document.getElementById('chat-terms-modal');
-  if (chatModal) chatModal.style.display = 'none';
-  // Buka full terms modal
-  showTerms();
-  // Override tombol "Setuju" di terms modal supaya kembali ke chat terms
-  setTimeout(function() {
-    var termsModal = document.getElementById('terms-modal');
-    if (!termsModal) return;
-    // Cari tombol setuju di terms modal dan tambahkan callback
-    var agreeBtn = termsModal.querySelector('button.cl-seen-btn, button[onclick*="closeChangelog"]');
-    // Lebih mudah: override close terms untuk re-show chat terms
-    window._termsFromChat = true;
-  }, 100);
-}
-
-function acceptChatTermsAndEnter() {
-  var modal = document.getElementById('chat-terms-modal');
-  if (modal) modal.style.display = 'none';
-  if (!currentUser) {
-    window._redirectAfterLogin = 'globalchat';
-    openLoginModal();
-  } else {
-    hideLobby(); // ini turunkan z-index dan hide lobby
-    setTimeout(function() { goPage('globalchat'); }, 350);
-  }
-}
-
-// ════════════════════════════════════════════════════════════
-// WHO CHAT SYSTEM
-// ════════════════════════════════════════════════════════════
-function openWhoChat() {
-  // Sembunyikan lobby
-  var lobby = document.getElementById('lobby-screen');
-  if (lobby) { lobby.style.display = 'none'; lobby.style.pointerEvents = 'none'; }
-  var m = document.getElementById('whochat-modal');
-  if (m) m.style.display = 'flex';
-  var t   = document.getElementById('wc-target');
-  var msg = document.getElementById('wc-message');
-  var err = document.getElementById('wc-err');
-  if (t)   t.value = '';
-  if (msg) msg.value = '';
-  if (err) err.textContent = '';
-  wcMode = 'hide';
-  updateWCMode();
-}
-
-function selectWCMode(mode) {
-  wcMode = mode;
-  updateWCMode();
-}
-
-function updateWCMode() {
-  var hideBtn    = document.getElementById('wc-hide-btn');
-  var showBtn    = document.getElementById('wc-show-btn');
-  var preview    = document.getElementById('wc-name-preview');
-  var isHide     = wcMode === 'hide';
-  if (hideBtn) hideBtn.classList.toggle('active', isHide);
-  if (showBtn) showBtn.classList.toggle('active', !isHide);
-  if (preview) {
-    if (isHide) {
-      preview.innerHTML = '🎭 Pesanmu akan terlihat dari: <strong>Seseorang yang misterius</strong>';
-    } else {
-      var name = currentUser ? currentUser.name + ' (@' + currentUser.username + ')' : 'Tamu (login dulu)';
-      preview.innerHTML = '👤 Pesanmu akan terlihat dari: <strong>' + name + '</strong>';
-    }
-  }
-}
-
-async function sendWhoChat() {
-  var target  = (document.getElementById('wc-target').value || '').trim().toLowerCase();
-  var message = (document.getElementById('wc-message').value || '').trim();
-  var errEl   = document.getElementById('wc-err');
-
-  errEl.textContent = '';
-  if (!target)  { errEl.textContent = 'Masukkan username tujuan!'; return; }
-  if (!message) { errEl.textContent = 'Tulis pesanmu dulu!'; return; }
-  if (message.length > 500) { errEl.textContent = 'Pesan max 500 karakter!'; return; }
-
-  // Cek apakah target user ada
-  try {
-    var users = await fbGet('nm_users') || {};
-    if (!users[target]) {
-      errEl.textContent = '❌ Username @' + target + ' tidak ditemukan!';
-      return;
-    }
-  } catch(e) { errEl.textContent = '❌ Gagal cek user: ' + e.message; return; }
-
-  // Build pesan
-  var senderDisplay, senderReal;
-  if (wcMode === 'hide') {
-    senderDisplay = '🎭 Seseorang yang misterius';
-    senderReal    = currentUser ? currentUser.username : 'guest';
-  } else {
-    if (!currentUser) { errEl.textContent = '❌ Login dulu untuk tampilkan nama!'; return; }
-    senderDisplay = currentUser.name + ' (@' + currentUser.username + ')';
-    senderReal    = currentUser.username;
-  }
-
-  try {
-    var key = 'wc_' + Date.now();
-    await fbSet('who_chats/' + target + '/' + key, {
-      sender_display: senderDisplay,
-      sender_real:    senderReal,   // hanya tersimpan di sistem, tidak ditampilkan ke penerima
-      message:        message,
-      hidden:         wcMode === 'hide',
-      ts:             Date.now()
-    });
-    // Success
-    document.getElementById('whochat-modal').classList.remove('show');
-    showSuccessLobby('🎭 Pesan misterius terkirim ke @' + target + '!');
-    document.getElementById('wc-target').value  = '';
-    document.getElementById('wc-message').value = '';
-  } catch(e) {
-    errEl.textContent = '❌ Gagal kirim: ' + e.message;
-  }
-}
-
-function showSuccessLobby(msg) {
-  // Toast notification sementara di lobby
-  var toast = document.createElement('div');
-  toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:99999;background:#111;color:#fff;padding:12px 24px;border-radius:20px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,0.2);animation:fadeInScale .3s ease;';
-  toast.textContent = msg;
-  document.body.appendChild(toast);
-  setTimeout(function() { toast.style.opacity = '0'; toast.style.transition = '.3s'; setTimeout(function(){ toast.remove(); }, 300); }, 3000);
-}
-
-// ════════════════════════════════════════════════════════════
-// PRIVATE CHAT — Lihat pesan misterius yang masuk
-// ════════════════════════════════════════════════════════════
-function openPrivateChat() {
-  var lobby = document.getElementById('lobby-screen');
-  if (lobby) { lobby.style.display = 'none'; lobby.style.pointerEvents = 'none'; }
-  var modal = document.getElementById('privatechat-modal');
-  if (modal) modal.style.display = 'flex';
-  loadPrivateMessages();
-}
-
-async function loadPrivateMessages() {
-  var msgEl   = document.getElementById('pc-messages');
-  var infoEl  = document.getElementById('pc-login-info');
-  var replyEl = document.getElementById('pc-reply-area');
-
-  if (!currentUser) {
-    msgEl.innerHTML = '<div style="text-align:center;padding:40px;">' +
-      '<div style="font-size:48px;margin-bottom:12px;">🔒</div>' +
-      '<div style="font-size:15px;font-weight:700;color:#111;margin-bottom:8px;">Login Dulu!</div>' +
-      '<div style="font-size:13px;color:#888;margin-bottom:20px;">Login untuk melihat pesan misterius yang ditujukan untukmu</div>' +
-      '<button onclick="document.getElementById(\'privatechat-modal\').classList.remove(\'show\');openLoginModal();" style="padding:11px 24px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Login / Daftar</button>' +
-      '</div>';
-    if (infoEl) infoEl.textContent = 'Login untuk melihat pesanmu';
-    if (replyEl) replyEl.style.display = 'none';
-    return;
-  }
-
-  if (infoEl) infoEl.textContent = '@' + currentUser.username;
-  msgEl.innerHTML = '<div style="text-align:center;color:#aaa;font-size:13px;padding:20px;">⏳ Memuat...</div>';
-
-  try {
-    var msgs = await fbGet('who_chats/' + currentUser.username) || {};
-    var list = Object.values(msgs).sort(function(a,b){ return a.ts - b.ts; });
-
-    if (!list.length) {
-      msgEl.innerHTML = '<div style="text-align:center;padding:40px;">' +
-        '<div style="font-size:48px;margin-bottom:12px;">📭</div>' +
-        '<div style="font-size:14px;color:#888;">Belum ada pesan misterius untukmu</div>' +
-        '</div>';
-      return;
-    }
-
-    msgEl.innerHTML = list.map(function(m) {
-      var time  = new Date(m.ts).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-      var badge = m.hidden
-        ? '<span style="background:#f3f4f6;color:#888;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;">🎭 Anonim</span>'
-        : '<span style="background:#ede9fe;color:#7c3aed;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;">👤 ' + m.sender_display + '</span>';
-      return '<div style="background:#f8fafc;border-radius:14px;padding:14px;border:1px solid #e5e7eb;">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
-          badge +
-          '<span style="font-size:10px;color:#aaa;">' + time + '</span>' +
-        '</div>' +
-        '<div style="font-size:14px;color:#111;line-height:1.6;">' + m.message.replace(/</g,'&lt;') + '</div>' +
-        '</div>';
-    }).join('');
-
-  } catch(e) {
-    msgEl.innerHTML = '<div style="text-align:center;color:#ef4444;padding:20px;font-size:13px;">Gagal load: ' + e.message + '</div>';
-  }
-}
-
 // ════════════════════════════════════════════════════════════
 // TERMS OF USE — 500+ baris
 // ════════════════════════════════════════════════════════════
@@ -6800,20 +6059,6 @@ var TERMS_CONTENT = `
 </div>
 `;
 
-
-function closeTermsModal() {
-  var modal = document.getElementById('terms-modal');
-  if (modal) modal.style.display = 'none';
-  // Kalau dibuka dari chat terms, re-show chat terms popup
-  if (window._termsFromChat) {
-    window._termsFromChat = false;
-    setTimeout(function() {
-      var chatModal = document.getElementById('chat-terms-modal');
-      if (chatModal) chatModal.style.display = 'flex';
-    }, 200);
-  }
-}
-
 function showTerms() {
   var modal   = document.getElementById('terms-modal');
   var content = document.getElementById('terms-content');
@@ -6853,35 +6098,10 @@ function updateWelcomeBanner() {
 function hideLoadingScreen() {
   var el = document.getElementById('loading-screen');
   if (!el) return;
-  doHideLoading(el);
-  // Show skip button immediately as backup
   setTimeout(function() {
-    var skipBtn = document.getElementById('skip-loading-btn');
-    var skipCd  = document.getElementById('skip-countdown');
-    if (skipBtn) skipBtn.style.display = 'block';
-    if (skipCd)  skipCd.style.display  = 'block';
-    // Countdown
-    var num = 3;
-    var numEl = document.getElementById('skip-num');
-    var timer = setInterval(function() {
-      num--;
-      if (numEl) numEl.textContent = num;
-      if (num <= 0) { clearInterval(timer); doHideLoading(); }
-    }, 1000);
-  }, 500);
-}
-
-function doHideLoading(el) {
-  if (!el) el = document.getElementById('loading-screen');
-  if (!el) return;
-  el.style.opacity       = '0';
-  el.style.transform     = 'scale(1.05)';
-  el.style.pointerEvents = 'none';
-  el.style.transition    = 'opacity .5s ease';
-  setTimeout(function() {
-    el.style.display = 'none';
-    el.setAttribute('hidden', true);
-  }, 550);
+    el.classList.add('fade-out');
+    setTimeout(function() { el.style.display = 'none'; }, 600);
+  }, 1800);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -6934,15 +6154,6 @@ async function doLogin() {
     updateUserUI();
     loadRecommendations();
     toast('👋 Selamat datang, ' + currentUser.name + '!', 'success');
-    // Redirect sesuai flag
-    if (window._redirectAfterLogin) {
-      var dest = window._redirectAfterLogin;
-      window._redirectAfterLogin = null;
-      hideLobby();
-      setTimeout(function() { goPage(dest); }, 300);
-    } else if (lobbyActive) {
-      hideLobby();
-    }
   } catch(e) { errEl.textContent = '❌ Error: ' + e.message; }
 }
 
@@ -6984,8 +6195,16 @@ function updateUserUI() {
   if (!avatarEl) return;
   if (currentUser) {
     avatarEl.textContent   = currentUser.name[0].toUpperCase();
-    avatarEl.title         = currentUser.name + ' (@' + currentUser.username + ')';
+    avatarEl.title         = currentUser.name + ' (@' + currentUser.username + ')' + (currentUser.premium ? ' ⭐ PREMIUM' : '');
     avatarEl.onclick       = showUserMenu;
+    // Premium glow
+    if (currentUser.premium && currentUser.premium_expiry > Date.now()) {
+      avatarEl.style.boxShadow = '0 0 16px rgba(245,158,11,0.7)';
+      avatarEl.style.borderColor = '#f59e0b';
+    } else {
+      avatarEl.style.boxShadow = '';
+      avatarEl.style.borderColor = 'var(--neon)';
+    }
     // Update bottom nav avatar
     var bnAvatar = document.getElementById('bn-user-avatar');
     if (bnAvatar) {
@@ -7010,7 +6229,6 @@ function updateUserUI() {
   }
   checkAutoOpenAdmin();
   updateWelcomeBanner();
-  updateWCMode();
 }
 
 function showUserMenu() {
@@ -7272,6 +6490,32 @@ function installPWA() {
     if (r.outcome === 'accepted') toast('✅ NeonMart berhasil diinstall!', 'success');
     deferredPrompt = null;
   });
+}
+
+
+
+// ════════════════════════════════════════════════════════════
+// SCREEN ORIENTATION LOCK (landscape)
+// ════════════════════════════════════════════════════════════
+function lockLandscape() {
+  // Try Screen Orientation API (modern)
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(function(e) {
+      console.log('Orientation lock not supported:', e.message);
+    });
+  }
+  // Show overlay on portrait mobile
+  function checkOrientation() {
+    var isPortrait  = window.innerHeight > window.innerWidth;
+    var isMobile    = window.innerWidth < 1024 || ('ontouchstart' in window);
+    var overlay     = document.getElementById('rotate-overlay');
+    if (overlay) overlay.style.display = (isPortrait && isMobile) ? 'flex' : 'none';
+  }
+  window.addEventListener('resize', checkOrientation);
+  window.addEventListener('orientationchange', function() {
+    setTimeout(checkOrientation, 200);
+  });
+  checkOrientation();
 }
 
 // ════════════════════════════════════════════════════════════
@@ -7703,7 +6947,7 @@ async function renderTop10() {
         '<div class="lb-rank r' + (rankNum<=3?rankNum:'') + '">' + medal + '</div>' +
         '<div class="lb-avatar" style="background:' + rankBg + '">' + u.name[0].toUpperCase() + '</div>' +
         '<div class="lb-info">' +
-          '<div class="lb-name">' + u.name + (u.verified?'<span class="verified-badge" title="Verified">✓</span>':'') + ' <span style="font-size:11px;color:var(--text3);">@' + u.username + '</span></div>' +
+          '<div class="lb-name' + (u.premium&&u.premium_expiry>Date.now()?' premium-name':'') + '">' + u.name + (u.verified?'<span class="verified-badge" title="Verified">✓</span>':'') + (u.premium&&u.premium_expiry>Date.now()?'<span class="premium-badge">⭐ PREMIUM</span>':'') + ' <span style="font-size:11px;color:var(--text3);">@' + u.username + '</span></div>' +
           '<div class="lb-meta">Bergabung: ' + new Date(u.joined||Date.now()).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) + '</div>' +
         '</div>' +
         '<div style="text-align:right;">' +
@@ -8070,6 +7314,7 @@ function renderGChatMsgV2(m, rankMap, verified) {
     rankHtml = '<span class="gchat-rank-badge ' + rc + '">🌍 Rank #' + rank + ' Global!</span>';
   }
   var verifiedHtml = verified ? '<span class="verified-badge" title="Verified">✓</span>' : '';
+  var premiumHtml  = (m.premium && m.premium_expiry > Date.now()) ? '<span class="premium-badge">⭐</span>' : '';
   var colors   = ['#00c8ff','#7c3aed','#ff2d78','#10b981','#f59e0b','#3b82f6'];
   var ci       = m.username.charCodeAt(0) % colors.length;
   var time     = new Date(m.ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
@@ -8117,482 +7362,91 @@ var _origCheckAdminLogin = typeof checkAdminLogin !== 'undefined' ? checkAdminLo
   });
 });
 
-// ════════════════════════════════════════════════════════════
-// USER MARKETPLACE SYSTEM
-// ════════════════════════════════════════════════════════════
-var sellImgBase64 = null;
 
-function handleSellImgUpload(input) {
-  var file = input.files[0];
-  if (!file) return;
-  if (file.size > 3*1024*1024) { toast('Max 3MB!','error'); return; }
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    compressImage(e.target.result, 400, 300, 0.6, function(compressed) {
-      sellImgBase64 = compressed;
-      var prev   = document.getElementById('sf-img-preview');
-      var prevEl = document.getElementById('sf-img-preview-el');
-      if (prev)  prev.style.display  = 'block';
-      if (prevEl) prevEl.src = compressed;
-      toast('✅ Gambar siap!','success');
-    });
-  };
-  reader.readAsDataURL(file);
-}
+// ════ USER MARKETPLACE ════════════════════════════════════════
+var sellImgBase64=null;
+function handleSellImgUpload(input){var file=input.files[0];if(!file)return;if(file.size>3*1024*1024){toast('Max 3MB!','error');return;}var reader=new FileReader();reader.onload=function(e){compressImage(e.target.result,400,300,0.6,function(compressed){sellImgBase64=compressed;var prev=document.getElementById('sf-img-preview'),prevEl=document.getElementById('sf-img-preview-el');if(prev)prev.style.display='block';if(prevEl)prevEl.src=compressed;toast('Gambar siap!','success');});};reader.readAsDataURL(file);}
 
-async function submitSellItem() {
-  if (!currentUser) { openLoginModal(); return; }
-  var name         = (document.getElementById('sf-name')?.value||'').trim();
-  var price        = parseInt(document.getElementById('sf-price')?.value||0);
-  var stock        = parseInt(document.getElementById('sf-stock')?.value||0);
-  var cat          = document.getElementById('sf-category')?.value||'';
-  var desc         = (document.getElementById('sf-desc')?.value||'').trim();
-  var img          = sellImgBase64 || (document.getElementById('sf-img')?.value||'').trim() || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop';
-  var ownerName    = (document.getElementById('sf-owner-name')?.value||'').trim();
-  var ewalletNum   = (document.getElementById('sf-ewallet-num')?.value||'').trim();
-  var ewalletOwner = (document.getElementById('sf-ewallet-owner')?.value||'').trim();
-  var ewalletType  = document.getElementById('sf-ewallet-type')?.value||'DANA';
-  var qrUrl        = (document.getElementById('sf-qr-url')?.value||'').trim();
-  var wa           = (document.getElementById('sf-wa')?.value||'').trim();
-  var errEl        = document.getElementById('sf-err');
-
-  if (!name||!price||!stock||!cat||!desc||!ownerName||!ewalletNum||!ewalletOwner||!wa) {
-    if (errEl) errEl.textContent = '❌ Semua field wajib harus diisi!'; return;
-  }
-  if (price < 1000) { if (errEl) errEl.textContent = '❌ Harga minimal Rp 1.000'; return; }
-  if (errEl) errEl.textContent = '';
-
-  try {
-    var listing = {
-      id: 'ul_' + Date.now(),
-      seller: currentUser.username, seller_name: currentUser.name,
-      name, price, stock, category: cat, description: desc, image: img,
-      payment: { owner_name:ownerName, ewallet_num:ewalletNum, ewallet_owner:ewalletOwner, ewallet_type:ewalletType, qr_url:qrUrl, wa },
-      status: 'pending', created_at: Date.now(), sold_count: 0
-    };
-    await fbSet('user_listings/' + listing.id, listing);
-    toast('✅ Barang didaftarkan! Menunggu approval admin.','success');
-    ['sf-name','sf-price','sf-stock','sf-desc','sf-img','sf-owner-name','sf-ewallet-num','sf-ewallet-owner','sf-qr-url','sf-wa'].forEach(function(id){
-      var el = document.getElementById(id); if(el) el.value='';
-    });
-    sellImgBase64 = null;
-    var prev = document.getElementById('sf-img-preview');
-    if (prev) prev.style.display = 'none';
+async function submitSellItem(){
+  if(!currentUser){openLoginModal();return;}
+  var name=(document.getElementById('sf-name')?.value||'').trim(),
+      price=parseInt(document.getElementById('sf-price')?.value||0),
+      stock=parseInt(document.getElementById('sf-stock')?.value||0),
+      cat=document.getElementById('sf-category')?.value||'',
+      desc=(document.getElementById('sf-desc')?.value||'').trim(),
+      img=sellImgBase64||(document.getElementById('sf-img')?.value||'').trim()||'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop',
+      ownerName=(document.getElementById('sf-owner-name')?.value||'').trim(),
+      ewalletNum=(document.getElementById('sf-ewallet-num')?.value||'').trim(),
+      ewalletOwner=(document.getElementById('sf-ewallet-owner')?.value||'').trim(),
+      ewalletType=document.getElementById('sf-ewallet-type')?.value||'DANA',
+      qrUrl=(document.getElementById('sf-qr-url')?.value||'').trim(),
+      wa=(document.getElementById('sf-wa')?.value||'').trim(),
+      errEl=document.getElementById('sf-err');
+  if(!name||!price||!stock||!cat||!desc||!ownerName||!ewalletNum||!ewalletOwner||!wa){if(errEl)errEl.textContent='Semua field wajib diisi!';return;}
+  if(price<1000){if(errEl)errEl.textContent='Harga minimal Rp 1.000';return;}
+  if(errEl)errEl.textContent='';
+  try{
+    var listing={id:'ul_'+Date.now(),seller:currentUser.username,seller_name:currentUser.name,name,price,stock,category:cat,description:desc,image:img,payment:{owner_name:ownerName,ewallet_num:ewalletNum,ewallet_owner:ewalletOwner,ewallet_type:ewalletType,qr_url:qrUrl,wa},status:'pending',created_at:Date.now(),sold_count:0};
+    await fbSet('user_listings/'+listing.id,listing);
+    toast('Barang didaftarkan! Menunggu approval admin.','success');
+    ['sf-name','sf-price','sf-stock','sf-desc','sf-img','sf-owner-name','sf-ewallet-num','sf-ewallet-owner','sf-qr-url','sf-wa'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+    sellImgBase64=null;var prev=document.getElementById('sf-img-preview');if(prev)prev.style.display='none';
     loadMyListings();
-
-    // ── Kirim notif Discord ke admin ──────────────────────
-    sendDiscordWebhook({
-      order_id: listing.id,
-      username: currentUser.name + ' (@' + currentUser.username + ')',
-      note: '🏪 USER INGIN JUAL BARANG | Item: ' + name + ' | Harga: Rp' + price.toLocaleString('id-ID') + ' | Stok: ' + stock + ' | E-wallet: ' + ewalletType + ' ' + ewalletNum + ' (' + ewalletOwner + ') | WA: ' + wa,
-      items: [{name: name, qty: stock, price: price}],
-      total: price,
-      method: '🏪 User Marketplace Listing',
-      timestamp: new Date().toLocaleString('id-ID'),
-      need_verify: true
-    });
-
-  } catch(e) {
-    if (errEl) errEl.textContent = '❌ Gagal: ' + e.message;
-  }
+    sendDiscordWebhook({order_id:listing.id,username:currentUser.name+' (@'+currentUser.username+')',note:'LISTING BARU: '+name+' | Rp'+price+' | '+ewalletType+':'+ewalletNum+' ('+ewalletOwner+') | WA:'+wa,items:[{name,qty:stock,price}],total:price,method:'Marketplace Listing',timestamp:new Date().toLocaleString('id-ID'),need_verify:true});
+  }catch(e){if(errEl)errEl.textContent='Gagal: '+e.message;}
 }
 
-async function loadMyListings() {
-  var el = document.getElementById('my-listings');
-  if (!el || !currentUser) return;
-  try {
-    var all  = await fbGet('user_listings') || {};
-    var mine = Object.values(all).filter(function(l){ return l.seller===currentUser.username; });
-    if (!mine.length) {
-      el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:16px;text-align:center;">Belum ada barang yang kamu jual</div>';
-      return;
-    }
-    el.innerHTML = mine.map(function(l) {
-      var sc = l.status==='approved'?'var(--neon4)':l.status==='rejected'?'var(--neon2)':'var(--gold)';
-      var st = l.status==='approved'?'✅ Disetujui':l.status==='rejected'?'❌ Ditolak':'⏳ Menunggu';
-      return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:10px;align-items:center;">'
-        + '<img src="'+l.image+'" style="width:50px;height:38px;object-fit:cover;border-radius:6px;flex-shrink:0;">'
-        + '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;">'+l.name+'</div>'
-        + '<div style="font-size:11px;color:var(--text2);">'+fmtPrice(l.price)+' · Stok: '+l.stock+'</div></div>'
-        + '<span style="color:'+sc+';font-size:11px;font-weight:700;white-space:nowrap;">'+st+'</span></div>';
-    }).join('');
-  } catch(e) {}
-}
+async function loadMyListings(){var el=document.getElementById('my-listings');if(!el||!currentUser)return;try{var all=await fbGet('user_listings')||{},mine=Object.values(all).filter(function(l){return l.seller===currentUser.username;});if(!mine.length){el.innerHTML='<div style="color:var(--text3);font-size:13px;padding:16px;text-align:center;">Belum ada barang yang kamu jual</div>';return;}el.innerHTML=mine.map(function(l){var sc=l.status==='approved'?'var(--neon4)':l.status==='rejected'?'var(--neon2)':'var(--gold)',st=l.status==='approved'?'Disetujui':l.status==='rejected'?'Ditolak':'Menunggu';return'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:10px;align-items:center;"><img src="'+l.image+'" style="width:50px;height:38px;object-fit:cover;border-radius:6px;"><div style="flex:1;"><div style="font-weight:700;font-size:13px;">'+l.name+'</div><div style="font-size:11px;color:var(--text2);">'+fmtPrice(l.price)+' | Stok: '+l.stock+'</div></div><span style="color:'+sc+';font-size:11px;font-weight:700;">'+st+'</span></div>';}).join('');}catch(e){}}
 
-async function loadUserListings() {
-  var el = document.getElementById('user-listings-admin');
-  if (!el) return;
-  el.innerHTML = '<div style="color:var(--text3);font-size:13px;">⏳ Memuat...</div>';
-  try {
-    var all  = await fbGet('user_listings') || {};
-    var list = Object.values(all).sort(function(a,b){ return b.created_at-a.created_at; });
-    if (!list.length) {
-      el.innerHTML = '<div style="color:var(--text3);font-size:13px;text-align:center;padding:12px;">Belum ada listing dari user</div>';
-      return;
-    }
-    el.innerHTML = list.map(function(l) {
-      var sc = l.status==='approved'?'var(--neon4)':l.status==='rejected'?'var(--neon2)':'var(--gold)';
-      return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;">'
-        + '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">'
-        + '<img src="'+l.image+'" style="width:48px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0;">'
-        + '<div style="flex:1;"><div style="font-weight:700;font-size:13px;">'+l.name+'</div>'
-        + '<div style="font-size:11px;color:var(--text2);">'+fmtPrice(l.price)+' · '+l.stock+' stok · @'+l.seller+'</div>'
-        + '<div style="font-size:11px;color:var(--text3);">'+l.payment.ewallet_type+': '+l.payment.ewallet_num+' · WA: '+l.payment.wa+'</div></div></div>'
-        + (l.status==='pending'
-          ? '<div style="display:flex;gap:6px;">'
-            + '<button class="btn btn-success" style="padding:6px 12px;font-size:11px;" onclick="approveUserListing(\''+l.id+'\')">✅ Approve</button>'
-            + '<button class="btn btn-danger" style="padding:6px 12px;font-size:11px;" onclick="rejectUserListing(\''+l.id+'\')">❌ Tolak</button>'
-            + '</div>'
-          : '<span style="color:'+sc+';font-size:11px;font-weight:700;">'+(l.status==='approved'?'✅ Disetujui':'❌ Ditolak')+'</span>')
-        + '</div>';
-    }).join('');
-  } catch(e) { el.innerHTML = '<div style="color:#ff6b6b;font-size:13px;">Gagal: '+e.message+'</div>'; }
-}
+async function loadUserListings(){var el=document.getElementById('user-listings-admin');if(!el)return;el.innerHTML='<div style="color:var(--text3);font-size:13px;padding:12px;">Memuat...</div>';try{var all=await fbGet('user_listings')||{},list=Object.values(all).sort(function(a,b){return b.created_at-a.created_at;});if(!list.length){el.innerHTML='<div style="color:var(--text3);font-size:13px;padding:12px;text-align:center;">Belum ada listing dari user</div>';return;}el.innerHTML=list.map(function(l){var sc=l.status==='approved'?'var(--neon4)':l.status==='rejected'?'var(--neon2)':'var(--gold)';return'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;"><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;"><img src="'+l.image+'" style="width:48px;height:36px;object-fit:cover;border-radius:6px;"><div style="flex:1;"><div style="font-weight:700;font-size:13px;">'+l.name+'</div><div style="font-size:11px;color:var(--text2);">'+fmtPrice(l.price)+' | '+l.stock+' stok | @'+l.seller+'</div><div style="font-size:11px;color:var(--text3);">'+l.payment.ewallet_type+': '+l.payment.ewallet_num+' | WA: '+l.payment.wa+'</div></div></div>'+(l.status==='pending'?'<div style="display:flex;gap:6px;"><button class="btn btn-success" style="padding:6px 12px;font-size:11px;" onclick="approveUserListing(\''+l.id+'\')">Approve</button><button class="btn btn-danger" style="padding:6px 12px;font-size:11px;" onclick="rejectUserListing(\''+l.id+'\')">Tolak</button></div>':'<span style="color:'+sc+';font-size:11px;font-weight:700;">'+(l.status==='approved'?'Disetujui':'Ditolak')+'</span>')+'</div>';}).join('');}catch(e){el.innerHTML='<div style="color:#ff6b6b;font-size:13px;padding:12px;">Gagal: '+e.message+'</div>';}}
 
-async function approveUserListing(lid) {
-  try {
-    await fbSet('user_listings/'+lid+'/status', 'approved');
-    toast('✅ Listing disetujui!','success');
-    loadUserListings();
-    loadProducts();
-  } catch(e) { toast('Gagal: '+e.message,'error'); }
-}
+async function approveUserListing(lid){try{var listing=await fbGet('user_listings/'+lid);if(!listing){toast('Tidak ditemukan','error');return;}listing.status='approved';await fbSet('user_listings/'+lid,listing);toast('Listing @'+listing.seller+' disetujui!','success');loadUserListings();var grid=document.getElementById('product-grid');if(grid)grid.querySelectorAll('[data-user-market]').forEach(function(el){el.remove();});setTimeout(loadAndRenderUserListings,300);try{var inbox=await fbGet('inbox')||{};inbox['approved_'+Date.now()]={order_id:lid,username:listing.seller,message:'Barang "'+listing.name+'" disetujui admin dan kini tampil di toko!',type:'success',timestamp:Date.now(),read:false};await fbSet('inbox',inbox);}catch(e2){}}catch(e){toast('Gagal: '+e.message,'error');}}
+async function rejectUserListing(lid){if(!confirm('Tolak listing ini?'))return;try{await fbSet('user_listings/'+lid+'/status','rejected');toast('Ditolak.','warn');loadUserListings();}catch(e){toast('Gagal: '+e.message,'error');}}
 
-async function rejectUserListing(lid) {
-  if (!confirm('Tolak listing ini?')) return;
-  try {
-    await fbSet('user_listings/'+lid+'/status', 'rejected');
-    toast('❌ Listing ditolak.','warn');
-    loadUserListings();
-  } catch(e) { toast('Gagal: '+e.message,'error'); }
-}
+async function loadAndRenderUserListings(){try{var all=await fbGet('user_listings')||{},approved=Object.values(all).filter(function(l){return l.status==='approved'&&l.stock>0;}),grid=document.getElementById('product-grid');if(!grid)return;grid.querySelectorAll('[data-user-market]').forEach(function(el){el.remove();});
+// Admin divider
+var aDiv=document.createElement('div');aDiv.setAttribute('data-user-market','1');aDiv.style.cssText='grid-column:1/-1;margin:4px 0 12px;display:flex;align-items:center;gap:12px;';aDiv.innerHTML='<div style="flex:1;height:2px;background:linear-gradient(90deg,var(--neon),transparent);"></div><span style="background:rgba(0,200,255,0.12);color:var(--neon);border:1px solid rgba(0,200,255,0.4);border-radius:20px;padding:5px 16px;font-size:11px;font-weight:700;font-family:var(--font-display);white-space:nowrap;">🛡️ PRODUK ADMIN</span><div style="flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--neon));"></div>';grid.insertBefore(aDiv,grid.firstChild);
+if(!approved.length)return;
+// User divider
+var uDiv=document.createElement('div');uDiv.setAttribute('data-user-market','1');uDiv.style.cssText='grid-column:1/-1;margin:16px 0 12px;display:flex;align-items:center;gap:12px;';uDiv.innerHTML='<div style="flex:1;height:2px;background:linear-gradient(90deg,var(--neon4),transparent);"></div><span style="background:rgba(16,185,129,0.12);color:var(--neon4);border:1px solid rgba(16,185,129,0.4);border-radius:20px;padding:5px 16px;font-size:11px;font-weight:700;font-family:var(--font-display);white-space:nowrap;">🏪 MARKETPLACE USER</span><div style="flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--neon4));"></div>';grid.appendChild(uDiv);
+approved.forEach(function(l){var card=document.createElement('div');card.className='prod-card';card.setAttribute('data-user-market','1');card.style.border='1px solid rgba(16,185,129,0.3)';card.innerHTML='<div class="prod-img-wrap"><img src="'+l.image+'" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop\'"><div class="prod-badges"><span style="background:rgba(16,185,129,0.9);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;">@'+l.seller+'</span></div></div><div class="prod-body"><div class="prod-name">'+l.name+'</div><div class="prod-price">'+fmtPrice(l.price)+'</div><div class="prod-meta"><span>Stok: '+l.stock+'</span><span style="color:var(--neon4);">@'+l.seller+'</span></div><button class="prod-btn" style="border-color:var(--neon4);color:var(--neon4);" onclick="openUserListing(\''+l.id+'\')">Lihat & Beli</button></div>';grid.appendChild(card);});}catch(e){}}
 
-async function loadAndRenderUserListings() {
-  try {
-    var all      = await fbGet('user_listings') || {};
-    var approved = Object.values(all).filter(function(l){ return l.status==='approved' && l.stock>0; });
-    if (!approved.length) return;
-    var grid = document.getElementById('product-grid');
-    if (!grid) return;
-    var sep = document.createElement('div');
-    sep.style.cssText = 'grid-column:1/-1;margin:8px 0 4px;';
-    sep.innerHTML = '<span style="background:rgba(16,185,129,0.1);color:var(--neon4);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;">🏪 MARKETPLACE — Dijual User</span>';
-    grid.appendChild(sep);
-    approved.forEach(function(l) {
-      var card = document.createElement('div');
-      card.className = 'prod-card';
-      card.innerHTML =
-        '<div class="prod-img-wrap"><img src="'+l.image+'" alt="'+l.name+'" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=300&fit=crop\'">'
-        + '<div class="prod-badges"><span style="background:rgba(16,185,129,0.9);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;">🏪 @'+l.seller+'</span></div></div>'
-        + '<div class="prod-body">'
-        + '<div class="prod-name">'+l.name+'</div>'
-        + '<div class="prod-price">'+fmtPrice(l.price)+'</div>'
-        + '<div class="prod-meta"><span>📦 '+l.stock+'</span><span>👤 @'+l.seller+'</span></div>'
-        + '<button class="prod-btn" onclick="openUserListing(\''+l.id+'\')">🛒 Lihat & Beli</button>'
-        + '</div>';
-      grid.appendChild(card);
-    });
-  } catch(e) {}
-}
+function openUserListing(lid){fbGet('user_listings/'+lid).then(function(l){if(!l)return;document.getElementById('modal-img').src=l.image;document.getElementById('modal-title').textContent=l.name;document.getElementById('modal-price').textContent=fmtPrice(l.price);document.getElementById('modal-desc').innerHTML=l.description+'<br><br><div style="background:var(--bg3);border-radius:10px;padding:12px;font-size:13px;"><div style="font-weight:700;margin-bottom:6px;color:var(--neon4);">Info Penjual</div><div>@'+l.seller+' ('+l.seller_name+')</div><div>'+l.payment.ewallet_type+': '+l.payment.ewallet_num+' ('+l.payment.ewallet_owner+')</div><div>WA: <a href="https://wa.me/62'+l.payment.wa.replace(/^0/,'')+'" target="_blank" style="color:var(--neon4);">'+l.payment.wa+'</a></div>'+(l.payment.qr_url?'<img src="'+l.payment.qr_url+'" style="width:100px;border-radius:6px;margin-top:8px;">':'')+'</div>';document.getElementById('modal-badges').innerHTML='<span style="background:rgba(16,185,129,0.15);color:var(--neon4);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:2px 8px;font-size:11px;font-weight:700;">Marketplace User</span>';document.getElementById('productModal').classList.add('show');}).catch(function(e){toast('Gagal: '+e.message,'error');});}
 
-function openUserListing(lid) {
-  fbGet('user_listings/'+lid).then(function(l) {
-    if (!l) return;
-    document.getElementById('modal-img').src = l.image;
-    document.getElementById('modal-title').textContent = l.name;
-    document.getElementById('modal-price').textContent = fmtPrice(l.price);
-    document.getElementById('modal-desc').innerHTML = l.description
-      + '<br><br><div style="background:var(--bg3);border-radius:10px;padding:12px;font-size:13px;">'
-      + '<div style="font-weight:700;margin-bottom:6px;color:var(--neon4);">🏪 Info Penjual</div>'
-      + '<div>👤 @'+l.seller+' ('+l.seller_name+')</div>'
-      + '<div>💳 '+l.payment.ewallet_type+': '+l.payment.ewallet_num+' ('+l.payment.ewallet_owner+')</div>'
-      + '<div>📱 WA: <a href="https://wa.me/62'+l.payment.wa.replace(/^0/,'')+'" target="_blank" style="color:var(--neon4);">'+l.payment.wa+'</a></div>'
-      + (l.payment.qr_url?'<img src="'+l.payment.qr_url+'" style="width:100px;border-radius:6px;margin-top:8px;">':'')
-      + '</div>';
-    document.getElementById('modal-badges').innerHTML = '<span style="background:rgba(16,185,129,0.15);color:var(--neon4);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:2px 8px;font-size:11px;font-weight:700;">🏪 User Marketplace</span>';
-    document.getElementById('productModal').classList.add('show');
-  }).catch(function(e){ toast('Gagal load: '+e.message,'error'); });
-}
+// ════ CUSTOM ORDER ════════════════════════════════════════════
+async function createNegoOrder(){var username=(document.getElementById('nego-username')?.value||'').trim(),item=(document.getElementById('nego-item')?.value||'').trim(),price=parseInt(document.getElementById('nego-price')?.value||0),qty=(document.getElementById('nego-qty')?.value||'').trim(),note=(document.getElementById('nego-note')?.value||'').trim();if(!username||!item||!price){toast('Isi semua field!','warn');return;}var orderId='NEGO-'+Date.now().toString(36).toUpperCase();try{var allP=await fbGet('pending_payments')||{};allP[orderId]={order_id:orderId,username,phone:'-',email:'-',items:[{name:item+(qty?' ('+qty+')':''),qty:1,price}],total:price,method:'Custom Order (Admin)',status:'PENDING',timestamp:Date.now(),ts:new Date().toLocaleString('id-ID'),note:note||'-'};await fbSet('pending_payments',allP);await fbSet('nego_orders/'+orderId,{order_id:orderId,username,item,price,qty,note,status:'pending',created_at:Date.now()});var inbox=await fbGet('inbox')||{};inbox['nego_'+Date.now()]={order_id:orderId,username,message:'Admin membuat Custom Order: '+item+(qty?' ('+qty+')':'')+'sebesar '+fmtPrice(price)+(note?' | '+note:''),type:'info',timestamp:Date.now(),read:false};await fbSet('inbox',inbox);toast('Custom order '+orderId+' dikirim ke @'+username+'!','success');loadNegoOrders();['nego-username','nego-item','nego-price','nego-qty','nego-note'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});}catch(e){toast('Gagal: '+e.message,'error');}}
+async function loadNegoOrders(){var el=document.getElementById('nego-orders-list');if(!el)return;try{var orders=await fbGet('nego_orders')||{},list=Object.values(orders).sort(function(a,b){return b.created_at-a.created_at;}).slice(0,5);if(!list.length){el.innerHTML='<div style="color:var(--text3);font-size:12px;">Belum ada</div>';return;}el.innerHTML=list.map(function(o){return'<div style="background:var(--bg3);border-radius:8px;padding:8px 10px;margin-bottom:5px;font-size:12px;"><span style="color:var(--gold);font-weight:700;">'+o.order_id+'</span> | @'+o.username+' | '+o.item+' | '+fmtPrice(o.price)+'</div>';}).join('');}catch(e){}}
 
-// ════════════════════════════════════════════════════════════
-// PRICE NEGOTIATION / CUSTOM ORDER
-// ════════════════════════════════════════════════════════════
-async function createNegoOrder() {
-  var username = (document.getElementById('nego-username')?.value||'').trim();
-  var item     = (document.getElementById('nego-item')?.value||'').trim();
-  var price    = parseInt(document.getElementById('nego-price')?.value||0);
-  var qty      = (document.getElementById('nego-qty')?.value||'').trim();
-  var note     = (document.getElementById('nego-note')?.value||'').trim();
-  if (!username||!item||!price) { toast('Isi semua field!','warn'); return; }
-  var orderId = 'NEGO-'+Date.now().toString(36).toUpperCase();
-  try {
-    var allP = await fbGet('pending_payments') || {};
-    allP[orderId] = {
-      order_id:orderId, username, phone:'-', email:'-',
-      items:[{name:item+(qty?' ('+qty+')':''),qty:1,price}],
-      total:price, method:'💰 Custom Order (Admin)',
-      status:'PENDING', timestamp:Date.now(),
-      ts:new Date().toLocaleString('id-ID'), note:note||'-'
-    };
-    await fbSet('pending_payments', allP);
-    await fbSet('nego_orders/'+orderId, {order_id:orderId,username,item,price,qty,note,status:'pending_payment',created_at:Date.now()});
-    var inbox = await fbGet('inbox') || {};
-    inbox['nego_'+Date.now()] = {
-      order_id:orderId, username,
-      message:'💰 Admin membuat Custom Order: '+item+(qty?' ('+qty+') ':'')+'sebesar '+fmtPrice(price)+(note?' — '+note:''),
-      type:'info', timestamp:Date.now(), read:false
-    };
-    await fbSet('inbox', inbox);
-    toast('✅ Custom order '+orderId+' dikirim ke @'+username+'!','success');
-    loadNegoOrders();
-    ['nego-username','nego-item','nego-price','nego-qty','nego-note'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.value='';
-    });
-  } catch(e) { toast('Gagal: '+e.message,'error'); }
-}
+// ════ DELETE HISTORY ══════════════════════════════════════════
+function deleteHistoryItem(orderId){if(!confirm('Hapus history ini?'))return;history_data=history_data.filter(function(h){return h.order_id!==orderId;});localStorage.setItem('nm_history',JSON.stringify(history_data));renderHistoryPage();toast('History dihapus','success');}
+function clearAllHistory(){if(!confirm('Hapus SEMUA history?'))return;history_data=[];localStorage.setItem('nm_history',JSON.stringify([]));renderHistoryPage();toast('Semua history dihapus','success');}
 
-async function loadNegoOrders() {
-  var el = document.getElementById('nego-orders-list');
-  if (!el) return;
-  try {
-    var orders = await fbGet('nego_orders') || {};
-    var list   = Object.values(orders).sort(function(a,b){return b.created_at-a.created_at;}).slice(0,5);
-    if (!list.length) { el.innerHTML='<div style="color:var(--text3);font-size:12px;">Belum ada custom order</div>'; return; }
-    el.innerHTML = list.map(function(o){
-      return '<div style="background:var(--bg3);border-radius:8px;padding:8px 10px;margin-bottom:5px;font-size:12px;">'
-        +'<span style="color:var(--gold);font-weight:700;">'+o.order_id+'</span> · @'+o.username+' · '+o.item+' · '+fmtPrice(o.price)+'</div>';
-    }).join('');
-  } catch(e) {}
-}
+// ════ POINTS ══════════════════════════════════════════════════
+async function addPointsAndPurchase(username,totalAmount){if(!username)return;try{var users=await fbGet('nm_users')||{};if(!users[username])return;var pts=Math.floor(totalAmount/1000);users[username].points=(users[username].points||0)+pts;users[username].total_purchases=(users[username].total_purchases||0)+1;await fbSet('nm_users/'+username,users[username]);if(pts>0)toast('+'+pts+' poin!','success');}catch(e){}}
 
+// ════ RECOMMENDATIONS ═════════════════════════════════════════
+async function loadRecommendations(){var sec=document.getElementById('recom-section'),scr=document.getElementById('recom-scroll');if(!sec||!scr||!currentUser)return;try{var hist=history_data.slice(0,20),boughtIds=new Set(hist.flatMap(function(h){return(h.items||[]).map(function(i){return i.name;});})),categories={};hist.forEach(function(h){(h.items||[]).forEach(function(item){var p=products.find(function(x){return x.name===item.name;});if(p&&p.category)categories[p.category]=(categories[p.category]||0)+1;});});var topCat=Object.keys(categories).sort(function(a,b){return categories[b]-categories[a];})[0],recs=products.filter(function(p){return p.stock>0&&(topCat?p.category===topCat:true)&&!boughtIds.has(p.name);}).slice(0,8);if(!recs.length)return;sec.style.display='block';scr.innerHTML=recs.map(function(p){return'<div class="recom-card" onclick="openProduct(\''+p.id+'\')"><img src="'+p.image+'" loading="lazy"><div class="recom-card-body"><div class="recom-card-name">'+p.name+'</div><div class="recom-card-price">'+fmtPrice(p.price)+'</div></div></div>';}).join('');}catch(e){if(sec)sec.style.display='none';}}
 
-function deleteHistoryItem(orderId) {
-  if (!confirm('Hapus history ini?')) return;
-  history_data = history_data.filter(function(h){ return h.order_id !== orderId; });
-  localStorage.setItem('nm_history', JSON.stringify(history_data));
-  renderHistoryPage();
-  toast('🗑️ History dihapus','success');
-}
+// ════ SALES CHART ═════════════════════════════════════════════
+function renderSalesChart(){var wrap=document.getElementById('admin-sales-chart');if(!wrap)return;var days=[],sales=[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push(d.toLocaleDateString('id-ID',{weekday:'short',day:'numeric'}));var ds=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();sales.push(history_data.filter(function(h){return h.timestamp>=ds&&h.timestamp<ds+86400000;}).reduce(function(s,h){return s+(h.total||0);},0));}var max=Math.max(...sales,1);wrap.innerHTML='<div class="chart-wrap"><div style="font-family:var(--font-display);font-size:12px;color:var(--neon);letter-spacing:1px;margin-bottom:12px;">PENJUALAN 7 HARI</div><div style="display:flex;align-items:flex-end;gap:8px;height:160px;">'+sales.map(function(s,i){var h=Math.max(4,Math.round((s/max)*160));return'<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="font-size:9px;color:var(--text3);">'+(s>0?Math.round(s/1000)+'k':'')+'</div><div style="height:'+h+'px;width:100%;background:linear-gradient(180deg,var(--neon),rgba(0,200,255,0.3));border-radius:4px 4px 0 0;"></div><div style="font-size:9px;color:var(--text3);text-align:center;">'+days[i]+'</div></div>';}).join('')+'</div></div>';}
 
-function clearAllHistory() {
-  if (!confirm('Hapus SEMUA history pembelian?')) return;
-  history_data = [];
-  localStorage.setItem('nm_history', JSON.stringify([]));
-  renderHistoryPage();
-  toast('🗑️ Semua history dihapus','success');
-}
+// ════ PUSH NOTIF ══════════════════════════════════════════════
+async function requestPushPermission(){if(!('Notification'in window))return;if(Notification.permission==='granted')return;if(Notification.permission!=='denied'){var perm=await Notification.requestPermission();if(perm==='granted'){toast('Notifikasi aktif!','success');showPushNotif('NeonMart','Notifikasi diaktifkan!');}}}
+function showPushNotif(title,body){if(Notification.permission!=='granted')return;new Notification(title,{body,icon:'https://img.icons8.com/nolan/96/shopping-cart.png',tag:'neonmart-notif'});}
+
+// ════ WELCOME BANNER ══════════════════════════════════════════
+function updateWelcomeBanner(){var titleEl=document.getElementById('welcome-title'),subEl=document.getElementById('welcome-sub'),ptsEl=document.getElementById('welcome-points');if(!titleEl)return;if(currentUser){titleEl.innerHTML='Welcome back, <span style="-webkit-text-fill-color:var(--neon2);">'+currentUser.name+'</span>! Thanks for shopping ✨';subEl.innerHTML='Cek produk terbaru! Poin bertambah setiap pembelian.';fbGet('nm_users/'+currentUser.username).then(function(u){if(u&&ptsEl){ptsEl.style.display='flex';ptsEl.textContent=''+(u.points||0)+' Poin';}}).catch(function(){});}else{titleEl.innerHTML='Selamat Datang di <span style="-webkit-text-fill-color:var(--neon2);">NeonMart</span>! ⚡';subEl.innerHTML='Platform belanja digital terpercaya. Login untuk pengalaman lengkap!';if(ptsEl)ptsEl.style.display='none';}}
+
+// ════ CHAT ACCESSORIES (stubs) ════════════════════════════════
+var gchatReplyTo=null,gchatEmojiOpen=false,CHAT_REACTIONS=['','❤️','😂','🔥','😮','😢'],DAILY_MSG_LIMIT=50;
+function toggleEmojiPicker(){var p=document.getElementById('gchat-emoji-picker');if(!p)return;gchatEmojiOpen=!gchatEmojiOpen;p.style.display=gchatEmojiOpen?'flex':'none';}
+function insertEmoji(e){var inp=document.getElementById('gchat-input');if(!inp)return;var pos=inp.selectionStart,val=inp.value;inp.value=val.slice(0,pos)+e+val.slice(pos);inp.selectionStart=inp.selectionEnd=pos+e.length;inp.focus();}
+function replyToMsg(u,t,k){gchatReplyTo={username:u,text:t,msgKey:k};var bar=document.getElementById('gchat-reply-bar');var prev=document.getElementById('gchat-reply-preview');if(bar)bar.classList.add('show');if(prev)prev.textContent='Membalas @'+u+': '+t.substring(0,40);var inp=document.getElementById('gchat-input');if(inp)inp.focus();}
+function cancelReply(){gchatReplyTo=null;var bar=document.getElementById('gchat-reply-bar');if(bar)bar.classList.remove('show');}
+function handleChatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendGlobalMsg();}if(e.key==='Escape')cancelReply();}
+function handleMentionInput(inp){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,80)+'px';if(gchatEmojiOpen)toggleEmojiPicker();}
+async function checkDailyLimit(){if(!currentUser)return true;try{var today=new Date().toDateString(),key='gchat_count_'+currentUser.username+'_'+today,count=parseInt(localStorage.getItem(key)||'0');if(count>=DAILY_MSG_LIMIT){toast('Batas pesan harian tercapai!','warn');return false;}localStorage.setItem(key,count+1);return true;}catch(e){return true;}}
 
 </script>
-
-
-<!-- ═══════ MOBILE BOTTOM NAV ═══════ -->
-<div id="bottom-nav">
-  <div class="bottom-nav-item" onclick="toggleChat()" id="bn-adminchat">
-    <div class="bn-icon">🟠</div><div>Admin</div>
-  </div>
-  <div class="bottom-nav-item" onclick="goPage('globalchat')" id="bn-globalchat">
-    <div class="bn-icon">💬</div><div>Global</div>
-  </div>
-  <div class="bottom-nav-item" onclick="openLoginModal()" id="bn-user" style="position:relative;margin-top:-20px;z-index:10;">
-    <div id="bn-user-avatar" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--neon),var(--neon3));display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;font-weight:700;border:3px solid var(--bg);box-shadow:0 4px 24px rgba(0,200,255,0.6);transition:var(--transition);">👤</div>
-    <div style="font-size:9px;margin-top:5px;font-weight:600;">Profil</div>
-  </div>
-  <div class="bottom-nav-item" onclick="goPage('leaderboard')" id="bn-leaderboard">
-    <div class="bn-icon">🏆</div><div>Rank</div>
-  </div>
-  <div class="bottom-nav-item" onclick="goPage('settings')" id="bn-settings">
-    <div class="bn-icon">⚙️</div><div>Setting</div>
-  </div>
-</div>
-
-<!-- ═══════ SCROLL TO TOP ═══════ -->
-<div id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
-
-<!-- ═══════ AURORA CANVAS ═══════ -->
-<canvas id="aurora-canvas"></canvas>
-
-<!-- SHUTDOWN MODAL -->
-<div class="modal-overlay" id="shutdownModal" style="z-index:9500;">
-  <div class="modal" style="max-width:480px;">
-    <div class="modal-body">
-      <h2 style="font-family:var(--font-display);color:var(--neon2);margin-bottom:6px;font-size:18px;">🔴 Shutdown Website</h2>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;">Website akan tidak bisa diakses selama durasi yang dipilih.</p>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:600;">Durasi Shutdown:</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;" id="sd-dur-opts">
-        <div class="install-opt active" data-dur="1" onclick="selectSDDur(this)"><div class="opt-label">Singkat</div><div class="opt-val">1 Jam</div></div>
-        <div class="install-opt" data-dur="2" onclick="selectSDDur(this)"><div class="opt-label">Sedang</div><div class="opt-val">2 Jam</div></div>
-        <div class="install-opt" data-dur="6" onclick="selectSDDur(this)"><div class="opt-label">Lama</div><div class="opt-val">6 Jam</div></div>
-        <div class="install-opt" data-dur="custom" onclick="selectSDDur(this)"><div class="opt-label">Custom</div><div class="opt-val">Atur</div></div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Durasi (jam)</label>
-        <input type="number" class="form-input" id="sd-custom-dur" value="1" min="1" max="24">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Pesan untuk pengunjung</label>
-        <textarea class="form-input" id="sd-message" placeholder="Website sedang maintenance..." style="min-height:60px;"></textarea>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-danger" onclick="confirmShutdown()">🔴 Konfirmasi Shutdown</button>
-        <button class="btn btn-ghost" onclick="closeShutdownModal()">Batal</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- RESET MODAL -->
-<div class="modal-overlay" id="resetModal" style="z-index:9500;">
-  <div class="modal" style="max-width:420px;">
-    <div class="modal-body" style="text-align:center;">
-      <div style="font-size:52px;margin-bottom:12px;">💥</div>
-      <h2 style="font-family:var(--font-display);color:var(--neon2);font-size:18px;margin-bottom:8px;">RESET WEBSITE</h2>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Semua data produk dan cache akan dihapus permanen. Tindakan ini tidak dapat dibatalkan!</p>
-      <div class="modal-actions" style="justify-content:center;">
-        <button class="btn btn-danger" onclick="confirmReset()">💥 Ya, Reset Sekarang</button>
-        <button class="btn btn-ghost" onclick="document.getElementById('resetModal').classList.remove('show')">Batal</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- RECEIPT MODAL -->
-<div class="modal-overlay" id="receiptModal" style="z-index:9000;">
-  <div class="modal" style="max-width:400px;position:relative;">
-    <div id="receipt-content"></div>
-    <div style="padding:16px;display:flex;gap:10px;border-top:1px solid var(--border);">
-      <button class="btn btn-primary" onclick="copyReceipt()" style="flex:1;">📋 Copy Struk</button>
-      <button class="btn btn-ghost" onclick="closeReceipt()">✕ Tutup</button>
-    </div>
-  </div>
-</div>
-
-<!-- TUTORIAL MODAL -->
-<div class="modal-overlay" id="tutorialModal" style="z-index:8500;">
-  <div class="modal" style="max-width:480px;">
-    <div class="modal-body">
-      <div style="text-align:center;margin-bottom:16px;">
-        <div style="font-size:36px;margin-bottom:8px;">⚡</div>
-        <h2 id="tut-title" style="font-family:var(--font-display);color:var(--neon);font-size:18px;margin-bottom:4px;">Welcome!</h2>
-        <p id="tut-sub" style="font-size:13px;color:var(--text2);"></p>
-      </div>
-      <div id="tut-step-0" class="tut-step" data-step="0">
-        <h3 id="tut0-title" style="font-size:16px;margin-bottom:8px;color:var(--neon3);">🔍 Smart Search</h3>
-        <p id="tut0-body" style="font-size:14px;color:var(--text2);line-height:1.6;"></p>
-      </div>
-      <div id="tut-step-1" class="tut-step" data-step="1" style="display:none;">
-        <h3 id="tut1-title" style="font-size:16px;margin-bottom:8px;color:var(--neon3);">🛒 Beli Produk</h3>
-        <p id="tut1-body" style="font-size:14px;color:var(--text2);line-height:1.6;"></p>
-      </div>
-      <div id="tut-step-2" class="tut-step" data-step="2" style="display:none;">
-        <h3 id="tut2-title" style="font-size:16px;margin-bottom:8px;color:var(--neon3);">💳 Cicilan</h3>
-        <p id="tut2-body" style="font-size:14px;color:var(--text2);line-height:1.6;"></p>
-      </div>
-      <div id="tut-step-3" class="tut-step" data-step="3" style="display:none;">
-        <h3 id="tut3-title" style="font-size:16px;margin-bottom:8px;color:var(--neon3);">❤️ Wishlist</h3>
-        <p id="tut3-body" style="font-size:14px;color:var(--text2);line-height:1.6;"></p>
-      </div>
-      <div style="display:flex;justify-content:center;gap:8px;margin:20px 0;">
-        <div class="tut-dot active" data-i="0" onclick="goTutStep(0)"></div>
-        <div class="tut-dot" data-i="1" onclick="goTutStep(1)"></div>
-        <div class="tut-dot" data-i="2" onclick="goTutStep(2)"></div>
-        <div class="tut-dot" data-i="3" onclick="goTutStep(3)"></div>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button id="tut-skip" class="btn btn-ghost" onclick="closeTutorial()">Skip</button>
-        <button id="tut-next" class="btn btn-primary" style="flex:1;" onclick="nextTutStep()">Next →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SHUTDOWN SCREEN -->
-<div id="shutdown-screen" style="display:none;position:fixed;inset:0;z-index:999997;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;">
-  <div style="font-size:64px;margin-bottom:16px;">🔴</div>
-  <div style="font-family:var(--font-display);font-size:24px;font-weight:900;color:var(--neon2);margin-bottom:12px;">WEBSITE SEDANG MAINTENANCE</div>
-  <div id="shutdown-msg" style="font-size:15px;color:var(--text2);margin-bottom:20px;max-width:500px;line-height:1.7;"></div>
-  <div id="shutdown-countdown" style="font-family:var(--font-display);font-size:14px;color:var(--text3);"></div>
-</div>
-<button id="emergency-unlock-btn" style="display:none;position:fixed;bottom:10px;left:10px;z-index:999999;opacity:.4;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--text3);cursor:pointer;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.4'" onclick="emergencyUnlock()">🔓 Unlock</button>
-
-<!-- MAP MODAL -->
-<div id="map-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;">
-  <div class="map-box">
-    <div class="map-header">
-      <h3>📍 Lokasi ExtinctionIBT Store</h3>
-      <button onclick="document.getElementById('map-modal').classList.remove('show')" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px;">✕</button>
-    </div>
-    <iframe id="map-iframe" src="https://maps.google.com/maps?q=Jl.+G.+Obos+7+Palangkaraya&output=embed" allowfullscreen></iframe>
-    <div class="map-info">
-      <b>ExtinctionIBT Store</b><br>
-      📍 Jl. G. Obos 7, GG Pondok Adenium No. 6A, Palangkaraya<br>
-      ⏰ Open 24 Jam<br>
-      <div style="margin-top:10px;display:flex;gap:8px;">
-        <a href="https://maps.google.com/?q=Jl.+G.+Obos+7+Palangkaraya" target="_blank" class="btn btn-primary" style="padding:8px 14px;font-size:12px;">🗺️ Buka di Maps</a>
-        <a href="https://wa.me/6285750472790" target="_blank" class="btn btn-success" style="padding:8px 14px;font-size:12px;">💬 WA Petunjuk Arah</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 2FA MODAL -->
-<div id="twofa-modal" style="position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,0.9);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px;">
-  <div class="twofa-box">
-    <div class="twofa-icon">🔐</div>
-    <div class="twofa-title">Verifikasi 2FA</div>
-    <div class="twofa-sub">Kode 6 digit telah dikirim ke Discord admin. Masukkan kode untuk melanjutkan.</div>
-    <input type="text" class="twofa-input" id="twofa-code-input" placeholder="000000" maxlength="6" onkeydown="if(event.key==='Enter')verify2FA()">
-    <div id="twofa-err" style="color:#ff6b6b;font-size:13px;margin-bottom:12px;min-height:16px;"></div>
-    <button class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="verify2FA()">✅ Verifikasi</button>
-    <button onclick="cancel2FA()" style="width:100%;padding:10px;border-radius:12px;background:none;border:1px solid var(--border);font-size:13px;color:var(--text3);cursor:pointer;font-family:inherit;">Batal</button>
-  </div>
-</div>
-
-<!-- ADMIN CHAT PANEL -->
-<div id="admin-chat-panel" style="position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:none;flex-direction:column;">
-  <div class="acp-header">
-    <h3>🛡️ Admin Chat Panel</h3>
-    <button onclick="closeAdminChat()" style="background:rgba(255,255,255,0.1);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">✕</button>
-  </div>
-  <div style="padding:8px 12px;border-bottom:1px solid var(--border);" id="admin-broadcast-area" style="display:none;">
-    <button class="admin-broadcast-btn" onclick="broadcastToAllUsers()">📢 Broadcast ke Semua User</button>
-  </div>
-  <div class="acp-body">
-    <div class="acp-sidebar">
-      <div style="padding:10px 14px;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px;">💬 User Chats</div>
-      <div id="acp-user-list"></div>
-    </div>
-    <div class="acp-chat-area">
-      <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600;font-size:14px;" id="acp-chat-header">Pilih user untuk mulai chat</div>
-      <div class="acp-messages" id="acp-messages"></div>
-      <div class="acp-input-row">
-        <input type="text" class="acp-input" id="acp-input" placeholder="Balas pesan..." onkeydown="if(event.key==='Enter')sendAdminReply()">
-        <button class="gchat-send-btn" onclick="sendAdminReply()">➤</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- LIVE CHAT (hidden, accessed via bottom nav) -->
-<div id="chat-bubble" onclick="toggleChat()" title="Chat dengan Admin" style="display:none;">
-  💬<div class="chat-badge" id="chat-badge" style="display:none;">1</div>
-</div>
-<div id="chat-panel">
-  <div class="chat-panel-header">
-    <div class="chat-online"></div>
-    <h4>Chat Admin ExtinctionIBT</h4>
-    <button onclick="toggleChat()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;">✕</button>
-  </div>
-  <div id="admin-broadcast-area2" style="display:none;padding:8px 10px;border-bottom:1px solid var(--border);">
-    <button class="admin-broadcast-btn" onclick="broadcastToAllUsers()">📢 Broadcast ke Semua User</button>
-  </div>
-  <div class="chat-messages" id="chat-messages">
-    <div class="chat-msg admin">Halo! Ada yang bisa kami bantu? 😊<div class="chat-msg-time">Admin • sekarang</div></div>
-  </div>
-  <div class="chat-input-wrap">
-    <input type="text" class="chat-input" id="chat-input" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter')sendChatMsg()">
-    <button class="chat-send" onclick="sendChatMsg()">➤</button>
-  </div>
-</div>
-
 </body>
 </html>
